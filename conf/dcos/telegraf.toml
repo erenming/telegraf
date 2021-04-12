@@ -1,0 +1,15 @@
+[[inputs.dcos_health_checker]]
+  masters = $MASTERS
+  cluster_path = "/etc/cluster-node"
+  master_health_port = "$MASTER_HEALTH_PORT"
+  slave_health_port = "$SLAVE_HEALTH_PORT"
+  units_health_port = "$UNITS_HEALTH_PORT"
+  gather_node_health = true
+  gather_node_units_health = true
+
+[[inputs.metaserver]]
+    docker_networks = ["dcos", "host", "bridge"]
+    field_keys = $INPUT_METASERVER_FIELD_KEYS
+    tag_keys = $INPUT_DOCKER_TAG_KEYS
+    etc_path = "/rootfs/etc"
+    proc_path = "/rootfs/proc"

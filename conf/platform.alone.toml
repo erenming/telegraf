@@ -1,0 +1,64 @@
+[agent]
+  interval = "30s"
+  round_interval = true
+  debug = false
+  flush_interval = "10s"
+  flush_jitter = "2s"
+  quiet = ${QUIET:true}
+  #metric_batch_size = 1000
+  #metric_buffer_limit = 10000
+
+[global_tags]
+  component_name = "platform"
+
+# machine
+[[inputs.disk]]
+  mount_points = "${STORAGE_MOUNT_PATH}"
+  [inputs.disk.tags]
+      type = 'netdata'
+
+[[inputs.socket_listener]]
+  service_address = "udp://:8094"
+
+[[inputs.socket_listener]]
+  service_address = "tcp://:8095"
+
+[[inputs.http_listener_v2]]
+  service_address = ":7180"
+  data_format = "spot"
+
+# # for api gateway
+[[aggregators.basicstats]]
+  period = "${BASICSTATS_PERIOD:30s}"
+  drop_original = true
+  stats = ["count","mean","min","max", "sum"]
+  namepass = ["agg_*"]
+
+# 集群时钟一致性检测
+[[processors.cluster_clock]]
+  namepass = ["cluster_clock"]
+
+[[processors.tag_override]]
+  order = 99
+
+[[processors.meta]]
+  order = 100
+  scope = "org"
+  scope_id_keys = ["org_name"]
+
+[[outputs.spot]]
+  url = "$COLLECTOR_URL/collect/metrics"
+  method = "POST"
+  data_format = "json"
+  json_timestamp_units = "1ns"
+  json_object_key = "metrics"
+  timeout = "5s"
+  excludes = []
+  content_encoding="gzip"
+  username = "${COLLECTOR_AUTH_USERNAME:}"
+  password = "${COLLECTOR_AUTH_PASSWORD:}"
+  [outputs.spot.headers]
+      Content-Type = "application/json"
+
+[[inputs.node]] # 节点共有信息
+

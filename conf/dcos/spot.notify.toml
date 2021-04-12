@@ -1,0 +1,10 @@
+[[inputs.dcos_app_status]]
+  cluster_url = "$DCOS_CLUSTER_URL"
+  groups = $DCOS_GROUPS
+  apps = $DCOS_APPS
+
+[[aggregators.dcos_component]]
+  period = "60s"
+  drop_original = true
+  reset_time = $RESET_TIME
+  notify_times = $NOTIFY_TIMES

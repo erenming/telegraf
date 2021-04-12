@@ -1,0 +1,18 @@
+[agent]
+  interval = "${INPUT_INTERVAL:30s}"
+  round_interval = true
+  debug = false
+  flush_interval = "${FLUSH_INTERVAL:3s}"
+  flush_jitter = "${FLUSH_JITTER:1s}"
+
+[[inputs.node]] # 节点共有信息
+
+[[processors.filter]]
+  filters = "${METRIC_FILTER}"
+
+[[processors.tag_override]]
+    order = 1000
+
+[[outputs.spot_notify]]
+  dingding = "${NOTIFY_DINGDING}"
+  event_box = "$EVENT_BOX_ADDR"

@@ -1,0 +1,129 @@
+[[inputs.haproxy]]
+    interval = "1m"
+    keep_field_names = true
+    servers = $HAPROXY_SERVERS
+
+# middleware
+[[inputs.elasticsearch]]
+    servers = $ELASTICSEARCH_SERVERS
+    http_timeout = "8s"
+    local = $ELASTICSEARCH_GATHER_LOCAL
+    cluster_health = true
+    cluster_health_level = "cluster"
+    cluster_stats = false
+    node_stats = ["indices", "transport", "http", "jvm", "fs", "os", "process"]
+    [inputs.elasticsearch.tags]
+      addon_id = "elasticsearch"
+      addon_type = "elasticsearch"
+
+# [[inputs.redis]]
+#     servers = $REDIS_SERVERS
+
+[[inputs.zookeeper]]
+    servers = $ZOOKEEPER_SERVERS
+    [inputs.zookeeper.tags]
+      addon_id = "zookeeper"
+      addon_type = "zookeeper"
+
+# mysql
+[[inputs.mysql]]
+    servers = $MYSQL_SERVERS
+    metric_version = 2
+    perf_events_statements_digest_text_limit  = 120
+    perf_events_statements_limit              = 250
+    perf_events_statements_time_limit         = 86400
+    table_schema_databases                    = []
+    gather_table_schema                       = false
+    gather_process_list                       = false
+    gather_user_statistics                    = false
+    gather_info_schema_auto_inc               = false
+    gather_innodb_metrics                     = false
+    gather_slave_status                       = false
+    gather_binary_logs                        = false
+    gather_table_io_waits                     = false
+    gather_table_lock_waits                   = false
+    gather_index_io_waits                     = false
+    gather_event_waits                        = false
+    gather_file_events_stats                  = false
+    gather_perf_events_statements             = false
+   # interval_slow                            = "30m"
+    fieldpass = [ 
+		"threads_connected",
+		"queries", "questions", "slow_queries", 
+		"com_commit",  "com_rollback", 
+		"com_select", "com_insert", "com_update", "com_delete", 
+		"innodb_data_read", "innodb_data_reads", "innodb_data_written", "innodb_data_writes",
+		"bytes_sent", "bytes_received",
+		"innodb_rows_deleted", "innodb_rows_inserted", "innodb_rows_read", "innodb_rows_updated", "uptime", 
+        "open_tables", "threads_running","table_locks_waited"]
+    [inputs.mysql.tags]
+      addon_id = "mysql"
+      addon_type = "mysql"
+
+[[inputs.mysql_size_summary]]
+    servers = $MYSQL_SERVERS
+    per_database  = false
+    [inputs.mysql_size_summary.tags]
+        addon_id = "mysql"
+        addon_type = "mysql"
+
+# cassandra
+[[inputs.jolokia2_agent]]
+  urls = $CASSANDRA_JOLOKIA_URLS
+  name_prefix = "addon_java_"
+  [inputs.jolokia2_agent.tags]
+    addon_id = "cassandra"
+    addon_type = "cassandra"
+  [[inputs.jolokia2_agent.metrics]]
+    name  = "Memory"
+    mbean = "java.lang:type=Memory"
+  [[inputs.jolokia2_agent.metric]]
+    name  = "GarbageCollector"
+    mbean = "java.lang:name=*,type=GarbageCollector"
+    tag_keys = ["name"]
+    paths = ["CollectionCount", "CollectionTime", "Name", "Valid"]
+
+[[inputs.jolokia2_agent]]
+  urls = $CASSANDRA_JOLOKIA_URLS
+  name_prefix = "cassandra_"
+  [inputs.jolokia2_agent.tags]
+    addon_id = "cassandra"
+    addon_type = "cassandra"
+
+  [[inputs.jolokia2_agent.metric]]
+    name  = "Client"
+    mbean = "org.apache.cassandra.metrics:name=connectedNativeClients,type=Client"
+    tag_keys = ["name"]
+
+  [[inputs.jolokia2_agent.metric]]
+    name  = "ClientRequest"
+    mbean = "org.apache.cassandra.metrics:name=Latency,scope=Read,type=ClientRequest"
+    tag_keys = ["name", "scope"]
+  [[inputs.jolokia2_agent.metric]]
+    name  = "ClientRequest"
+    mbean = "org.apache.cassandra.metrics:name=Latency,scope=Write,type=ClientRequest"
+    tag_keys = ["name", "scope"]
+  [[inputs.jolokia2_agent.metric]]
+    name  = "ClientRequest"
+    mbean = "org.apache.cassandra.metrics:name=Latency,scope=CASRead,type=ClientRequest"
+    tag_keys = ["name", "scope"]
+  [[inputs.jolokia2_agent.metric]]
+    name  = "ClientRequest"
+    mbean = "org.apache.cassandra.metrics:name=Latency,scope=CASWrite,type=ClientRequest"
+    tag_keys = ["name", "scope"]
+  [[inputs.jolokia2_agent.metric]]
+    name  = "ClientRequest"
+    mbean = "org.apache.cassandra.metrics:name=Latency,scope=RangeSlice,type=ClientRequest"
+    tag_keys = ["name", "scope"]
+
+[[processors.point_space_to_underline]]
+    namepass = ["cassandra_*"]
+
+[[inputs.prometheus_metric]]
+  urls = $ETCD_URLS
+  metric_name = "etcd"
+  exclude_zero_value = true
+  [inputs.prometheus_metric.tags]
+    addon_id = "etcd"
+    addon_type = "etcd"
+    edge_cluster = "false"
