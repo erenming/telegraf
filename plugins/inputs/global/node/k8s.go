@@ -73,7 +73,8 @@ func (c *collector) getK8sNodeLabels(name string) (string, map[string]string, er
 				sb.WriteString(key[len("dice/"):])
 				sb.WriteString(",")
 				labelsMap[key[len("dice/"):]] = v
-				find = true
+			} else {
+				labelsMap[key] = v
 			}
 		}
 		if find {

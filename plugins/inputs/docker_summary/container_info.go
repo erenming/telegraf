@@ -49,15 +49,10 @@ func (s *Summary) gatherContainer(id string, c *types.Container, acc telegraf.Ac
 	}
 	if info.Config != nil {
 		// 标记 k8s pause 容器
-		if info.Config.Labels["io.kubernetes.container.name"] == "POD" &&
-			info.Config.Labels["io.kubernetes.docker.type"] == "podsandbox" {
+		if info.Config.Labels[labelKubernetesContainerName] == "POD" &&
+			info.Config.Labels[labelKubernetesType] == "podsandbox" {
 			tags["podsandbox"] = "true"
 		}
-		// 	if strings.Contains(imageName, "kubernetes/pause") {
-		// 		tags["podsandbox"] = true
-		// 	} else if strings.Contains(imageName, "dice-third-party/pause") {
-		// 		tags["podsandbox"] = true
-		// 	}
 	}
 
 	// env to map

@@ -29,6 +29,7 @@ import (
 	_ "github.com/influxdata/telegraf/plugins/processors/unpivot"
 
 	// erda related
+	_ "github.com/influxdata/telegraf/plugins/processors/add_kubernetes_metadata"
 	_ "github.com/influxdata/telegraf/plugins/processors/application_slow"
 	_ "github.com/influxdata/telegraf/plugins/processors/clusterclock"
 	_ "github.com/influxdata/telegraf/plugins/processors/compatibility"

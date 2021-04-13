@@ -1,0 +1,106 @@
+[agent]
+    interval = "${INPUT_INTERVAL:30s}"
+    round_interval = true
+    debug = false
+    flush_interval = "${FLUSH_INTERVAL:3s}"
+    flush_jitter = "${FLUSH_JITTER:1s}"
+    quiet = ${QUIET:true}
+    #metric_batch_size = 1000
+    #metric_buffer_limit = 10000
+
+[[inputs.socket_listener]]
+    service_address = "udp://:7082"
+    data_format = "spot"
+    read_buffer_size = "${SOCKET_BUFFER_SIZE:64KB}" # 数据量过多或过大时, 数据会被丢弃
+    total_rate_limit = "${TOTAL_RATE_LIMIT:1200/s, 1500, wait}" # 每秒最多1200条，容忍突发1500条，过快时阻塞等待，但后续的如果数据，超出read_buffer_size也会被系统丢弃
+    [inputs.socket_listener.metrics_rate_limit] # 针对每种指标的限流
+      application_db = "${APP_DB_RATE_LIMIT:500/s, 1000, discard}" # 每秒最多100条，突发200条，数据过多时丢弃（默认也是丢弃）
+      application_db_slow = "${APP_DB_SLOW_RATE_LIMIT:500/s, 1000}"
+      application_db_error = "${APP_DB_ERROR_RATE_LIMIT:500/s, 1000}"
+      application_cache = "${APP_CACHE_RATE_LIMIT:500/s, 1000}"
+      application_cache_error = "${APP_CACHE_RATE_LIMIT:500/s, 1000}"
+      error = "${ERROR_RATE_LIMIT:500/s, 1000}"
+
+# for api gateway
+[[aggregators.basicstats]]
+  period = "${BASICSTATS_PERIOD:30s}"
+  drop_original = true
+  stats = ["count","mean","min","max", "sum"]
+  namepass = ["agg_*"]
+
+# [[processors.rate_limiter]]
+#     total_rate_limit = "${TOTAL_RATE_LIMIT:1200/s, 1500, wait}" # 每秒最多1200条，容忍突发1500条，过快时阻塞等待，但后续的如果数据，超出read_buffer_size也会被系统丢弃
+#     [inputs.socket_listener.metrics_rate_limit] # 针对每种指标的限流
+#       application_db = "${APP_DB_RATE_LIMIT:500/s, 1000, discard}" # 每秒最多100条，突发200条，数据过多时丢弃（默认也是丢弃）
+#       application_db_slow = "${APP_DB_SLOW_RATE_LIMIT:500/s, 1000}"
+#       application_db_error = "${APP_DB_ERROR_RATE_LIMIT:500/s, 1000}"
+#       application_cache = "${APP_CACHE_RATE_LIMIT:500/s, 1000}"
+#       application_cache_error = "${APP_CACHE_RATE_LIMIT:500/s, 1000}"
+#       error = "${ERROR_RATE_LIMIT:500/s, 1000}"
+
+[[processors.tag_override]]
+    order = 99
+
+[[processors.application_slow]]
+    slow_http = ${SLOW_HTTP:300000000}
+    slow_rpc = ${SLOW_RPC:300000000}
+    slow_cache = ${SLOW_CACHE:50000000}
+    slow_db = ${SLOW_DB:100000000}
+    slow_default = ${SLOW_DEFAULT:300000000}
+    namepass = ["application_*"]
+
+[[processors.meta]]
+    order = 100
+    scope = "micro_service"
+    scope_id_keys = ["terminus_key","source_terminus_key","target_terminus_key"]
+    namepass = ["application_*","jvm_*","nodejs_*","service_node","target_addon_id"]
+
+[[aggregators.basicstats]]
+    period = "${BASICSTATS_PERIOD:30s}"
+    drop_original = true
+    stats = ["count","mean","min","max","sum"]
+    namepass = ["application_*"]
+
+[[outputs.spot]]
+    url = "$COLLECTOR_URL/collect/metrics"
+    method = "POST"
+    data_format = "json"
+    json_timestamp_units = "1ns"
+    json_object_key = "metrics"
+    timeout = "15s"
+    namedrop = ["trace","span","error","metaserver_container","metaserver_all_containers","metaserver_host"]
+    content_encoding="gzip"
+    username = "${COLLECTOR_AUTH_USERNAME:}"
+    password = "${COLLECTOR_AUTH_PASSWORD:}"
+    [outputs.spot.headers]
+        Content-Type = "application/json"
+
+[[outputs.spot]]
+    url = "$COLLECTOR_URL/collect/trace"
+    method = "POST"
+    data_format = "json"
+    json_timestamp_units = "1ns"
+    json_object_key = "trace"
+    timeout = "5s"
+    namepass = ["trace","span"]
+    content_encoding="gzip"
+    username = "${COLLECTOR_AUTH_USERNAME:}"
+    password = "${COLLECTOR_AUTH_PASSWORD:}"
+    [outputs.spot.headers]
+        Content-Type = "application/json"
+
+[[outputs.spot]]
+    url = "$COLLECTOR_URL/collect/error"
+    method = "POST"
+    data_format = "json"
+    json_timestamp_units = "1ns"
+    json_object_key = "error"
+    timeout = "5s"
+    namepass = ["error"]
+    content_encoding="gzip"
+    username = "${COLLECTOR_AUTH_USERNAME:}"
+    password = "${COLLECTOR_AUTH_PASSWORD:}"
+    [outputs.spot.headers]
+        Content-Type = "application/json"
+
+[[inputs.node]] # 节点共有信息

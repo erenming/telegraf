@@ -1,19 +1,15 @@
 package dockersummary
 
 import (
-	"github.com/docker/docker/api/types"
 	"github.com/influxdata/telegraf/plugins/inputs/global/kubelet"
 )
 
-func (s *Summary) gatherContainerNet(
-	id string, tags map[string]string, fields map[string]interface{},
-	envs map[string]string, info *types.ContainerJSON,
-	daemonOSType string, stats *types.StatsJSON) {
-	if !info.State.Running {
+func (s *Summary) gatherContainerNet(gtx *gatherContext) {
+	if !gtx.info.State.Running {
 		return
 	}
 	if s.k8s {
-		s.getContainerNetStats(id, tags, fields, envs, info, daemonOSType, stats)
+		s.getContainerNetStats(gtx)
 		return
 	}
 	var (
@@ -22,7 +18,7 @@ func (s *Summary) gatherContainerNet(
 		rxErrors, txErrors   uint64
 		rxDropped, txDropped uint64
 	)
-	for _, netstats := range stats.Networks {
+	for _, netstats := range gtx.stats.Networks {
 		rxBytes += netstats.RxBytes
 		txBytes += netstats.TxBytes
 
@@ -36,35 +32,29 @@ func (s *Summary) gatherContainerNet(
 		txDropped += netstats.TxDropped
 	}
 
-	fields["rx_bytes"] = rxBytes
-	fields["tx_bytes"] = txBytes
-
-	fields["rx_packets"] = rxPackets
-	fields["tx_packets"] = txPackets
-
-	fields["rx_errors"] = rxErrors
-	fields["tx_errors"] = txErrors
-
-	fields["rx_dropped"] = rxDropped
-	fields["tx_dropped"] = txDropped
+	gtx.fields["rx_bytes"] = rxBytes
+	gtx.fields["tx_bytes"] = txBytes
+	gtx.fields["rx_packets"] = rxPackets
+	gtx.fields["tx_packets"] = txPackets
+	gtx.fields["rx_errors"] = rxErrors
+	gtx.fields["tx_errors"] = txErrors
+	gtx.fields["rx_dropped"] = rxDropped
+	gtx.fields["tx_dropped"] = txDropped
 }
 
-func (s *Summary) getContainerNetStats(
-	id string, tags map[string]string, fields map[string]interface{},
-	envs map[string]string, info *types.ContainerJSON,
-	daemonOSType string, stats *types.StatsJSON) {
-	if s.podNetStatus == nil || info == nil || info.Config == nil {
+func (s *Summary) getContainerNetStats(gtx *gatherContext) {
+	if s.podNetStatus == nil || gtx.info == nil || gtx.info.Config == nil {
 		return
 	}
 	metadata := kubelet.PodID{
-		Name:      info.Config.Labels["io.kubernetes.pod.name"],
-		Namespace: info.Config.Labels["io.kubernetes.pod.namespace"],
+		Name:      gtx.info.Config.Labels["io.kubernetes.pod.name"],
+		Namespace: gtx.info.Config.Labels["io.kubernetes.pod.namespace"],
 	}
 	if stat, ok := s.podNetStatus[metadata]; ok {
-		fields["rx_bytes"] = stat.Network.RxBytes
-		fields["tx_bytes"] = stat.Network.TxBytes
+		gtx.fields["rx_bytes"] = stat.Network.RxBytes
+		gtx.fields["tx_bytes"] = stat.Network.TxBytes
 
-		fields["rx_errors"] = stat.Network.RxErrors
-		fields["tx_errors"] = stat.Network.TxErrors
+		gtx.fields["rx_errors"] = stat.Network.RxErrors
+		gtx.fields["tx_errors"] = stat.Network.TxErrors
 	}
 }

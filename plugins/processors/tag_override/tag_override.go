@@ -92,7 +92,7 @@ func (t *TagOverride) Apply(in ...telegraf.Metric) []telegraf.Metric {
 				}
 			}
 		}
-		var runtimeID, serviceName, instanceType string
+		var serviceName, instanceType, runtimeName, applicationId string
 		for k, val := range metric.Tags() {
 			if t.prefixFilter.Match(k) {
 				metric.RemoveTag(k)
@@ -117,9 +117,13 @@ func (t *TagOverride) Apply(in ...telegraf.Metric) []telegraf.Metric {
 					instanceType = "component"
 				case "runtime_id":
 					instanceType = "service"
-					runtimeID = val
 				case "service_name":
 					serviceName = val
+				case "runtime_name":
+					instanceType = "service"
+					runtimeName = val
+				case "application_id":
+					applicationId = val
 				}
 			} else {
 				if strings.HasPrefix(k, "DICE_") {
@@ -133,8 +137,8 @@ func (t *TagOverride) Apply(in ...telegraf.Metric) []telegraf.Metric {
 				}
 			}
 		}
-		if runtimeID != "" && serviceName != "" {
-			metric.AddTag("service_id", runtimeID+"_"+serviceName)
+		if applicationId != "" && runtimeName != "" && serviceName != "" {
+			metric.AddTag("service_id", strings.Join([]string{applicationId, runtimeName, serviceName}, "_"))
 		}
 		if instanceType != "" {
 			metric.AddTag("instance_type", instanceType)

@@ -26,13 +26,14 @@ const (
 	healthUrlTag     = "health_url"
 	diceComponentTag = "dice_component"
 	podNameTag       = "dice_pod_name"
+	messageTag       = "message"
 )
 
 const metricName = "dice_health"
 
 const (
-	statusUnreached = "unreached"
-	status404       = "unknown"
+	statusUnavailable = "unavailable"
+	status404         = "unknown"
 )
 
 type healthResponseBody struct {
@@ -52,8 +53,9 @@ type Health struct {
 	ServiceCheck struct {
 		Timeout config.Duration `toml:"timeout"`
 	} `toml:"service_check"`
-	ContentEncoding         string `toml:"content_encoding"`
-	KubernetesLabelSelector string `toml:"kubernetes_label_selector"`
+	Exclude                 []string `toml:"exclude"`
+	ContentEncoding         string   `toml:"content_encoding"`
+	KubernetesLabelSelector string   `toml:"kubernetes_label_selector"`
 
 	componentMap map[string]*component
 	client       *http.Client
@@ -68,12 +70,10 @@ func (h *Health) Description() string {
 }
 
 func (h *Health) Gather(acc telegraf.Accumulator) error {
-	if h.componentMap == nil {
-		if cm, err := h.getComponentMap(); err != nil {
-			return err
-		} else {
-			h.componentMap = cm
-		}
+	if cm, err := h.getComponentMap(); err != nil {
+		return err
+	} else {
+		h.componentMap = cm
 	}
 
 	if h.client == nil {
@@ -106,7 +106,7 @@ func (h *Health) gatherURL(
 	}
 	resp, err := h.client.Do(request)
 	if err != nil {
-		acc.AddMetric(constructMetric(statusUnreached, url, com))
+		acc.AddMetric(constructMetric(statusUnavailable, url, com))
 		return nil
 	}
 	defer resp.Body.Close()
@@ -140,11 +140,9 @@ func constructMetric(status string, url string, com *component) telegraf.Metric 
 		healthUrlTag:     url,
 		diceComponentTag: com.name,
 		podNameTag:       com.podName,
+		messageTag:       fmt.Sprintf("self_check: dice component %s is %s", com.name, status),
 	}
 	fields := map[string]interface{}{
-		"modules": []*checkModule{
-			{Name: "_service_check", Status: status, Message: fmt.Sprintf("component %s is %s", com.name, status)},
-		},
 		"status": status,
 	}
 	m, _ := tmetric.New(metricName, tags, fields, time.Now())
@@ -168,6 +166,7 @@ func convertToMetric(buf []byte, url string, com *component) (telegraf.Metric, e
 	tags[healthUrlTag] = url
 	tags[diceComponentTag] = com.name
 	tags[podNameTag] = com.podName
+	tags[messageTag] = buildMessage(resp.Modules)
 	metric, err := tmetric.New(metricName, tags, fields, time.Now())
 	if err != nil {
 		return nil, err
@@ -175,11 +174,28 @@ func convertToMetric(buf []byte, url string, com *component) (telegraf.Metric, e
 	return metric, nil
 }
 
+func buildMessage(modules []checkModule) string {
+	res := make([]string, len(modules))
+	for idx, m := range modules {
+		res[idx] = m.Message
+	}
+	return strings.Join(res, "; ")
+}
+
 type component struct {
 	name       string
 	serviceURL string
 	podName    string
 	// podMap     map[string]string // <name,ip:port>
+}
+
+func existed(s string, items []string) bool {
+	for _, item := range items {
+		if s == item {
+			return true
+		}
+	}
+	return false
 }
 
 func (h Health) getComponentMap() (map[string]*component, error) {
@@ -202,6 +218,9 @@ func (h Health) getComponentMap() (map[string]*component, error) {
 	for _, p := range list.Items {
 		comName, ok := p.ObjectMeta.Labels[diceComponentLabel]
 		if !ok {
+			continue
+		}
+		if existed(comName, h.Exclude) {
 			continue
 		}
 		if _, ok = res[comName]; ok {

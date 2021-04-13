@@ -1,6 +1,7 @@
 package dockersummary
 
 import (
+	"fmt"
 	"log"
 	"sync"
 
@@ -15,8 +16,9 @@ import (
 
 // Summary .
 type Summary struct {
-	EnvInclude    []string `toml:"env_include"`
-	LabelInclude  []string `toml:"label_include"`
+	EnvInclude      []string `toml:"env_include"`
+	LabelInclude    []string `toml:"label_include"`
+	HostMountPrefix string   `toml:"host_mount_prefix"`
 
 	labelFilter filter.Filter
 	envFilter   filter.Filter
@@ -24,6 +26,7 @@ type Summary struct {
 
 	k8s          bool
 	podNetStatus map[kubelet.PodID]*kubelet.PodStatus
+	pods         map[kubelet.PodID]*kubelet.PodInfo
 }
 
 // Description .
@@ -52,12 +55,9 @@ func (s *Summary) Gather(acc telegraf.Accumulator) (err error) {
 	}
 
 	if s.k8s {
-		summary, err := kubelet.GetStatsSummery()
+		err := s.getKubernetesInfo()
 		if err != nil {
-			log.Printf("fail to kubelet.GetStatsSummery: %s", err)
-			s.podNetStatus = nil
-		} else {
-			s.podNetStatus = summary
+			log.Printf("fail to get kubernetes info: %s", err)
 		}
 	}
 
@@ -77,6 +77,26 @@ func (s *Summary) Gather(acc telegraf.Accumulator) (err error) {
 
 	if s.k8s {
 		s.podNetStatus = nil
+		s.pods = nil
+	}
+	return nil
+}
+
+func (s *Summary) getKubernetesInfo() error {
+	summary, err := kubelet.GetStatsSummery()
+	if err != nil {
+		s.podNetStatus = nil
+		return fmt.Errorf("fail to kubelet.GetStatsSummery: %s", err)
+	} else {
+		s.podNetStatus = summary
+	}
+
+	info, err := kubelet.GetPods()
+	if err != nil {
+		s.pods = nil
+		return fmt.Errorf("fail to kubelet.GetPods: %s", err)
+	} else {
+		s.pods = info
 	}
 	return nil
 }

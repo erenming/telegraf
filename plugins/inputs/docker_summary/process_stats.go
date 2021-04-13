@@ -13,7 +13,7 @@ func gatherProcessStats(pid int32, prefix string) (fields map[string]interface{}
 		return
 	}
 
-	//If process_name tag is not already set, set to actual name
+	// If process_name tag is not already set, set to actual name
 	if _, nameInTags := tags["process_name"]; !nameInTags {
 		name, err := proc.Name()
 		if err == nil {
@@ -21,7 +21,7 @@ func gatherProcessStats(pid int32, prefix string) (fields map[string]interface{}
 		}
 	}
 
-	//If pid is not present as a tag, include it as a field.
+	// If pid is not present as a tag, include it as a field.
 	if _, pidInTags := tags["pid"]; !pidInTags {
 		fields["pid"] = int32(proc.Pid)
 	}
@@ -66,26 +66,10 @@ func gatherProcessStats(pid int32, prefix string) (fields map[string]interface{}
 
 	io, err := proc.IOCounters()
 	if err == nil {
-		// now := time.Now()
 		fields[prefix+"read_count"] = io.ReadCount
 		fields[prefix+"write_count"] = io.WriteCount
 		fields[prefix+"read_bytes"] = io.ReadBytes
 		fields[prefix+"write_bytes"] = io.WriteBytes
-		// lastIOStat[proc.PID()] = &IOCountersStatEntry{
-		// 	stat:     *io,
-		// 	lastTime: now,
-		// }
-		// if len(p.lastIOStat) > 0 {
-		// 	if lastStat, ok := p.lastIOStat[proc.PID()]; ok {
-		// 		seconds := now.Sub(lastStat.lastTime).Seconds()
-		// 		if seconds > 0 {
-		// 			readRate := float64(io.ReadBytes-lastStat.stat.ReadBytes) / seconds
-		// 			fields[prefix+"read_rate"] = readRate
-		// 			writeRate := float64(io.WriteBytes-lastStat.stat.WriteBytes) / seconds
-		// 			fields[prefix+"write_rate"] = writeRate
-		// 		}
-		// 	}
-		// }
 	}
 
 	cpu_time, err := proc.Times()
@@ -122,44 +106,5 @@ func gatherProcessStats(pid int32, prefix string) (fields map[string]interface{}
 		created := time.Unix(0, crt_time*time.Millisecond.Nanoseconds())
 		fields[prefix+"up_time_s"] = int64(time.Since(created).Seconds())
 	}
-
-	// rlims, err := proc.RlimitUsage(true)
-	// if err == nil {
-	// 	for _, rlim := range rlims {
-	// 		var name string
-	// 		switch rlim.Resource {
-	// 		case process.RLIMIT_CPU:
-	// 			name = "cpu_time"
-	// 		case process.RLIMIT_DATA:
-	// 			name = "memory_data"
-	// 		case process.RLIMIT_STACK:
-	// 			name = "memory_stack"
-	// 		case process.RLIMIT_RSS:
-	// 			name = "memory_rss"
-	// 		case process.RLIMIT_NOFILE:
-	// 			name = "num_fds"
-	// 		case process.RLIMIT_MEMLOCK:
-	// 			name = "memory_locked"
-	// 		case process.RLIMIT_AS:
-	// 			name = "memory_vms"
-	// 		case process.RLIMIT_LOCKS:
-	// 			name = "file_locks"
-	// 		case process.RLIMIT_SIGPENDING:
-	// 			name = "signals_pending"
-	// 		case process.RLIMIT_NICE:
-	// 			name = "nice_priority"
-	// 		case process.RLIMIT_RTPRIO:
-	// 			name = "realtime_priority"
-	// 		default:
-	// 			continue
-	// 		}
-	//
-	// 		fields[prefix+"rlimit_"+name+"_soft"] = rlim.Soft
-	// 		fields[prefix+"rlimit_"+name+"_hard"] = rlim.Hard
-	// 		if name != "file_locks" { // gopsutil doesn't currently track the used file locks count
-	// 			fields[prefix+name] = rlim.Used
-	// 		}
-	// 	}
-	// }
 	return
 }
