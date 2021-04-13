@@ -2,6 +2,7 @@ package kube_inventory
 
 import (
 	"context"
+	"fmt"
 
 	corev1 "k8s.io/api/core/v1"
 
@@ -48,6 +49,22 @@ func (ki *KubernetesInventory) gatherNode(n corev1.Node, acc telegraf.Accumulato
 			fields["allocatable_pods"] = atoi(string(val.Format))
 		}
 	}
+
+	// 节点状态
+	ready := false
+	ready_message := "Not Ready"
+	for _, con := range n.Status.Conditions {
+		if con.Type == corev1.NodeReady {
+			if con.Status == corev1.ConditionTrue {
+				ready = true
+			}
+			ready_message = con.Message
+		}
+	}
+	fields["ready"] = ready
+	tags["ready_message"] = ready_message
+	tags["ready"] = fmt.Sprint(ready)
+	getLabels(n.ObjectMeta, tags)
 
 	acc.AddFields(nodeMeasurement, fields, tags)
 }

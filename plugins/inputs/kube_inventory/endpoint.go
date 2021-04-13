@@ -33,7 +33,7 @@ func (ki *KubernetesInventory) gatherEndpoint(e corev1.Endpoints, acc telegraf.A
 		"endpoint_name": e.Name,
 		"namespace":     e.Namespace,
 	}
-
+	getLabels(e.ObjectMeta, tags)
 	for _, endpoint := range e.Subsets {
 		for _, readyAddr := range endpoint.Addresses {
 			fields["ready"] = true

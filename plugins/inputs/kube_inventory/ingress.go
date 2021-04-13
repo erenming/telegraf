@@ -33,7 +33,7 @@ func (ki *KubernetesInventory) gatherIngress(i netv1.Ingress, acc telegraf.Accum
 		"ingress_name": i.Name,
 		"namespace":    i.Namespace,
 	}
-
+	getLabels(i.ObjectMeta, tags)
 	for _, ingress := range i.Status.LoadBalancer.Ingress {
 		tags["hostname"] = ingress.Hostname
 		tags["ip"] = ingress.IP

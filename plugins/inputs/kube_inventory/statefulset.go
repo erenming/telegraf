@@ -40,6 +40,6 @@ func (ki *KubernetesInventory) gatherStatefulSet(s v1.StatefulSet, acc telegraf.
 			tags["selector_"+key] = val
 		}
 	}
-
+	getLabels(s.ObjectMeta, tags)
 	acc.AddFields(statefulSetMeasurement, fields, tags)
 }

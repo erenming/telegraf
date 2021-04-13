@@ -33,7 +33,7 @@ func (ki *KubernetesInventory) gatherService(s corev1.Service, acc telegraf.Accu
 		"service_name": s.Name,
 		"namespace":    s.Namespace,
 	}
-
+	getLabels(s.ObjectMeta, tags)
 	for key, val := range s.Spec.Selector {
 		if ki.selectorFilter.Match(key) {
 			tags["selector_"+key] = val
