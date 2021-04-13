@@ -194,15 +194,15 @@
         addon_id = "kafka"
         addon_type = "kafka"
 
-[[inputs.prometheus_metric]]
-  urls = $ETCD_URLS
+[[inputs.prometheus]]
+  urls = "${ETCD_URLS}"
   metric_name = "etcd"
-  exclude_zero_value = true
+  metric_version = 2
   tls_ca = "/netdata/dice-ops/dice-config/certificates/etcd-ca.pem"
   tls_cert = "/netdata/dice-ops/dice-config/certificates/etcd-client.pem"
   tls_key = "/netdata/dice-ops/dice-config/certificates/etcd-client-key.pem"
   insecure_skip_verify = true
-  [inputs.prometheus_metric.tags]
+  [inputs.prometheus.tags]
     addon_id = "etcd"
     addon_type = "etcd"
     edge_cluster = "true"
@@ -234,22 +234,22 @@
     enable = true
 
 #  coredns
-[[inputs.prometheus_metric]]
+[[inputs.prometheus]]
   interval = "1m"
   urls = ["http://$CLUSTER_DNS:9153"]
   metric_name = "coredns"
-  exclude_zero_value = true
-  metric_include = ["coredns_*"]
-  [inputs.prometheus_metric.tags]
+  metric_version = 2
+  fieldpass = ["coredns_*"]
+  [inputs.prometheus.tags]
     edge_cluster = "true"
 
 # k8s apiserver
-[[inputs.prometheus_metric]]
+[[inputs.prometheus]]
   interval = "5m"
   urls = ["$MASTER_VIP_URL"]
   metric_name = "kubernetes_apiserver"
-  exclude_zero_value = true
-  metric_include = [
+  metric_version = 2
+  fieldpass = [
     "apiserver_request_duration_seconds",
     "apiserver_request_total",
     "workqueue_depth",
@@ -257,49 +257,47 @@
     "workqueue_queue_duration_seconds",
     "go_goroutines"
   ]
-  bearer_token = "${K8S_BEARER_TOKEN:/run/secrets/kubernetes.io/serviceaccount/token}"
-  tls_ca = "${K8S_TLS_CA:/run/secrets/kubernetes.io/serviceaccount/ca.crt}"
 
 # ingress
-[[inputs.prometheus_metric]]
-  interval = "5m"
-  metric_name = "kubernetes_ingress"
-  exclude_zero_value = true
-  metric_include = [
-    "nginx_ingress_controller_requests",
-    "nginx_ingress_controller_ingress_upstream_latency_seconds*",
-  ]
-  bearer_token = "${K8S_BEARER_TOKEN:/run/secrets/kubernetes.io/serviceaccount/token}"
-  tls_ca = "${K8S_TLS_CA:/run/secrets/kubernetes.io/serviceaccount/ca.crt}"
-  # select pod address by label
-  [inputs.prometheus_metric.kubernetes_selector]
-    enable = true
-    port = "10254"
-    namespace = "kube-system"
-  [inputs.prometheus_metric.kubernetes_selector.label]
-    "app.kubernetes.io/name" = "ingress-nginx"
+#[[inputs.prometheus]]
+#  interval = "5m"
+#  metric_name = "kubernetes_ingress"
+#  metric_version = 2
+#  fieldpass = [
+#    "nginx_ingress_controller_requests",
+#    "nginx_ingress_controller_ingress_upstream_latency_seconds*",
+#  ]
+#  bearer_token = "${K8S_BEARER_TOKEN:/run/secrets/kubernetes.io/serviceaccount/token}"
+#  tls_ca = "${K8S_TLS_CA:/run/secrets/kubernetes.io/serviceaccount/ca.crt}"
+#  # select pod address by label
+#  [inputs.prometheus.kubernetes_selector]
+#    enable = true
+#    port = "10254"
+#    namespace = "kube-system"
+#  [inputs.prometheus.kubernetes_selector.label]
+#    "app.kubernetes.io/name" = "ingress-nginx"
 
 # kube controller
-[[inputs.prometheus_metric]]
-  interval = "1m"
-  metric_name = "kubernetes_controller"
-  exclude_zero_value = true
-  metric_include = [
-    "workqueue_queue_duration_seconds*",
-    "workqueue_adds_total",
-    "workqueue_depth",
-    "rest_client_request_latency_seconds",
-    "rest_client_requests_total"
-  ]
-  bearer_token = "${K8S_BEARER_TOKEN:/run/secrets/kubernetes.io/serviceaccount/token}"
-  tls_ca = "${K8S_TLS_CA:/run/secrets/kubernetes.io/serviceaccount/ca.crt}"
-  # select pod address by label
-  [inputs.prometheus_metric.kubernetes_selector]
-    enable = true
-    port = "10252"
-    namespace = "kube-system"
-  [inputs.prometheus_metric.kubernetes_selector.label]
-    "component" = "kube-controller-manager"
+#[[inputs.prometheus]]
+#  interval = "1m"
+#  metric_name = "kubernetes_controller"
+#  metric_version = 2
+#  fieldpass = [
+#    "workqueue_queue_duration_seconds*",
+#    "workqueue_adds_total",
+#    "workqueue_depth",
+#    "rest_client_request_latency_seconds",
+#    "rest_client_requests_total"
+#  ]
+#  bearer_token = "${K8S_BEARER_TOKEN:/run/secrets/kubernetes.io/serviceaccount/token}"
+#  tls_ca = "${K8S_TLS_CA:/run/secrets/kubernetes.io/serviceaccount/ca.crt}"
+#  # select pod address by label
+#  [inputs.prometheus.kubernetes_selector]
+#    enable = true
+#    port = "10252"
+#    namespace = "kube-system"
+#  [inputs.prometheus.kubernetes_selector.label]
+#    "component" = "kube-controller-manager"
 
 [[inputs.dice_health]]
   interval = "5m"
