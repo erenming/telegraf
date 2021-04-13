@@ -122,9 +122,4 @@
   interval = "5m"
   [inputs.dice_health.service_check]
     timeout = "30s"
-  [inputs.dice_health.k8s_filter]
-    namespace = "default"
-    [[inputs.dice_health.k8s_filter.label_filters]]
-      key = "dice/component"
-      operator = "neq"
-      value = ""
+  kubernetes_label_selector = "dice/component"
