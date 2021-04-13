@@ -154,3 +154,6 @@ require (
 
 // replaced due to https://github.com/satori/go.uuid/issues/73
 replace github.com/satori/go.uuid => github.com/gofrs/uuid v3.2.0+incompatible
+replace (
+	github.com/shirou/gopsutil v3.20.11+incompatible => ./libs/gopsutil
+)
