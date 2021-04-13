@@ -126,7 +126,7 @@ func (a *Addons) Gather(acc telegraf.Accumulator) error {
 	}
 	a.inputsLock.RUnlock()
 	var errs Errors
-	tCh := time.After(a.GatherTimeout.Duration)
+	tCh := time.After(time.Duration(a.GatherTimeout))
 	for i := 0; i < count; i++ {
 		select {
 		case err := <-errsCh:

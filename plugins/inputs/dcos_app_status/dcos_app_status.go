@@ -38,7 +38,7 @@ func New() *DCOSAppStatus {
 			TLSClientConfig: tlsCfg,
 			Proxy:           http.ProxyFromEnvironment,
 		},
-		Timeout: d.Timeout,
+		Timeout: time.Duration(d.Timeout),
 	}
 	return &d
 }

@@ -64,6 +64,7 @@ require (
 	github.com/golang/snappy v0.0.1
 	github.com/google/go-cmp v0.5.5
 	github.com/google/go-github/v32 v32.1.0
+	github.com/google/uuid v1.1.2
 	github.com/gopcua/opcua v0.1.13
 	github.com/gorilla/mux v1.7.3
 	github.com/gosnmp/gosnmp v1.30.0
@@ -80,6 +81,7 @@ require (
 	github.com/jackc/pgx v3.6.0+incompatible
 	github.com/james4k/rcon v0.0.0-20120923215419-8fbb8268b60a
 	github.com/jmespath/go-jmespath v0.4.0
+	github.com/json-iterator/go v1.1.10
 	github.com/kardianos/service v1.0.0
 	github.com/karrick/godirwalk v1.16.1
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51
@@ -131,6 +133,7 @@ require (
 	golang.org/x/sync v0.0.0-20201020160332-67f06af15bc9
 	golang.org/x/sys v0.0.0-20201119102817-f84b799fce68
 	golang.org/x/text v0.3.4
+	golang.org/x/time v0.0.0-20200630173020-3af7569d3a1e
 	golang.zx2c4.com/wireguard/wgctrl v0.0.0-20200205215550-e35592f146e4
 	google.golang.org/api v0.29.0
 	google.golang.org/genproto v0.0.0-20200815001618-f69a88009b70
