@@ -15,6 +15,7 @@ import (
 	"github.com/influxdata/telegraf"
 	"github.com/influxdata/telegraf/config"
 	"github.com/influxdata/telegraf/internal"
+	"github.com/influxdata/telegraf/plugins/common/ratelimit"
 	tlsint "github.com/influxdata/telegraf/plugins/common/tls"
 	"github.com/influxdata/telegraf/plugins/inputs"
 	"github.com/influxdata/telegraf/plugins/parsers"
@@ -202,6 +203,11 @@ type SocketListener struct {
 	SocketMode      string           `toml:"socket_mode"`
 	ContentEncoding string           `toml:"content_encoding"`
 	tlsint.ServerConfig
+
+	TotalRateLimit   string                        `toml:"total_rate_limit"`
+	MetricsRateLimit map[string]string             `toml:"metrics_rate_limit"`
+	totalRateLimit   *ratelimit.Limiter            // 总的限流
+	metricsRateLimit map[string]*ratelimit.Limiter // 针对每种指标的限流
 
 	wg sync.WaitGroup
 
@@ -442,6 +448,61 @@ func (sl *SocketListener) Stop() {
 		sl.Closer = nil
 	}
 	sl.wg.Wait()
+}
+
+func (sl *SocketListener) makeRateLimiter(acc telegraf.Accumulator) (telegraf.Accumulator, error) {
+	if sl.MetricsRateLimit != nil && len(sl.MetricsRateLimit) > 0 {
+		sl.metricsRateLimit = make(map[string]*ratelimit.Limiter)
+		for k, v := range sl.MetricsRateLimit {
+			k = strings.TrimSpace(k)
+			if len(k) < 0 {
+				continue
+			}
+			v = strings.TrimSpace(v)
+			if len(v) < 0 {
+				continue
+			}
+			r, err := ratelimit.Parse(v)
+			if err != nil {
+				return acc, err
+			}
+			sl.metricsRateLimit[k] = r
+		}
+	}
+	sl.TotalRateLimit = strings.TrimSpace(sl.TotalRateLimit)
+	if len(sl.TotalRateLimit) > 0 {
+		r, err := ratelimit.Parse(sl.TotalRateLimit)
+		if err != nil {
+			return acc, err
+		}
+		sl.totalRateLimit = r
+	}
+	if sl.totalRateLimit != nil || len(sl.metricsRateLimit) > 0 {
+		acc = &limitAcc{acc, sl.totalRateLimit, sl.metricsRateLimit}
+	}
+	return acc, nil
+}
+
+type limitAcc struct {
+	telegraf.Accumulator
+	totalLimit   *ratelimit.Limiter
+	metricsLimit map[string]*ratelimit.Limiter
+}
+
+func (a *limitAcc) AddMetric(m telegraf.Metric) {
+	if a.totalLimit != nil {
+		if !a.totalLimit.Enter() {
+			return
+		}
+	}
+	if a.metricsLimit != nil {
+		if limit, ok := a.metricsLimit[m.Name()]; ok {
+			if !limit.Enter() {
+				return
+			}
+		}
+	}
+	a.Accumulator.AddMetric(m)
 }
 
 func newSocketListener() *SocketListener {
