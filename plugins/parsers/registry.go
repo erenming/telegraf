@@ -19,6 +19,8 @@ import (
 	"github.com/influxdata/telegraf/plugins/parsers/value"
 	"github.com/influxdata/telegraf/plugins/parsers/wavefront"
 	"github.com/influxdata/telegraf/plugins/parsers/xml"
+
+	"github.com/influxdata/telegraf/plugins/parsers/spot"
 )
 
 type ParserFunc func() (Parser, error)
@@ -253,6 +255,8 @@ func NewParser(config *Config) (Parser, error) {
 		parser, err = NewPrometheusRemoteWriteParser(config.DefaultTags)
 	case "xml":
 		parser, err = NewXMLParser(config.MetricName, config.DefaultTags, config.XMLConfig)
+	case "spot":
+		parser, err = NewSpotParser(config.DefaultTags)
 	default:
 		err = fmt.Errorf("Invalid data format: %s", config.DataFormat)
 	}
@@ -394,4 +398,10 @@ func NewXMLParser(metricName string, defaultTags map[string]string, xmlConfigs [
 		Configs:     configs,
 		DefaultTags: defaultTags,
 	}, nil
+}
+
+func NewSpotParser(defaultTags map[string]string) (Parser, error) {
+	parser := &spot.SpotParser{DefaultTags: defaultTags}
+	parser.InitParsers()
+	return parser, nil
 }
