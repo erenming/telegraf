@@ -198,9 +198,6 @@ func EnvsTransform() {
 	}
 	for k, nk := range mapper {
 		v := os.Getenv(k)
-		if v == "" {
-			continue
-		}
 		switch val := nk.(type) {
 		case string:
 			os.Setenv(k, val)

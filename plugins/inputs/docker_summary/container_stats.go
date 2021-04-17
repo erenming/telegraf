@@ -313,6 +313,9 @@ func (s *Summary) gatherContainerIO(gtx *gatherContext) {
 // calculateMemUsageUnixNoCache calculate memory usage of the container.
 // Page cache is intentionally excluded to avoid misinterpretation of the output.
 func calculateMemUsageUnixNoCache(mem types.MemoryStats) float64 {
+	if mem.Usage <= mem.Stats["cache"] {
+		return 0
+	}
 	return float64(mem.Usage - mem.Stats["cache"])
 }
 
