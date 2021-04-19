@@ -1,0 +1,1663 @@
+# HELP apiserver_audit_event_total [ALPHA] Counter of audit events generated and sent to the audit backend.
+# TYPE apiserver_audit_event_total counter
+apiserver_audit_event_total 0
+# HELP apiserver_audit_requests_rejected_total [ALPHA] Counter of apiserver requests rejected due to an error in audit logging backend.
+# TYPE apiserver_audit_requests_rejected_total counter
+apiserver_audit_requests_rejected_total 0
+# HELP apiserver_client_certificate_expiration_seconds [ALPHA] Distribution of the remaining lifetime on the certificate used to authenticate a request.
+# TYPE apiserver_client_certificate_expiration_seconds histogram
+apiserver_client_certificate_expiration_seconds_bucket{le="0"} 0
+apiserver_client_certificate_expiration_seconds_bucket{le="1800"} 0
+apiserver_client_certificate_expiration_seconds_bucket{le="3600"} 0
+apiserver_client_certificate_expiration_seconds_bucket{le="7200"} 0
+apiserver_client_certificate_expiration_seconds_bucket{le="21600"} 0
+apiserver_client_certificate_expiration_seconds_bucket{le="43200"} 0
+apiserver_client_certificate_expiration_seconds_bucket{le="86400"} 0
+apiserver_client_certificate_expiration_seconds_bucket{le="172800"} 0
+apiserver_client_certificate_expiration_seconds_bucket{le="345600"} 0
+apiserver_client_certificate_expiration_seconds_bucket{le="604800"} 0
+apiserver_client_certificate_expiration_seconds_bucket{le="2.592e+06"} 0
+apiserver_client_certificate_expiration_seconds_bucket{le="7.776e+06"} 0
+apiserver_client_certificate_expiration_seconds_bucket{le="1.5552e+07"} 0
+apiserver_client_certificate_expiration_seconds_bucket{le="3.1104e+07"} 0
+apiserver_client_certificate_expiration_seconds_bucket{le="+Inf"} 255
+apiserver_client_certificate_expiration_seconds_sum 8.006150177036552e+10
+apiserver_client_certificate_expiration_seconds_count 255
+# HELP apiserver_storage_data_key_generation_duration_seconds [ALPHA] Latencies in seconds of data encryption key(DEK) generation operations.
+# TYPE apiserver_storage_data_key_generation_duration_seconds histogram
+apiserver_storage_data_key_generation_duration_seconds_bucket{le="5e-06"} 0
+apiserver_storage_data_key_generation_duration_seconds_bucket{le="1e-05"} 0
+apiserver_storage_data_key_generation_duration_seconds_bucket{le="2e-05"} 0
+apiserver_storage_data_key_generation_duration_seconds_bucket{le="4e-05"} 0
+apiserver_storage_data_key_generation_duration_seconds_bucket{le="8e-05"} 0
+apiserver_storage_data_key_generation_duration_seconds_bucket{le="0.00016"} 0
+apiserver_storage_data_key_generation_duration_seconds_bucket{le="0.00032"} 0
+apiserver_storage_data_key_generation_duration_seconds_bucket{le="0.00064"} 0
+apiserver_storage_data_key_generation_duration_seconds_bucket{le="0.00128"} 0
+apiserver_storage_data_key_generation_duration_seconds_bucket{le="0.00256"} 0
+apiserver_storage_data_key_generation_duration_seconds_bucket{le="0.00512"} 0
+apiserver_storage_data_key_generation_duration_seconds_bucket{le="0.01024"} 0
+apiserver_storage_data_key_generation_duration_seconds_bucket{le="0.02048"} 0
+apiserver_storage_data_key_generation_duration_seconds_bucket{le="0.04096"} 0
+apiserver_storage_data_key_generation_duration_seconds_bucket{le="+Inf"} 0
+apiserver_storage_data_key_generation_duration_seconds_sum 0
+apiserver_storage_data_key_generation_duration_seconds_count 0
+# HELP apiserver_storage_data_key_generation_failures_total [ALPHA] Total number of failed data encryption key(DEK) generation operations.
+# TYPE apiserver_storage_data_key_generation_failures_total counter
+apiserver_storage_data_key_generation_failures_total 0
+# HELP apiserver_storage_data_key_generation_latencies_microseconds [ALPHA] (Deprecated) Latencies in microseconds of data encryption key(DEK) generation operations.
+# TYPE apiserver_storage_data_key_generation_latencies_microseconds histogram
+apiserver_storage_data_key_generation_latencies_microseconds_bucket{le="5"} 0
+apiserver_storage_data_key_generation_latencies_microseconds_bucket{le="10"} 0
+apiserver_storage_data_key_generation_latencies_microseconds_bucket{le="20"} 0
+apiserver_storage_data_key_generation_latencies_microseconds_bucket{le="40"} 0
+apiserver_storage_data_key_generation_latencies_microseconds_bucket{le="80"} 0
+apiserver_storage_data_key_generation_latencies_microseconds_bucket{le="160"} 0
+apiserver_storage_data_key_generation_latencies_microseconds_bucket{le="320"} 0
+apiserver_storage_data_key_generation_latencies_microseconds_bucket{le="640"} 0
+apiserver_storage_data_key_generation_latencies_microseconds_bucket{le="1280"} 0
+apiserver_storage_data_key_generation_latencies_microseconds_bucket{le="2560"} 0
+apiserver_storage_data_key_generation_latencies_microseconds_bucket{le="5120"} 0
+apiserver_storage_data_key_generation_latencies_microseconds_bucket{le="10240"} 0
+apiserver_storage_data_key_generation_latencies_microseconds_bucket{le="20480"} 0
+apiserver_storage_data_key_generation_latencies_microseconds_bucket{le="40960"} 0
+apiserver_storage_data_key_generation_latencies_microseconds_bucket{le="+Inf"} 0
+apiserver_storage_data_key_generation_latencies_microseconds_sum 0
+apiserver_storage_data_key_generation_latencies_microseconds_count 0
+# HELP apiserver_storage_envelope_transformation_cache_misses_total [ALPHA] Total number of cache misses while accessing key decryption key(KEK).
+# TYPE apiserver_storage_envelope_transformation_cache_misses_total counter
+apiserver_storage_envelope_transformation_cache_misses_total 0
+# HELP get_token_count [ALPHA] Counter of total Token() requests to the alternate token source
+# TYPE get_token_count counter
+get_token_count 0
+# HELP get_token_fail_count [ALPHA] Counter of failed Token() requests to the alternate token source
+# TYPE get_token_fail_count counter
+get_token_fail_count 0
+# HELP go_gc_duration_seconds A summary of the GC invocation durations.
+# TYPE go_gc_duration_seconds summary
+go_gc_duration_seconds{quantile="0"} 1.188e-05
+go_gc_duration_seconds{quantile="0.25"} 1.5198e-05
+go_gc_duration_seconds{quantile="0.5"} 1.8062e-05
+go_gc_duration_seconds{quantile="0.75"} 3.2801e-05
+go_gc_duration_seconds{quantile="1"} 0.007631913
+go_gc_duration_seconds_sum 34.480932334
+go_gc_duration_seconds_count 544123
+# HELP go_goroutines Number of goroutines that currently exist.
+# TYPE go_goroutines gauge
+go_goroutines 532
+# HELP go_info Information about the Go environment.
+# TYPE go_info gauge
+go_info{version="go1.13.9"} 1
+# HELP go_memstats_alloc_bytes Number of bytes allocated and still in use.
+# TYPE go_memstats_alloc_bytes gauge
+go_memstats_alloc_bytes 5.1358272e+07
+# HELP go_memstats_alloc_bytes_total Total number of bytes allocated, even if freed.
+# TYPE go_memstats_alloc_bytes_total counter
+go_memstats_alloc_bytes_total 1.2141905130696e+13
+# HELP go_memstats_buck_hash_sys_bytes Number of bytes used by the profiling bucket hash table.
+# TYPE go_memstats_buck_hash_sys_bytes gauge
+go_memstats_buck_hash_sys_bytes 1.1722225e+07
+# HELP go_memstats_frees_total Total number of frees.
+# TYPE go_memstats_frees_total counter
+go_memstats_frees_total 8.0935737828e+10
+# HELP go_memstats_gc_cpu_fraction The fraction of this program's available CPU time used by the GC since the program started.
+# TYPE go_memstats_gc_cpu_fraction gauge
+go_memstats_gc_cpu_fraction 0.0009009975446585192
+# HELP go_memstats_gc_sys_bytes Number of bytes used for garbage collection system metadata.
+# TYPE go_memstats_gc_sys_bytes gauge
+go_memstats_gc_sys_bytes 5.062656e+06
+# HELP go_memstats_heap_alloc_bytes Number of heap bytes allocated and still in use.
+# TYPE go_memstats_heap_alloc_bytes gauge
+go_memstats_heap_alloc_bytes 5.1358272e+07
+# HELP go_memstats_heap_idle_bytes Number of heap bytes waiting to be used.
+# TYPE go_memstats_heap_idle_bytes gauge
+go_memstats_heap_idle_bytes 6.6404352e+07
+# HELP go_memstats_heap_inuse_bytes Number of heap bytes that are in use.
+# TYPE go_memstats_heap_inuse_bytes gauge
+go_memstats_heap_inuse_bytes 6.26688e+07
+# HELP go_memstats_heap_objects Number of allocated objects.
+# TYPE go_memstats_heap_objects gauge
+go_memstats_heap_objects 381870
+# HELP go_memstats_heap_released_bytes Number of heap bytes released to OS.
+# TYPE go_memstats_heap_released_bytes gauge
+go_memstats_heap_released_bytes 5.0233344e+07
+# HELP go_memstats_heap_sys_bytes Number of heap bytes obtained from system.
+# TYPE go_memstats_heap_sys_bytes gauge
+go_memstats_heap_sys_bytes 1.29073152e+08
+# HELP go_memstats_last_gc_time_seconds Number of seconds since 1970 of last garbage collection.
+# TYPE go_memstats_last_gc_time_seconds gauge
+go_memstats_last_gc_time_seconds 1.603870344200602e+09
+# HELP go_memstats_lookups_total Total number of pointer lookups.
+# TYPE go_memstats_lookups_total counter
+go_memstats_lookups_total 0
+# HELP go_memstats_mallocs_total Total number of mallocs.
+# TYPE go_memstats_mallocs_total counter
+go_memstats_mallocs_total 8.0936119698e+10
+# HELP go_memstats_mcache_inuse_bytes Number of bytes in use by mcache structures.
+# TYPE go_memstats_mcache_inuse_bytes gauge
+go_memstats_mcache_inuse_bytes 6944
+# HELP go_memstats_mcache_sys_bytes Number of bytes used for mcache structures obtained from system.
+# TYPE go_memstats_mcache_sys_bytes gauge
+go_memstats_mcache_sys_bytes 16384
+# HELP go_memstats_mspan_inuse_bytes Number of bytes in use by mspan structures.
+# TYPE go_memstats_mspan_inuse_bytes gauge
+go_memstats_mspan_inuse_bytes 891752
+# HELP go_memstats_mspan_sys_bytes Number of bytes used for mspan structures obtained from system.
+# TYPE go_memstats_mspan_sys_bytes gauge
+go_memstats_mspan_sys_bytes 1.081344e+06
+# HELP go_memstats_next_gc_bytes Number of heap bytes when next garbage collection will take place.
+# TYPE go_memstats_next_gc_bytes gauge
+go_memstats_next_gc_bytes 6.7982064e+07
+# HELP go_memstats_other_sys_bytes Number of bytes used for other system allocations.
+# TYPE go_memstats_other_sys_bytes gauge
+go_memstats_other_sys_bytes 1.125127e+06
+# HELP go_memstats_stack_inuse_bytes Number of bytes in use by the stack allocator.
+# TYPE go_memstats_stack_inuse_bytes gauge
+go_memstats_stack_inuse_bytes 5.144576e+06
+# HELP go_memstats_stack_sys_bytes Number of bytes obtained from system for stack allocator.
+# TYPE go_memstats_stack_sys_bytes gauge
+go_memstats_stack_sys_bytes 5.144576e+06
+# HELP go_memstats_sys_bytes Number of bytes obtained from system.
+# TYPE go_memstats_sys_bytes gauge
+go_memstats_sys_bytes 1.53225464e+08
+# HELP go_threads Number of OS threads created.
+# TYPE go_threads gauge
+go_threads 30
+# HELP kubelet_certificate_manager_client_expiration_seconds [ALPHA] Gauge of the lifetime of a certificate. The value is the date the certificate will expire in seconds since January 1, 1970 UTC.
+# TYPE kubelet_certificate_manager_client_expiration_seconds gauge
+kubelet_certificate_manager_client_expiration_seconds 1.9165704e+09
+# HELP kubelet_cgroup_manager_duration_seconds [ALPHA] Duration in seconds for cgroup manager operations. Broken down by method.
+# TYPE kubelet_cgroup_manager_duration_seconds histogram
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="create",le="0.005"} 0
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="create",le="0.01"} 0
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="create",le="0.025"} 763
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="create",le="0.05"} 834
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="create",le="0.1"} 860
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="create",le="0.25"} 864
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="create",le="0.5"} 864
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="create",le="1"} 864
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="create",le="2.5"} 864
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="create",le="5"} 864
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="create",le="10"} 864
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="create",le="+Inf"} 864
+kubelet_cgroup_manager_duration_seconds_sum{operation_type="create"} 16.713309807000005
+kubelet_cgroup_manager_duration_seconds_count{operation_type="create"} 864
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="destroy",le="0.005"} 2
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="destroy",le="0.01"} 436
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="destroy",le="0.025"} 709
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="destroy",le="0.05"} 775
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="destroy",le="0.1"} 826
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="destroy",le="0.25"} 845
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="destroy",le="0.5"} 846
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="destroy",le="1"} 846
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="destroy",le="2.5"} 846
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="destroy",le="5"} 846
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="destroy",le="10"} 846
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="destroy",le="+Inf"} 846
+kubelet_cgroup_manager_duration_seconds_sum{operation_type="destroy"} 15.49666503899999
+kubelet_cgroup_manager_duration_seconds_count{operation_type="destroy"} 846
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="update",le="0.005"} 95612
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="update",le="0.01"} 95615
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="update",le="0.025"} 95618
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="update",le="0.05"} 95618
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="update",le="0.1"} 95618
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="update",le="0.25"} 95618
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="update",le="0.5"} 95618
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="update",le="1"} 95618
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="update",le="2.5"} 95618
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="update",le="5"} 95618
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="update",le="10"} 95618
+kubelet_cgroup_manager_duration_seconds_bucket{operation_type="update",le="+Inf"} 95618
+kubelet_cgroup_manager_duration_seconds_sum{operation_type="update"} 9.417533251999972
+kubelet_cgroup_manager_duration_seconds_count{operation_type="update"} 95618
+# HELP kubelet_cgroup_manager_latency_microseconds [ALPHA] (Deprecated) Latency in microseconds for cgroup manager operations. Broken down by method.
+# TYPE kubelet_cgroup_manager_latency_microseconds summary
+kubelet_cgroup_manager_latency_microseconds{operation_type="create",quantile="0.5"} NaN
+kubelet_cgroup_manager_latency_microseconds{operation_type="create",quantile="0.9"} NaN
+kubelet_cgroup_manager_latency_microseconds{operation_type="create",quantile="0.99"} NaN
+kubelet_cgroup_manager_latency_microseconds_sum{operation_type="create"} 1.6714327e+07
+kubelet_cgroup_manager_latency_microseconds_count{operation_type="create"} 864
+kubelet_cgroup_manager_latency_microseconds{operation_type="destroy",quantile="0.5"} NaN
+kubelet_cgroup_manager_latency_microseconds{operation_type="destroy",quantile="0.9"} NaN
+kubelet_cgroup_manager_latency_microseconds{operation_type="destroy",quantile="0.99"} NaN
+kubelet_cgroup_manager_latency_microseconds_sum{operation_type="destroy"} 1.5500362e+07
+kubelet_cgroup_manager_latency_microseconds_count{operation_type="destroy"} 846
+kubelet_cgroup_manager_latency_microseconds{operation_type="update",quantile="0.5"} 82
+kubelet_cgroup_manager_latency_microseconds{operation_type="update",quantile="0.9"} 156
+kubelet_cgroup_manager_latency_microseconds{operation_type="update",quantile="0.99"} 175
+kubelet_cgroup_manager_latency_microseconds_sum{operation_type="update"} 9.673879e+06
+kubelet_cgroup_manager_latency_microseconds_count{operation_type="update"} 95618
+# HELP kubelet_container_log_filesystem_used_bytes Bytes used by the container's logs on the filesystem.
+# TYPE kubelet_container_log_filesystem_used_bytes gauge
+kubelet_container_log_filesystem_used_bytes{container="api-gateway",namespace="addon-api-gateway--ybb15dfe046954ab2b39b378c1ca77612",pod="api-gateway-7554c6ffc8-cqgkn",uid="8af1bbdb-fdc2-405d-923c-c73178148393"} 7.446528e+06
+kubelet_container_log_filesystem_used_bytes{container="apm-demo-ui",namespace="services--967654033024f2997c7c1f27a3ae70bc",pod="apm-demo-ui-69c8fc486f-hrx9r",uid="e569dfb5-7c6f-41bc-9853-96599ef36b9e"} 32768
+kubelet_container_log_filesystem_used_bytes{container="apm-demo-ui",namespace="services--cd67bf45227bd79299c7df19f6b9d186",pod="apm-demo-ui-7dcb59ff59-82krr",uid="ddb75543-13e4-4100-91b8-e0c6371d7f4b"} 81920
+kubelet_container_log_filesystem_used_bytes{container="blog-service",namespace="services--b94ab838567eee493518deda96e6965a",pod="blog-service-689c54f774-dqq59",uid="e098dacd-39a2-4183-b0a9-3ae4705636c9"} 1.700864e+08
+kubelet_container_log_filesystem_used_bytes{container="csi-diskplugin",namespace="kube-system",pod="csi-plugin-wjktv",uid="8bf4bf00-f4c2-49dd-8a01-e0d7cc5cd9b8"} 36864
+kubelet_container_log_filesystem_used_bytes{container="csi-nasplugin",namespace="kube-system",pod="csi-plugin-wjktv",uid="8bf4bf00-f4c2-49dd-8a01-e0d7cc5cd9b8"} 28672
+kubelet_container_log_filesystem_used_bytes{container="csi-ossplugin",namespace="kube-system",pod="csi-plugin-wjktv",uid="8bf4bf00-f4c2-49dd-8a01-e0d7cc5cd9b8"} 32768
+kubelet_container_log_filesystem_used_bytes{container="dice-site",namespace="services--cb55021f061bc97ef6de4dcd9ea300b5",pod="dice-site-9bb94666-rwhml",uid="286df247-584b-45e9-85b4-60c9273c70ff"} 6.879232e+07
+kubelet_container_log_filesystem_used_bytes{container="dice-volume",namespace="default",pod="dice-volume-5lgrg",uid="0680bafd-9919-463e-8775-cdf8d74aca96"} 28672
+kubelet_container_log_filesystem_used_bytes{container="disk-driver-registrar",namespace="kube-system",pod="csi-plugin-wjktv",uid="8bf4bf00-f4c2-49dd-8a01-e0d7cc5cd9b8"} 28672
+kubelet_container_log_filesystem_used_bytes{container="disk-liveness-probe",namespace="kube-system",pod="csi-plugin-wjktv",uid="8bf4bf00-f4c2-49dd-8a01-e0d7cc5cd9b8"} 28672
+kubelet_container_log_filesystem_used_bytes{container="executor",namespace="default",pod="spark-thriftserver-1602726729127-exec-5",uid="c44300b9-7506-47ec-a252-c0c19f4e8fde"} 9.572352e+06
+kubelet_container_log_filesystem_used_bytes{container="filebeat",namespace="default",pod="dice-filebeat-qwg9j",uid="b1150bfe-7868-44ad-8e87-6ae88f98fc8a"} 446464
+kubelet_container_log_filesystem_used_bytes{container="java-demo",namespace="services--09ec6faba801f5ac88e18baf508a2d7c",pod="java-demo-7dcc646768-8wvqm",uid="dfb562e2-611d-4587-ab2d-04d66a03435c"} 40960
+kubelet_container_log_filesystem_used_bytes{container="js-demo",namespace="services--a4f90679d9b9583bff8e621662af5b8b",pod="js-demo-6649b696cc-f6xlw",uid="c6cc0576-ed10-421f-9baf-43c7093e9db6"} 6.3840256e+07
+kubelet_container_log_filesystem_used_bytes{container="js-demo",namespace="services--b3e9a44585e3b380737c8eaf86b87587",pod="js-demo-6777dd5459-6vgd9",uid="a4caf720-4b52-4165-9f24-e3f15fc3d137"} 6.01088e+07
+kubelet_container_log_filesystem_used_bytes{container="kube-flannel",namespace="kube-system",pod="kube-flannel-ds-vt4sw",uid="65c76f57-15d5-4e99-b346-4b58417f156e"} 32768
+kubelet_container_log_filesystem_used_bytes{container="kube-proxy-worker",namespace="kube-system",pod="kube-proxy-worker-6kmkv",uid="88c10ab5-69b0-4a1c-9a61-1ba160383770"} 98304
+kubelet_container_log_filesystem_used_bytes{container="nacos",namespace="addon-nacos--l331a4071a912438e9455e2944f4ea269",pod="nacos-2",uid="5655e578-98d9-414a-bad0-b2cba1452021"} 49152
+kubelet_container_log_filesystem_used_bytes{container="nas-driver-registrar",namespace="kube-system",pod="csi-plugin-wjktv",uid="8bf4bf00-f4c2-49dd-8a01-e0d7cc5cd9b8"} 28672
+kubelet_container_log_filesystem_used_bytes{container="nas-liveness-probe",namespace="kube-system",pod="csi-plugin-wjktv",uid="8bf4bf00-f4c2-49dd-8a01-e0d7cc5cd9b8"} 28672
+kubelet_container_log_filesystem_used_bytes{container="oss-driver-registrar",namespace="kube-system",pod="csi-plugin-wjktv",uid="8bf4bf00-f4c2-49dd-8a01-e0d7cc5cd9b8"} 28672
+kubelet_container_log_filesystem_used_bytes{container="oss-liveness-probe",namespace="kube-system",pod="csi-plugin-wjktv",uid="8bf4bf00-f4c2-49dd-8a01-e0d7cc5cd9b8"} 28672
+kubelet_container_log_filesystem_used_bytes{container="telegraf",namespace="default",pod="dice-telegraf-2vck9",uid="56bea74a-10c4-4d24-9130-9c5e6d95e8b2"} 1.486848e+06
+kubelet_container_log_filesystem_used_bytes{container="telegraf-app",namespace="default",pod="dice-telegraf-app-k826f",uid="ee23cd8d-2515-404d-892b-3a6163f2ea84"} 1.908736e+06
+kubelet_container_log_filesystem_used_bytes{container="uc-adaptor",namespace="default",pod="dice-uc-adaptor-684fd58f46-zrdqj",uid="4fdeeebd-3c51-4c0d-aac7-6c60205b74a8"} 774144
+kubelet_container_log_filesystem_used_bytes{container="user-service",namespace="services--b94ab838567eee493518deda96e6965a",pod="user-service-5b7f7d9977-5b64k",uid="b9abef0e-f696-46e4-a0ba-6d35703f2093"} 1.70610688e+08
+# HELP kubelet_containers_per_pod_count [ALPHA] The number of containers per pod.
+# TYPE kubelet_containers_per_pod_count histogram
+kubelet_containers_per_pod_count_bucket{le="0.005"} 0
+kubelet_containers_per_pod_count_bucket{le="0.01"} 0
+kubelet_containers_per_pod_count_bucket{le="0.025"} 0
+kubelet_containers_per_pod_count_bucket{le="0.05"} 0
+kubelet_containers_per_pod_count_bucket{le="0.1"} 0
+kubelet_containers_per_pod_count_bucket{le="0.25"} 0
+kubelet_containers_per_pod_count_bucket{le="0.5"} 0
+kubelet_containers_per_pod_count_bucket{le="1"} 862
+kubelet_containers_per_pod_count_bucket{le="2.5"} 866
+kubelet_containers_per_pod_count_bucket{le="5"} 866
+kubelet_containers_per_pod_count_bucket{le="10"} 867
+kubelet_containers_per_pod_count_bucket{le="+Inf"} 867
+kubelet_containers_per_pod_count_sum 879
+kubelet_containers_per_pod_count_count 867
+# HELP kubelet_docker_operations [ALPHA] (Deprecated) Cumulative number of Docker operations by operation type.
+# TYPE kubelet_docker_operations counter
+kubelet_docker_operations{operation_type="create_container"} 9501
+kubelet_docker_operations{operation_type="info"} 1
+kubelet_docker_operations{operation_type="inspect_container"} 244838
+kubelet_docker_operations{operation_type="inspect_image"} 270709
+kubelet_docker_operations{operation_type="list_containers"} 9.740938e+06
+kubelet_docker_operations{operation_type="list_images"} 432437
+kubelet_docker_operations{operation_type="pull_image"} 5623
+kubelet_docker_operations{operation_type="remove_container"} 9454
+kubelet_docker_operations{operation_type="start_container"} 9501
+kubelet_docker_operations{operation_type="stop_container"} 7667
+kubelet_docker_operations{operation_type="version"} 801956
+# HELP kubelet_docker_operations_duration_seconds [ALPHA] Latency in seconds of Docker operations. Broken down by operation type.
+# TYPE kubelet_docker_operations_duration_seconds histogram
+kubelet_docker_operations_duration_seconds_bucket{operation_type="create_container",le="0.005"} 0
+kubelet_docker_operations_duration_seconds_bucket{operation_type="create_container",le="0.01"} 0
+kubelet_docker_operations_duration_seconds_bucket{operation_type="create_container",le="0.025"} 0
+kubelet_docker_operations_duration_seconds_bucket{operation_type="create_container",le="0.05"} 0
+kubelet_docker_operations_duration_seconds_bucket{operation_type="create_container",le="0.1"} 10
+kubelet_docker_operations_duration_seconds_bucket{operation_type="create_container",le="0.25"} 1940
+kubelet_docker_operations_duration_seconds_bucket{operation_type="create_container",le="0.5"} 9239
+kubelet_docker_operations_duration_seconds_bucket{operation_type="create_container",le="1"} 9421
+kubelet_docker_operations_duration_seconds_bucket{operation_type="create_container",le="2.5"} 9483
+kubelet_docker_operations_duration_seconds_bucket{operation_type="create_container",le="5"} 9498
+kubelet_docker_operations_duration_seconds_bucket{operation_type="create_container",le="10"} 9500
+kubelet_docker_operations_duration_seconds_bucket{operation_type="create_container",le="+Inf"} 9501
+kubelet_docker_operations_duration_seconds_sum{operation_type="create_container"} 2829.095995313981
+kubelet_docker_operations_duration_seconds_count{operation_type="create_container"} 9501
+kubelet_docker_operations_duration_seconds_bucket{operation_type="info",le="0.005"} 0
+kubelet_docker_operations_duration_seconds_bucket{operation_type="info",le="0.01"} 0
+kubelet_docker_operations_duration_seconds_bucket{operation_type="info",le="0.025"} 1
+kubelet_docker_operations_duration_seconds_bucket{operation_type="info",le="0.05"} 1
+kubelet_docker_operations_duration_seconds_bucket{operation_type="info",le="0.1"} 1
+kubelet_docker_operations_duration_seconds_bucket{operation_type="info",le="0.25"} 1
+kubelet_docker_operations_duration_seconds_bucket{operation_type="info",le="0.5"} 1
+kubelet_docker_operations_duration_seconds_bucket{operation_type="info",le="1"} 1
+kubelet_docker_operations_duration_seconds_bucket{operation_type="info",le="2.5"} 1
+kubelet_docker_operations_duration_seconds_bucket{operation_type="info",le="5"} 1
+kubelet_docker_operations_duration_seconds_bucket{operation_type="info",le="10"} 1
+kubelet_docker_operations_duration_seconds_bucket{operation_type="info",le="+Inf"} 1
+kubelet_docker_operations_duration_seconds_sum{operation_type="info"} 0.015715392
+kubelet_docker_operations_duration_seconds_count{operation_type="info"} 1
+kubelet_docker_operations_duration_seconds_bucket{operation_type="inspect_container",le="0.005"} 233140
+kubelet_docker_operations_duration_seconds_bucket{operation_type="inspect_container",le="0.01"} 240398
+kubelet_docker_operations_duration_seconds_bucket{operation_type="inspect_container",le="0.025"} 242352
+kubelet_docker_operations_duration_seconds_bucket{operation_type="inspect_container",le="0.05"} 242803
+kubelet_docker_operations_duration_seconds_bucket{operation_type="inspect_container",le="0.1"} 243449
+kubelet_docker_operations_duration_seconds_bucket{operation_type="inspect_container",le="0.25"} 244656
+kubelet_docker_operations_duration_seconds_bucket{operation_type="inspect_container",le="0.5"} 244815
+kubelet_docker_operations_duration_seconds_bucket{operation_type="inspect_container",le="1"} 244832
+kubelet_docker_operations_duration_seconds_bucket{operation_type="inspect_container",le="2.5"} 244838
+kubelet_docker_operations_duration_seconds_bucket{operation_type="inspect_container",le="5"} 244838
+kubelet_docker_operations_duration_seconds_bucket{operation_type="inspect_container",le="10"} 244838
+kubelet_docker_operations_duration_seconds_bucket{operation_type="inspect_container",le="+Inf"} 244838
+kubelet_docker_operations_duration_seconds_sum{operation_type="inspect_container"} 832.7999262020126
+kubelet_docker_operations_duration_seconds_count{operation_type="inspect_container"} 244838
+kubelet_docker_operations_duration_seconds_bucket{operation_type="inspect_image",le="0.005"} 263853
+kubelet_docker_operations_duration_seconds_bucket{operation_type="inspect_image",le="0.01"} 269308
+kubelet_docker_operations_duration_seconds_bucket{operation_type="inspect_image",le="0.025"} 270629
+kubelet_docker_operations_duration_seconds_bucket{operation_type="inspect_image",le="0.05"} 270705
+kubelet_docker_operations_duration_seconds_bucket{operation_type="inspect_image",le="0.1"} 270708
+kubelet_docker_operations_duration_seconds_bucket{operation_type="inspect_image",le="0.25"} 270708
+kubelet_docker_operations_duration_seconds_bucket{operation_type="inspect_image",le="0.5"} 270709
+kubelet_docker_operations_duration_seconds_bucket{operation_type="inspect_image",le="1"} 270709
+kubelet_docker_operations_duration_seconds_bucket{operation_type="inspect_image",le="2.5"} 270709
+kubelet_docker_operations_duration_seconds_bucket{operation_type="inspect_image",le="5"} 270709
+kubelet_docker_operations_duration_seconds_bucket{operation_type="inspect_image",le="10"} 270709
+kubelet_docker_operations_duration_seconds_bucket{operation_type="inspect_image",le="+Inf"} 270709
+kubelet_docker_operations_duration_seconds_sum{operation_type="inspect_image"} 533.8971958539926
+kubelet_docker_operations_duration_seconds_count{operation_type="inspect_image"} 270709
+kubelet_docker_operations_duration_seconds_bucket{operation_type="list_containers",le="0.005"} 2.009727e+06
+kubelet_docker_operations_duration_seconds_bucket{operation_type="list_containers",le="0.01"} 5.946295e+06
+kubelet_docker_operations_duration_seconds_bucket{operation_type="list_containers",le="0.025"} 9.532417e+06
+kubelet_docker_operations_duration_seconds_bucket{operation_type="list_containers",le="0.05"} 9.732973e+06
+kubelet_docker_operations_duration_seconds_bucket{operation_type="list_containers",le="0.1"} 9.740728e+06
+kubelet_docker_operations_duration_seconds_bucket{operation_type="list_containers",le="0.25"} 9.74093e+06
+kubelet_docker_operations_duration_seconds_bucket{operation_type="list_containers",le="0.5"} 9.740937e+06
+kubelet_docker_operations_duration_seconds_bucket{operation_type="list_containers",le="1"} 9.740938e+06
+kubelet_docker_operations_duration_seconds_bucket{operation_type="list_containers",le="2.5"} 9.740938e+06
+kubelet_docker_operations_duration_seconds_bucket{operation_type="list_containers",le="5"} 9.740938e+06
+kubelet_docker_operations_duration_seconds_bucket{operation_type="list_containers",le="10"} 9.740938e+06
+kubelet_docker_operations_duration_seconds_bucket{operation_type="list_containers",le="+Inf"} 9.740938e+06
+kubelet_docker_operations_duration_seconds_sum{operation_type="list_containers"} 97375.06836468588
+kubelet_docker_operations_duration_seconds_count{operation_type="list_containers"} 9.740938e+06
+kubelet_docker_operations_duration_seconds_bucket{operation_type="list_images",le="0.005"} 6953
+kubelet_docker_operations_duration_seconds_bucket{operation_type="list_images",le="0.01"} 12349
+kubelet_docker_operations_duration_seconds_bucket{operation_type="list_images",le="0.025"} 27412
+kubelet_docker_operations_duration_seconds_bucket{operation_type="list_images",le="0.05"} 172046
+kubelet_docker_operations_duration_seconds_bucket{operation_type="list_images",le="0.1"} 221733
+kubelet_docker_operations_duration_seconds_bucket{operation_type="list_images",le="0.25"} 421626
+kubelet_docker_operations_duration_seconds_bucket{operation_type="list_images",le="0.5"} 432421
+kubelet_docker_operations_duration_seconds_bucket{operation_type="list_images",le="1"} 432437
+kubelet_docker_operations_duration_seconds_bucket{operation_type="list_images",le="2.5"} 432437
+kubelet_docker_operations_duration_seconds_bucket{operation_type="list_images",le="5"} 432437
+kubelet_docker_operations_duration_seconds_bucket{operation_type="list_images",le="10"} 432437
+kubelet_docker_operations_duration_seconds_bucket{operation_type="list_images",le="+Inf"} 432437
+kubelet_docker_operations_duration_seconds_sum{operation_type="list_images"} 48316.135423689426
+kubelet_docker_operations_duration_seconds_count{operation_type="list_images"} 432437
+kubelet_docker_operations_duration_seconds_bucket{operation_type="pull_image",le="0.005"} 23
+kubelet_docker_operations_duration_seconds_bucket{operation_type="pull_image",le="0.01"} 37
+kubelet_docker_operations_duration_seconds_bucket{operation_type="pull_image",le="0.025"} 3414
+kubelet_docker_operations_duration_seconds_bucket{operation_type="pull_image",le="0.05"} 3698
+kubelet_docker_operations_duration_seconds_bucket{operation_type="pull_image",le="0.1"} 3712
+kubelet_docker_operations_duration_seconds_bucket{operation_type="pull_image",le="0.25"} 4983
+kubelet_docker_operations_duration_seconds_bucket{operation_type="pull_image",le="0.5"} 5173
+kubelet_docker_operations_duration_seconds_bucket{operation_type="pull_image",le="1"} 5202
+kubelet_docker_operations_duration_seconds_bucket{operation_type="pull_image",le="2.5"} 5484
+kubelet_docker_operations_duration_seconds_bucket{operation_type="pull_image",le="5"} 5539
+kubelet_docker_operations_duration_seconds_bucket{operation_type="pull_image",le="10"} 5568
+kubelet_docker_operations_duration_seconds_bucket{operation_type="pull_image",le="+Inf"} 5623
+kubelet_docker_operations_duration_seconds_sum{operation_type="pull_image"} 2721.810840984999
+kubelet_docker_operations_duration_seconds_count{operation_type="pull_image"} 5623
+kubelet_docker_operations_duration_seconds_bucket{operation_type="remove_container",le="0.005"} 4
+kubelet_docker_operations_duration_seconds_bucket{operation_type="remove_container",le="0.01"} 4
+kubelet_docker_operations_duration_seconds_bucket{operation_type="remove_container",le="0.025"} 7195
+kubelet_docker_operations_duration_seconds_bucket{operation_type="remove_container",le="0.05"} 9175
+kubelet_docker_operations_duration_seconds_bucket{operation_type="remove_container",le="0.1"} 9341
+kubelet_docker_operations_duration_seconds_bucket{operation_type="remove_container",le="0.25"} 9377
+kubelet_docker_operations_duration_seconds_bucket{operation_type="remove_container",le="0.5"} 9389
+kubelet_docker_operations_duration_seconds_bucket{operation_type="remove_container",le="1"} 9391
+kubelet_docker_operations_duration_seconds_bucket{operation_type="remove_container",le="2.5"} 9414
+kubelet_docker_operations_duration_seconds_bucket{operation_type="remove_container",le="5"} 9441
+kubelet_docker_operations_duration_seconds_bucket{operation_type="remove_container",le="10"} 9452
+kubelet_docker_operations_duration_seconds_bucket{operation_type="remove_container",le="+Inf"} 9454
+kubelet_docker_operations_duration_seconds_sum{operation_type="remove_container"} 469.99082057800166
+kubelet_docker_operations_duration_seconds_count{operation_type="remove_container"} 9454
+kubelet_docker_operations_duration_seconds_bucket{operation_type="start_container",le="0.005"} 0
+kubelet_docker_operations_duration_seconds_bucket{operation_type="start_container",le="0.01"} 0
+kubelet_docker_operations_duration_seconds_bucket{operation_type="start_container",le="0.025"} 0
+kubelet_docker_operations_duration_seconds_bucket{operation_type="start_container",le="0.05"} 0
+kubelet_docker_operations_duration_seconds_bucket{operation_type="start_container",le="0.1"} 0
+kubelet_docker_operations_duration_seconds_bucket{operation_type="start_container",le="0.25"} 8148
+kubelet_docker_operations_duration_seconds_bucket{operation_type="start_container",le="0.5"} 9369
+kubelet_docker_operations_duration_seconds_bucket{operation_type="start_container",le="1"} 9483
+kubelet_docker_operations_duration_seconds_bucket{operation_type="start_container",le="2.5"} 9500
+kubelet_docker_operations_duration_seconds_bucket{operation_type="start_container",le="5"} 9501
+kubelet_docker_operations_duration_seconds_bucket{operation_type="start_container",le="10"} 9501
+kubelet_docker_operations_duration_seconds_bucket{operation_type="start_container",le="+Inf"} 9501
+kubelet_docker_operations_duration_seconds_sum{operation_type="start_container"} 1990.1689234129988
+kubelet_docker_operations_duration_seconds_count{operation_type="start_container"} 9501
+kubelet_docker_operations_duration_seconds_bucket{operation_type="stop_container",le="0.005"} 2429
+kubelet_docker_operations_duration_seconds_bucket{operation_type="stop_container",le="0.01"} 2451
+kubelet_docker_operations_duration_seconds_bucket{operation_type="stop_container",le="0.025"} 2463
+kubelet_docker_operations_duration_seconds_bucket{operation_type="stop_container",le="0.05"} 2463
+kubelet_docker_operations_duration_seconds_bucket{operation_type="stop_container",le="0.1"} 2464
+kubelet_docker_operations_duration_seconds_bucket{operation_type="stop_container",le="0.25"} 2630
+kubelet_docker_operations_duration_seconds_bucket{operation_type="stop_container",le="0.5"} 6671
+kubelet_docker_operations_duration_seconds_bucket{operation_type="stop_container",le="1"} 7420
+kubelet_docker_operations_duration_seconds_bucket{operation_type="stop_container",le="2.5"} 7448
+kubelet_docker_operations_duration_seconds_bucket{operation_type="stop_container",le="5"} 7457
+kubelet_docker_operations_duration_seconds_bucket{operation_type="stop_container",le="10"} 7472
+kubelet_docker_operations_duration_seconds_bucket{operation_type="stop_container",le="+Inf"} 7667
+kubelet_docker_operations_duration_seconds_sum{operation_type="stop_container"} 7954.432373466006
+kubelet_docker_operations_duration_seconds_count{operation_type="stop_container"} 7667
+kubelet_docker_operations_duration_seconds_bucket{operation_type="version",le="0.005"} 0
+kubelet_docker_operations_duration_seconds_bucket{operation_type="version",le="0.01"} 28907
+kubelet_docker_operations_duration_seconds_bucket{operation_type="version",le="0.025"} 792476
+kubelet_docker_operations_duration_seconds_bucket{operation_type="version",le="0.05"} 801552
+kubelet_docker_operations_duration_seconds_bucket{operation_type="version",le="0.1"} 801934
+kubelet_docker_operations_duration_seconds_bucket{operation_type="version",le="0.25"} 801955
+kubelet_docker_operations_duration_seconds_bucket{operation_type="version",le="0.5"} 801956
+kubelet_docker_operations_duration_seconds_bucket{operation_type="version",le="1"} 801956
+kubelet_docker_operations_duration_seconds_bucket{operation_type="version",le="2.5"} 801956
+kubelet_docker_operations_duration_seconds_bucket{operation_type="version",le="5"} 801956
+kubelet_docker_operations_duration_seconds_bucket{operation_type="version",le="10"} 801956
+kubelet_docker_operations_duration_seconds_bucket{operation_type="version",le="+Inf"} 801956
+kubelet_docker_operations_duration_seconds_sum{operation_type="version"} 10100.378688897661
+kubelet_docker_operations_duration_seconds_count{operation_type="version"} 801956
+# HELP kubelet_docker_operations_errors [ALPHA] (Deprecated) Cumulative number of Docker operation errors by operation type.
+# TYPE kubelet_docker_operations_errors counter
+kubelet_docker_operations_errors{operation_type="inspect_container"} 1455
+kubelet_docker_operations_errors{operation_type="inspect_image"} 965
+kubelet_docker_operations_errors{operation_type="pull_image"} 3737
+kubelet_docker_operations_errors{operation_type="remove_container"} 4
+kubelet_docker_operations_errors{operation_type="start_container"} 7
+kubelet_docker_operations_errors{operation_type="stop_container"} 5
+# HELP kubelet_docker_operations_errors_total [ALPHA] Cumulative number of Docker operation errors by operation type.
+# TYPE kubelet_docker_operations_errors_total counter
+kubelet_docker_operations_errors_total{operation_type="inspect_container"} 1455
+kubelet_docker_operations_errors_total{operation_type="inspect_image"} 965
+kubelet_docker_operations_errors_total{operation_type="pull_image"} 3737
+kubelet_docker_operations_errors_total{operation_type="remove_container"} 4
+kubelet_docker_operations_errors_total{operation_type="start_container"} 7
+kubelet_docker_operations_errors_total{operation_type="stop_container"} 5
+# HELP kubelet_docker_operations_latency_microseconds [ALPHA] (Deprecated) Latency in microseconds of Docker operations. Broken down by operation type.
+# TYPE kubelet_docker_operations_latency_microseconds summary
+kubelet_docker_operations_latency_microseconds{operation_type="create_container",quantile="0.5"} 247832
+kubelet_docker_operations_latency_microseconds{operation_type="create_container",quantile="0.9"} 248624
+kubelet_docker_operations_latency_microseconds{operation_type="create_container",quantile="0.99"} 248624
+kubelet_docker_operations_latency_microseconds_sum{operation_type="create_container"} 2.829145256e+09
+kubelet_docker_operations_latency_microseconds_count{operation_type="create_container"} 9501
+kubelet_docker_operations_latency_microseconds{operation_type="info",quantile="0.5"} NaN
+kubelet_docker_operations_latency_microseconds{operation_type="info",quantile="0.9"} NaN
+kubelet_docker_operations_latency_microseconds{operation_type="info",quantile="0.99"} NaN
+kubelet_docker_operations_latency_microseconds_sum{operation_type="info"} 15764
+kubelet_docker_operations_latency_microseconds_count{operation_type="info"} 1
+kubelet_docker_operations_latency_microseconds{operation_type="inspect_container",quantile="0.5"} 1513
+kubelet_docker_operations_latency_microseconds{operation_type="inspect_container",quantile="0.9"} 3256
+kubelet_docker_operations_latency_microseconds{operation_type="inspect_container",quantile="0.99"} 6050
+kubelet_docker_operations_latency_microseconds_sum{operation_type="inspect_container"} 8.33500204e+08
+kubelet_docker_operations_latency_microseconds_count{operation_type="inspect_container"} 244838
+kubelet_docker_operations_latency_microseconds{operation_type="inspect_image",quantile="0.5"} 1539
+kubelet_docker_operations_latency_microseconds{operation_type="inspect_image",quantile="0.9"} 2313
+kubelet_docker_operations_latency_microseconds{operation_type="inspect_image",quantile="0.99"} 3783
+kubelet_docker_operations_latency_microseconds_sum{operation_type="inspect_image"} 5.34766819e+08
+kubelet_docker_operations_latency_microseconds_count{operation_type="inspect_image"} 270709
+kubelet_docker_operations_latency_microseconds{operation_type="list_containers",quantile="0.5"} 9172
+kubelet_docker_operations_latency_microseconds{operation_type="list_containers",quantile="0.9"} 11845
+kubelet_docker_operations_latency_microseconds{operation_type="list_containers",quantile="0.99"} 21646
+kubelet_docker_operations_latency_microseconds_sum{operation_type="list_containers"} 9.7412461398e+10
+kubelet_docker_operations_latency_microseconds_count{operation_type="list_containers"} 9.740938e+06
+kubelet_docker_operations_latency_microseconds{operation_type="list_images",quantile="0.5"} 203765
+kubelet_docker_operations_latency_microseconds{operation_type="list_images",quantile="0.9"} 240822
+kubelet_docker_operations_latency_microseconds{operation_type="list_images",quantile="0.99"} 343524
+kubelet_docker_operations_latency_microseconds_sum{operation_type="list_images"} 4.831804836e+10
+kubelet_docker_operations_latency_microseconds_count{operation_type="list_images"} 432437
+kubelet_docker_operations_latency_microseconds{operation_type="pull_image",quantile="0.5"} 12390
+kubelet_docker_operations_latency_microseconds{operation_type="pull_image",quantile="0.9"} 18814
+kubelet_docker_operations_latency_microseconds{operation_type="pull_image",quantile="0.99"} 18814
+kubelet_docker_operations_latency_microseconds_sum{operation_type="pull_image"} 2.721833969e+09
+kubelet_docker_operations_latency_microseconds_count{operation_type="pull_image"} 5623
+kubelet_docker_operations_latency_microseconds{operation_type="remove_container",quantile="0.5"} 23180
+kubelet_docker_operations_latency_microseconds{operation_type="remove_container",quantile="0.9"} 24551
+kubelet_docker_operations_latency_microseconds{operation_type="remove_container",quantile="0.99"} 24551
+kubelet_docker_operations_latency_microseconds_sum{operation_type="remove_container"} 4.70030526e+08
+kubelet_docker_operations_latency_microseconds_count{operation_type="remove_container"} 9454
+kubelet_docker_operations_latency_microseconds{operation_type="start_container",quantile="0.5"} 166720
+kubelet_docker_operations_latency_microseconds{operation_type="start_container",quantile="0.9"} 176326
+kubelet_docker_operations_latency_microseconds{operation_type="start_container",quantile="0.99"} 176326
+kubelet_docker_operations_latency_microseconds_sum{operation_type="start_container"} 1.990229699e+09
+kubelet_docker_operations_latency_microseconds_count{operation_type="start_container"} 9501
+kubelet_docker_operations_latency_microseconds{operation_type="stop_container",quantile="0.5"} 413880
+kubelet_docker_operations_latency_microseconds{operation_type="stop_container",quantile="0.9"} 413880
+kubelet_docker_operations_latency_microseconds{operation_type="stop_container",quantile="0.99"} 413880
+kubelet_docker_operations_latency_microseconds_sum{operation_type="stop_container"} 7.954465294e+09
+kubelet_docker_operations_latency_microseconds_count{operation_type="stop_container"} 7667
+kubelet_docker_operations_latency_microseconds{operation_type="version",quantile="0.5"} 12123
+kubelet_docker_operations_latency_microseconds{operation_type="version",quantile="0.9"} 14959
+kubelet_docker_operations_latency_microseconds{operation_type="version",quantile="0.99"} 32172
+kubelet_docker_operations_latency_microseconds_sum{operation_type="version"} 1.0104077203e+10
+kubelet_docker_operations_latency_microseconds_count{operation_type="version"} 801956
+# HELP kubelet_docker_operations_total [ALPHA] Cumulative number of Docker operations by operation type.
+# TYPE kubelet_docker_operations_total counter
+kubelet_docker_operations_total{operation_type="create_container"} 9501
+kubelet_docker_operations_total{operation_type="info"} 1
+kubelet_docker_operations_total{operation_type="inspect_container"} 244838
+kubelet_docker_operations_total{operation_type="inspect_image"} 270709
+kubelet_docker_operations_total{operation_type="list_containers"} 9.740938e+06
+kubelet_docker_operations_total{operation_type="list_images"} 432437
+kubelet_docker_operations_total{operation_type="pull_image"} 5623
+kubelet_docker_operations_total{operation_type="remove_container"} 9454
+kubelet_docker_operations_total{operation_type="start_container"} 9501
+kubelet_docker_operations_total{operation_type="stop_container"} 7667
+kubelet_docker_operations_total{operation_type="version"} 801956
+# HELP kubelet_http_inflight_requests [ALPHA] Number of the inflight http requests
+# TYPE kubelet_http_inflight_requests gauge
+kubelet_http_inflight_requests{long_running="false",method="GET",path="containerLogs",server_type="readwrite"} 0
+kubelet_http_inflight_requests{long_running="false",method="GET",path="metrics",server_type="readonly"} 1
+kubelet_http_inflight_requests{long_running="false",method="GET",path="pods",server_type="readonly"} 0
+kubelet_http_inflight_requests{long_running="false",method="GET",path="stats",server_type="readonly"} 0
+kubelet_http_inflight_requests{long_running="false",method="POST",path="stats",server_type="readonly"} 0
+kubelet_http_inflight_requests{long_running="true",method="GET",path="exec",server_type="readwrite"} 0
+kubelet_http_inflight_requests{long_running="true",method="POST",path="exec",server_type="readwrite"} 0
+# HELP kubelet_http_requests_duration_seconds [ALPHA] Duration in seconds to serve http requests
+# TYPE kubelet_http_requests_duration_seconds histogram
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="containerLogs",server_type="readwrite",le="0.005"} 219
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="containerLogs",server_type="readwrite",le="0.01"} 219
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="containerLogs",server_type="readwrite",le="0.025"} 219
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="containerLogs",server_type="readwrite",le="0.05"} 219
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="containerLogs",server_type="readwrite",le="0.1"} 219
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="containerLogs",server_type="readwrite",le="0.25"} 219
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="containerLogs",server_type="readwrite",le="0.5"} 219
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="containerLogs",server_type="readwrite",le="1"} 219
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="containerLogs",server_type="readwrite",le="2.5"} 219
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="containerLogs",server_type="readwrite",le="5"} 219
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="containerLogs",server_type="readwrite",le="10"} 219
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="containerLogs",server_type="readwrite",le="+Inf"} 219
+kubelet_http_requests_duration_seconds_sum{long_running="false",method="GET",path="containerLogs",server_type="readwrite"} 0.0007541179999999995
+kubelet_http_requests_duration_seconds_count{long_running="false",method="GET",path="containerLogs",server_type="readwrite"} 219
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="metrics",server_type="readonly",le="0.005"} 6
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="metrics",server_type="readonly",le="0.01"} 6
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="metrics",server_type="readonly",le="0.025"} 6
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="metrics",server_type="readonly",le="0.05"} 6
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="metrics",server_type="readonly",le="0.1"} 6
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="metrics",server_type="readonly",le="0.25"} 6
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="metrics",server_type="readonly",le="0.5"} 6
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="metrics",server_type="readonly",le="1"} 6
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="metrics",server_type="readonly",le="2.5"} 6
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="metrics",server_type="readonly",le="5"} 6
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="metrics",server_type="readonly",le="10"} 6
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="metrics",server_type="readonly",le="+Inf"} 6
+kubelet_http_requests_duration_seconds_sum{long_running="false",method="GET",path="metrics",server_type="readonly"} 0.000133472
+kubelet_http_requests_duration_seconds_count{long_running="false",method="GET",path="metrics",server_type="readonly"} 6
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="pods",server_type="readonly",le="0.005"} 86179
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="pods",server_type="readonly",le="0.01"} 86190
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="pods",server_type="readonly",le="0.025"} 86194
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="pods",server_type="readonly",le="0.05"} 86194
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="pods",server_type="readonly",le="0.1"} 86194
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="pods",server_type="readonly",le="0.25"} 86194
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="pods",server_type="readonly",le="0.5"} 86194
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="pods",server_type="readonly",le="1"} 86194
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="pods",server_type="readonly",le="2.5"} 86194
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="pods",server_type="readonly",le="5"} 86194
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="pods",server_type="readonly",le="10"} 86194
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="pods",server_type="readonly",le="+Inf"} 86194
+kubelet_http_requests_duration_seconds_sum{long_running="false",method="GET",path="pods",server_type="readonly"} 0.5911625919999962
+kubelet_http_requests_duration_seconds_count{long_running="false",method="GET",path="pods",server_type="readonly"} 86194
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="stats",server_type="readonly",le="0.005"} 63959
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="stats",server_type="readonly",le="0.01"} 63959
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="stats",server_type="readonly",le="0.025"} 63959
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="stats",server_type="readonly",le="0.05"} 63959
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="stats",server_type="readonly",le="0.1"} 63959
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="stats",server_type="readonly",le="0.25"} 63959
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="stats",server_type="readonly",le="0.5"} 63959
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="stats",server_type="readonly",le="1"} 63959
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="stats",server_type="readonly",le="2.5"} 63959
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="stats",server_type="readonly",le="5"} 63959
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="stats",server_type="readonly",le="10"} 63959
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="GET",path="stats",server_type="readonly",le="+Inf"} 63959
+kubelet_http_requests_duration_seconds_sum{long_running="false",method="GET",path="stats",server_type="readonly"} 0.23731293400000056
+kubelet_http_requests_duration_seconds_count{long_running="false",method="GET",path="stats",server_type="readonly"} 63959
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="POST",path="stats",server_type="readonly",le="0.005"} 44326
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="POST",path="stats",server_type="readonly",le="0.01"} 44326
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="POST",path="stats",server_type="readonly",le="0.025"} 44326
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="POST",path="stats",server_type="readonly",le="0.05"} 44326
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="POST",path="stats",server_type="readonly",le="0.1"} 44326
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="POST",path="stats",server_type="readonly",le="0.25"} 44326
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="POST",path="stats",server_type="readonly",le="0.5"} 44326
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="POST",path="stats",server_type="readonly",le="1"} 44326
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="POST",path="stats",server_type="readonly",le="2.5"} 44326
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="POST",path="stats",server_type="readonly",le="5"} 44326
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="POST",path="stats",server_type="readonly",le="10"} 44326
+kubelet_http_requests_duration_seconds_bucket{long_running="false",method="POST",path="stats",server_type="readonly",le="+Inf"} 44326
+kubelet_http_requests_duration_seconds_sum{long_running="false",method="POST",path="stats",server_type="readonly"} 0.14555624299999978
+kubelet_http_requests_duration_seconds_count{long_running="false",method="POST",path="stats",server_type="readonly"} 44326
+kubelet_http_requests_duration_seconds_bucket{long_running="true",method="GET",path="exec",server_type="readwrite",le="0.005"} 5
+kubelet_http_requests_duration_seconds_bucket{long_running="true",method="GET",path="exec",server_type="readwrite",le="0.01"} 5
+kubelet_http_requests_duration_seconds_bucket{long_running="true",method="GET",path="exec",server_type="readwrite",le="0.025"} 5
+kubelet_http_requests_duration_seconds_bucket{long_running="true",method="GET",path="exec",server_type="readwrite",le="0.05"} 5
+kubelet_http_requests_duration_seconds_bucket{long_running="true",method="GET",path="exec",server_type="readwrite",le="0.1"} 5
+kubelet_http_requests_duration_seconds_bucket{long_running="true",method="GET",path="exec",server_type="readwrite",le="0.25"} 5
+kubelet_http_requests_duration_seconds_bucket{long_running="true",method="GET",path="exec",server_type="readwrite",le="0.5"} 5
+kubelet_http_requests_duration_seconds_bucket{long_running="true",method="GET",path="exec",server_type="readwrite",le="1"} 5
+kubelet_http_requests_duration_seconds_bucket{long_running="true",method="GET",path="exec",server_type="readwrite",le="2.5"} 5
+kubelet_http_requests_duration_seconds_bucket{long_running="true",method="GET",path="exec",server_type="readwrite",le="5"} 5
+kubelet_http_requests_duration_seconds_bucket{long_running="true",method="GET",path="exec",server_type="readwrite",le="10"} 5
+kubelet_http_requests_duration_seconds_bucket{long_running="true",method="GET",path="exec",server_type="readwrite",le="+Inf"} 5
+kubelet_http_requests_duration_seconds_sum{long_running="true",method="GET",path="exec",server_type="readwrite"} 2.0402e-05
+kubelet_http_requests_duration_seconds_count{long_running="true",method="GET",path="exec",server_type="readwrite"} 5
+kubelet_http_requests_duration_seconds_bucket{long_running="true",method="POST",path="exec",server_type="readwrite",le="0.005"} 31
+kubelet_http_requests_duration_seconds_bucket{long_running="true",method="POST",path="exec",server_type="readwrite",le="0.01"} 31
+kubelet_http_requests_duration_seconds_bucket{long_running="true",method="POST",path="exec",server_type="readwrite",le="0.025"} 31
+kubelet_http_requests_duration_seconds_bucket{long_running="true",method="POST",path="exec",server_type="readwrite",le="0.05"} 31
+kubelet_http_requests_duration_seconds_bucket{long_running="true",method="POST",path="exec",server_type="readwrite",le="0.1"} 31
+kubelet_http_requests_duration_seconds_bucket{long_running="true",method="POST",path="exec",server_type="readwrite",le="0.25"} 31
+kubelet_http_requests_duration_seconds_bucket{long_running="true",method="POST",path="exec",server_type="readwrite",le="0.5"} 31
+kubelet_http_requests_duration_seconds_bucket{long_running="true",method="POST",path="exec",server_type="readwrite",le="1"} 31
+kubelet_http_requests_duration_seconds_bucket{long_running="true",method="POST",path="exec",server_type="readwrite",le="2.5"} 31
+kubelet_http_requests_duration_seconds_bucket{long_running="true",method="POST",path="exec",server_type="readwrite",le="5"} 31
+kubelet_http_requests_duration_seconds_bucket{long_running="true",method="POST",path="exec",server_type="readwrite",le="10"} 31
+kubelet_http_requests_duration_seconds_bucket{long_running="true",method="POST",path="exec",server_type="readwrite",le="+Inf"} 31
+kubelet_http_requests_duration_seconds_sum{long_running="true",method="POST",path="exec",server_type="readwrite"} 0.00010220499999999999
+kubelet_http_requests_duration_seconds_count{long_running="true",method="POST",path="exec",server_type="readwrite"} 31
+# HELP kubelet_http_requests_total [ALPHA] Number of the http requests received since the server started
+# TYPE kubelet_http_requests_total counter
+kubelet_http_requests_total{long_running="false",method="GET",path="containerLogs",server_type="readwrite"} 219
+kubelet_http_requests_total{long_running="false",method="GET",path="metrics",server_type="readonly"} 7
+kubelet_http_requests_total{long_running="false",method="GET",path="pods",server_type="readonly"} 86194
+kubelet_http_requests_total{long_running="false",method="GET",path="stats",server_type="readonly"} 63959
+kubelet_http_requests_total{long_running="false",method="POST",path="stats",server_type="readonly"} 44326
+kubelet_http_requests_total{long_running="true",method="GET",path="exec",server_type="readwrite"} 5
+kubelet_http_requests_total{long_running="true",method="POST",path="exec",server_type="readwrite"} 31
+# HELP kubelet_network_plugin_operations_duration_seconds [ALPHA] Latency in seconds of network plugin operations. Broken down by operation type.
+# TYPE kubelet_network_plugin_operations_duration_seconds histogram
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="get_pod_network_status",le="0.005"} 24948
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="get_pod_network_status",le="0.01"} 30384
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="get_pod_network_status",le="0.025"} 31733
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="get_pod_network_status",le="0.05"} 31844
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="get_pod_network_status",le="0.1"} 31873
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="get_pod_network_status",le="0.25"} 31877
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="get_pod_network_status",le="0.5"} 31878
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="get_pod_network_status",le="1"} 31878
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="get_pod_network_status",le="2.5"} 31878
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="get_pod_network_status",le="5"} 31878
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="get_pod_network_status",le="10"} 31878
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="get_pod_network_status",le="+Inf"} 31878
+kubelet_network_plugin_operations_duration_seconds_sum{operation_type="get_pod_network_status"} 149.66980685599765
+kubelet_network_plugin_operations_duration_seconds_count{operation_type="get_pod_network_status"} 31878
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="set_up_pod",le="0.005"} 0
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="set_up_pod",le="0.01"} 0
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="set_up_pod",le="0.025"} 5
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="set_up_pod",le="0.05"} 632
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="set_up_pod",le="0.1"} 756
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="set_up_pod",le="0.25"} 773
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="set_up_pod",le="0.5"} 776
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="set_up_pod",le="1"} 776
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="set_up_pod",le="2.5"} 776
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="set_up_pod",le="5"} 776
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="set_up_pod",le="10"} 776
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="set_up_pod",le="+Inf"} 776
+kubelet_network_plugin_operations_duration_seconds_sum{operation_type="set_up_pod"} 32.70143902499998
+kubelet_network_plugin_operations_duration_seconds_count{operation_type="set_up_pod"} 776
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="tear_down_pod",le="0.005"} 0
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="tear_down_pod",le="0.01"} 3
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="tear_down_pod",le="0.025"} 7
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="tear_down_pod",le="0.05"} 26
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="tear_down_pod",le="0.1"} 701
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="tear_down_pod",le="0.25"} 767
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="tear_down_pod",le="0.5"} 768
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="tear_down_pod",le="1"} 769
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="tear_down_pod",le="2.5"} 769
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="tear_down_pod",le="5"} 769
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="tear_down_pod",le="10"} 769
+kubelet_network_plugin_operations_duration_seconds_bucket{operation_type="tear_down_pod",le="+Inf"} 769
+kubelet_network_plugin_operations_duration_seconds_sum{operation_type="tear_down_pod"} 56.322284897
+kubelet_network_plugin_operations_duration_seconds_count{operation_type="tear_down_pod"} 769
+# HELP kubelet_network_plugin_operations_latency_microseconds [ALPHA] (Deprecated) Latency in microseconds of network plugin operations. Broken down by operation type.
+# TYPE kubelet_network_plugin_operations_latency_microseconds summary
+kubelet_network_plugin_operations_latency_microseconds{operation_type="get_pod_network_status",quantile="0.5"} 3349
+kubelet_network_plugin_operations_latency_microseconds{operation_type="get_pod_network_status",quantile="0.9"} 6180
+kubelet_network_plugin_operations_latency_microseconds{operation_type="get_pod_network_status",quantile="0.99"} 9745
+kubelet_network_plugin_operations_latency_microseconds_sum{operation_type="get_pod_network_status"} 1.49766282e+08
+kubelet_network_plugin_operations_latency_microseconds_count{operation_type="get_pod_network_status"} 31878
+kubelet_network_plugin_operations_latency_microseconds{operation_type="set_up_pod",quantile="0.5"} NaN
+kubelet_network_plugin_operations_latency_microseconds{operation_type="set_up_pod",quantile="0.9"} NaN
+kubelet_network_plugin_operations_latency_microseconds{operation_type="set_up_pod",quantile="0.99"} NaN
+kubelet_network_plugin_operations_latency_microseconds_sum{operation_type="set_up_pod"} 3.2704907e+07
+kubelet_network_plugin_operations_latency_microseconds_count{operation_type="set_up_pod"} 776
+kubelet_network_plugin_operations_latency_microseconds{operation_type="tear_down_pod",quantile="0.5"} NaN
+kubelet_network_plugin_operations_latency_microseconds{operation_type="tear_down_pod",quantile="0.9"} NaN
+kubelet_network_plugin_operations_latency_microseconds{operation_type="tear_down_pod",quantile="0.99"} NaN
+kubelet_network_plugin_operations_latency_microseconds_sum{operation_type="tear_down_pod"} 5.6326232e+07
+kubelet_network_plugin_operations_latency_microseconds_count{operation_type="tear_down_pod"} 769
+# HELP kubelet_node_config_error [ALPHA] This metric is true (1) if the node is experiencing a configuration-related error, false (0) otherwise.
+# TYPE kubelet_node_config_error gauge
+kubelet_node_config_error 0
+# HELP kubelet_node_name [ALPHA] The node's name. The count is always 1.
+# TYPE kubelet_node_name gauge
+kubelet_node_name{node="cn-hangzhou.10.0.6.198"} 1
+# HELP kubelet_pleg_relist_duration_seconds [ALPHA] Duration in seconds for relisting pods in PLEG.
+# TYPE kubelet_pleg_relist_duration_seconds histogram
+kubelet_pleg_relist_duration_seconds_bucket{le="0.005"} 10
+kubelet_pleg_relist_duration_seconds_bucket{le="0.01"} 53981
+kubelet_pleg_relist_duration_seconds_bucket{le="0.025"} 1.72234e+06
+kubelet_pleg_relist_duration_seconds_bucket{le="0.05"} 2.559768e+06
+kubelet_pleg_relist_duration_seconds_bucket{le="0.1"} 2.597094e+06
+kubelet_pleg_relist_duration_seconds_bucket{le="0.25"} 2.599402e+06
+kubelet_pleg_relist_duration_seconds_bucket{le="0.5"} 2.599712e+06
+kubelet_pleg_relist_duration_seconds_bucket{le="1"} 2.599751e+06
+kubelet_pleg_relist_duration_seconds_bucket{le="2.5"} 2.599758e+06
+kubelet_pleg_relist_duration_seconds_bucket{le="5"} 2.599758e+06
+kubelet_pleg_relist_duration_seconds_bucket{le="10"} 2.599758e+06
+kubelet_pleg_relist_duration_seconds_bucket{le="+Inf"} 2.599758e+06
+kubelet_pleg_relist_duration_seconds_sum 59350.83474104936
+kubelet_pleg_relist_duration_seconds_count 2.599758e+06
+# HELP kubelet_pleg_relist_interval_microseconds [ALPHA] (Deprecated) Interval in microseconds between relisting in PLEG.
+# TYPE kubelet_pleg_relist_interval_microseconds summary
+kubelet_pleg_relist_interval_microseconds{quantile="0.5"} 1.018326e+06
+kubelet_pleg_relist_interval_microseconds{quantile="0.9"} 1.025756e+06
+kubelet_pleg_relist_interval_microseconds{quantile="0.99"} 1.039142e+06
+kubelet_pleg_relist_interval_microseconds_sum 2.659611741763e+12
+kubelet_pleg_relist_interval_microseconds_count 2.599757e+06
+# HELP kubelet_pleg_relist_interval_seconds [ALPHA] Interval in seconds between relisting in PLEG.
+# TYPE kubelet_pleg_relist_interval_seconds histogram
+kubelet_pleg_relist_interval_seconds_bucket{le="0.005"} 0
+kubelet_pleg_relist_interval_seconds_bucket{le="0.01"} 0
+kubelet_pleg_relist_interval_seconds_bucket{le="0.025"} 0
+kubelet_pleg_relist_interval_seconds_bucket{le="0.05"} 0
+kubelet_pleg_relist_interval_seconds_bucket{le="0.1"} 0
+kubelet_pleg_relist_interval_seconds_bucket{le="0.25"} 0
+kubelet_pleg_relist_interval_seconds_bucket{le="0.5"} 0
+kubelet_pleg_relist_interval_seconds_bucket{le="1"} 0
+kubelet_pleg_relist_interval_seconds_bucket{le="2.5"} 2.599752e+06
+kubelet_pleg_relist_interval_seconds_bucket{le="5"} 2.599757e+06
+kubelet_pleg_relist_interval_seconds_bucket{le="10"} 2.599757e+06
+kubelet_pleg_relist_interval_seconds_bucket{le="+Inf"} 2.599757e+06
+kubelet_pleg_relist_interval_seconds_sum 2.659605637103122e+06
+kubelet_pleg_relist_interval_seconds_count 2.599757e+06
+# HELP kubelet_pleg_relist_latency_microseconds [ALPHA] (Deprecated) Latency in microseconds for relisting pods in PLEG.
+# TYPE kubelet_pleg_relist_latency_microseconds summary
+kubelet_pleg_relist_latency_microseconds{quantile="0.5"} 18143
+kubelet_pleg_relist_latency_microseconds{quantile="0.9"} 25631
+kubelet_pleg_relist_latency_microseconds{quantile="0.99"} 39018
+kubelet_pleg_relist_latency_microseconds_sum 5.9352107471e+10
+kubelet_pleg_relist_latency_microseconds_count 2.599758e+06
+# HELP kubelet_pod_start_duration_seconds [ALPHA] Duration in seconds for a single pod to go from pending to running.
+# TYPE kubelet_pod_start_duration_seconds histogram
+kubelet_pod_start_duration_seconds_bucket{le="0.005"} 206
+kubelet_pod_start_duration_seconds_bucket{le="0.01"} 628
+kubelet_pod_start_duration_seconds_bucket{le="0.025"} 808
+kubelet_pod_start_duration_seconds_bucket{le="0.05"} 845
+kubelet_pod_start_duration_seconds_bucket{le="0.1"} 854
+kubelet_pod_start_duration_seconds_bucket{le="0.25"} 862
+kubelet_pod_start_duration_seconds_bucket{le="0.5"} 863
+kubelet_pod_start_duration_seconds_bucket{le="1"} 863
+kubelet_pod_start_duration_seconds_bucket{le="2.5"} 1065
+kubelet_pod_start_duration_seconds_bucket{le="5"} 1535
+kubelet_pod_start_duration_seconds_bucket{le="10"} 1622
+kubelet_pod_start_duration_seconds_bucket{le="+Inf"} 1719
+kubelet_pod_start_duration_seconds_sum 11694.450428077002
+kubelet_pod_start_duration_seconds_count 1719
+# HELP kubelet_pod_start_latency_microseconds [ALPHA] (Deprecated) Latency in microseconds for a single pod to go from pending to running.
+# TYPE kubelet_pod_start_latency_microseconds summary
+kubelet_pod_start_latency_microseconds{quantile="0.5"} NaN
+kubelet_pod_start_latency_microseconds{quantile="0.9"} NaN
+kubelet_pod_start_latency_microseconds{quantile="0.99"} NaN
+kubelet_pod_start_latency_microseconds_sum 1.1694451651e+10
+kubelet_pod_start_latency_microseconds_count 1719
+# HELP kubelet_pod_worker_duration_seconds [ALPHA] Duration in seconds to sync a single pod. Broken down by operation type: create, update, or sync
+# TYPE kubelet_pod_worker_duration_seconds histogram
+kubelet_pod_worker_duration_seconds_bucket{operation_type="create",le="0.005"} 0
+kubelet_pod_worker_duration_seconds_bucket{operation_type="create",le="0.01"} 0
+kubelet_pod_worker_duration_seconds_bucket{operation_type="create",le="0.025"} 0
+kubelet_pod_worker_duration_seconds_bucket{operation_type="create",le="0.05"} 0
+kubelet_pod_worker_duration_seconds_bucket{operation_type="create",le="0.1"} 0
+kubelet_pod_worker_duration_seconds_bucket{operation_type="create",le="0.25"} 0
+kubelet_pod_worker_duration_seconds_bucket{operation_type="create",le="0.5"} 0
+kubelet_pod_worker_duration_seconds_bucket{operation_type="create",le="1"} 4
+kubelet_pod_worker_duration_seconds_bucket{operation_type="create",le="2.5"} 10
+kubelet_pod_worker_duration_seconds_bucket{operation_type="create",le="5"} 14
+kubelet_pod_worker_duration_seconds_bucket{operation_type="create",le="10"} 14
+kubelet_pod_worker_duration_seconds_bucket{operation_type="create",le="+Inf"} 19
+kubelet_pod_worker_duration_seconds_sum{operation_type="create"} 541.2979985989999
+kubelet_pod_worker_duration_seconds_count{operation_type="create"} 19
+kubelet_pod_worker_duration_seconds_bucket{operation_type="sync",le="0.005"} 162655
+kubelet_pod_worker_duration_seconds_bucket{operation_type="sync",le="0.01"} 169421
+kubelet_pod_worker_duration_seconds_bucket{operation_type="sync",le="0.025"} 174487
+kubelet_pod_worker_duration_seconds_bucket{operation_type="sync",le="0.05"} 175192
+kubelet_pod_worker_duration_seconds_bucket{operation_type="sync",le="0.1"} 175242
+kubelet_pod_worker_duration_seconds_bucket{operation_type="sync",le="0.25"} 175306
+kubelet_pod_worker_duration_seconds_bucket{operation_type="sync",le="0.5"} 175371
+kubelet_pod_worker_duration_seconds_bucket{operation_type="sync",le="1"} 175467
+kubelet_pod_worker_duration_seconds_bucket{operation_type="sync",le="2.5"} 175568
+kubelet_pod_worker_duration_seconds_bucket{operation_type="sync",le="5"} 175569
+kubelet_pod_worker_duration_seconds_bucket{operation_type="sync",le="10"} 175571
+kubelet_pod_worker_duration_seconds_bucket{operation_type="sync",le="+Inf"} 175578
+kubelet_pod_worker_duration_seconds_sum{operation_type="sync"} 1464.9803028580195
+kubelet_pod_worker_duration_seconds_count{operation_type="sync"} 175578
+kubelet_pod_worker_duration_seconds_bucket{operation_type="update",le="0.005"} 0
+kubelet_pod_worker_duration_seconds_bucket{operation_type="update",le="0.01"} 0
+kubelet_pod_worker_duration_seconds_bucket{operation_type="update",le="0.025"} 0
+kubelet_pod_worker_duration_seconds_bucket{operation_type="update",le="0.05"} 0
+kubelet_pod_worker_duration_seconds_bucket{operation_type="update",le="0.1"} 0
+kubelet_pod_worker_duration_seconds_bucket{operation_type="update",le="0.25"} 0
+kubelet_pod_worker_duration_seconds_bucket{operation_type="update",le="0.5"} 1
+kubelet_pod_worker_duration_seconds_bucket{operation_type="update",le="1"} 1
+kubelet_pod_worker_duration_seconds_bucket{operation_type="update",le="2.5"} 1
+kubelet_pod_worker_duration_seconds_bucket{operation_type="update",le="5"} 1
+kubelet_pod_worker_duration_seconds_bucket{operation_type="update",le="10"} 1
+kubelet_pod_worker_duration_seconds_bucket{operation_type="update",le="+Inf"} 1
+kubelet_pod_worker_duration_seconds_sum{operation_type="update"} 0.364096812
+kubelet_pod_worker_duration_seconds_count{operation_type="update"} 1
+# HELP kubelet_pod_worker_latency_microseconds [ALPHA] (Deprecated) Latency in microseconds to sync a single pod. Broken down by operation type: create, update, or sync
+# TYPE kubelet_pod_worker_latency_microseconds summary
+kubelet_pod_worker_latency_microseconds{operation_type="create",quantile="0.5"} NaN
+kubelet_pod_worker_latency_microseconds{operation_type="create",quantile="0.9"} NaN
+kubelet_pod_worker_latency_microseconds{operation_type="create",quantile="0.99"} NaN
+kubelet_pod_worker_latency_microseconds_sum{operation_type="create"} 5.41298107e+08
+kubelet_pod_worker_latency_microseconds_count{operation_type="create"} 19
+kubelet_pod_worker_latency_microseconds{operation_type="sync",quantile="0.5"} 2509
+kubelet_pod_worker_latency_microseconds{operation_type="sync",quantile="0.9"} 3830
+kubelet_pod_worker_latency_microseconds{operation_type="sync",quantile="0.99"} 29354
+kubelet_pod_worker_latency_microseconds_sum{operation_type="sync"} 1.465569367e+09
+kubelet_pod_worker_latency_microseconds_count{operation_type="sync"} 175578
+kubelet_pod_worker_latency_microseconds{operation_type="update",quantile="0.5"} NaN
+kubelet_pod_worker_latency_microseconds{operation_type="update",quantile="0.9"} NaN
+kubelet_pod_worker_latency_microseconds{operation_type="update",quantile="0.99"} NaN
+kubelet_pod_worker_latency_microseconds_sum{operation_type="update"} 364150
+kubelet_pod_worker_latency_microseconds_count{operation_type="update"} 1
+# HELP kubelet_pod_worker_start_duration_seconds [ALPHA] Duration in seconds from seeing a pod to starting a worker.
+# TYPE kubelet_pod_worker_start_duration_seconds histogram
+kubelet_pod_worker_start_duration_seconds_bucket{le="0.005"} 213
+kubelet_pod_worker_start_duration_seconds_bucket{le="0.01"} 632
+kubelet_pod_worker_start_duration_seconds_bucket{le="0.025"} 809
+kubelet_pod_worker_start_duration_seconds_bucket{le="0.05"} 845
+kubelet_pod_worker_start_duration_seconds_bucket{le="0.1"} 854
+kubelet_pod_worker_start_duration_seconds_bucket{le="0.25"} 862
+kubelet_pod_worker_start_duration_seconds_bucket{le="0.5"} 863
+kubelet_pod_worker_start_duration_seconds_bucket{le="1"} 863
+kubelet_pod_worker_start_duration_seconds_bucket{le="2.5"} 866
+kubelet_pod_worker_start_duration_seconds_bucket{le="5"} 867
+kubelet_pod_worker_start_duration_seconds_bucket{le="10"} 867
+kubelet_pod_worker_start_duration_seconds_bucket{le="+Inf"} 867
+kubelet_pod_worker_start_duration_seconds_sum 20.14394870999996
+kubelet_pod_worker_start_duration_seconds_count 867
+# HELP kubelet_pod_worker_start_latency_microseconds [ALPHA] (Deprecated) Latency in microseconds from seeing a pod to starting a worker.
+# TYPE kubelet_pod_worker_start_latency_microseconds summary
+kubelet_pod_worker_start_latency_microseconds{quantile="0.5"} NaN
+kubelet_pod_worker_start_latency_microseconds{quantile="0.9"} NaN
+kubelet_pod_worker_start_latency_microseconds{quantile="0.99"} NaN
+kubelet_pod_worker_start_latency_microseconds_sum 2.0145049e+07
+kubelet_pod_worker_start_latency_microseconds_count 867
+# HELP kubelet_running_container_count [ALPHA] Number of containers currently running
+# TYPE kubelet_running_container_count gauge
+kubelet_running_container_count{container_state="created"} 1
+kubelet_running_container_count{container_state="exited"} 3
+kubelet_running_container_count{container_state="running"} 27
+kubelet_running_container_count{container_state="unknown"} 1
+# HELP kubelet_running_pod_count [ALPHA] Number of pods currently running
+# TYPE kubelet_running_pod_count gauge
+kubelet_running_pod_count 21
+# HELP kubelet_runtime_operations [ALPHA] (Deprecated) Cumulative number of runtime operations by operation type.
+# TYPE kubelet_runtime_operations counter
+kubelet_runtime_operations{operation_type="container_status"} 155216
+kubelet_runtime_operations{operation_type="create_container"} 8634
+kubelet_runtime_operations{operation_type="exec"} 36
+kubelet_runtime_operations{operation_type="exec_sync"} 2.096841e+06
+kubelet_runtime_operations{operation_type="image_status"} 113638
+kubelet_runtime_operations{operation_type="list_containers"} 4.892156e+06
+kubelet_runtime_operations{operation_type="list_images"} 432437
+kubelet_runtime_operations{operation_type="list_podsandbox"} 4.847933e+06
+kubelet_runtime_operations{operation_type="podsandbox_status"} 24805
+kubelet_runtime_operations{operation_type="pull_image"} 5620
+kubelet_runtime_operations{operation_type="remove_container"} 8608
+kubelet_runtime_operations{operation_type="run_podsandbox"} 867
+kubelet_runtime_operations{operation_type="start_container"} 8634
+kubelet_runtime_operations{operation_type="status"} 530480
+kubelet_runtime_operations{operation_type="stop_container"} 4397
+kubelet_runtime_operations{operation_type="stop_podsandbox"} 2424
+kubelet_runtime_operations{operation_type="update_runtime_config"} 1
+kubelet_runtime_operations{operation_type="version"} 264794
+# HELP kubelet_runtime_operations_duration_seconds [ALPHA] Duration in seconds of runtime operations. Broken down by operation type.
+# TYPE kubelet_runtime_operations_duration_seconds histogram
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="container_status",le="0.005"} 117769
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="container_status",le="0.01"} 147515
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="container_status",le="0.025"} 153048
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="container_status",le="0.05"} 153619
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="container_status",le="0.1"} 154187
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="container_status",le="0.25"} 155156
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="container_status",le="0.5"} 155209
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="container_status",le="1"} 155214
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="container_status",le="2.5"} 155216
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="container_status",le="5"} 155216
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="container_status",le="10"} 155216
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="container_status",le="+Inf"} 155216
+kubelet_runtime_operations_duration_seconds_sum{operation_type="container_status"} 961.4343782479921
+kubelet_runtime_operations_duration_seconds_count{operation_type="container_status"} 155216
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="create_container",le="0.005"} 0
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="create_container",le="0.01"} 0
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="create_container",le="0.025"} 0
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="create_container",le="0.05"} 0
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="create_container",le="0.1"} 6
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="create_container",le="0.25"} 976
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="create_container",le="0.5"} 8418
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="create_container",le="1"} 8568
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="create_container",le="2.5"} 8618
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="create_container",le="5"} 8631
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="create_container",le="10"} 8633
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="create_container",le="+Inf"} 8634
+kubelet_runtime_operations_duration_seconds_sum{operation_type="create_container"} 2660.3711057410055
+kubelet_runtime_operations_duration_seconds_count{operation_type="create_container"} 8634
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="exec",le="0.005"} 34
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="exec",le="0.01"} 34
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="exec",le="0.025"} 35
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="exec",le="0.05"} 35
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="exec",le="0.1"} 36
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="exec",le="0.25"} 36
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="exec",le="0.5"} 36
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="exec",le="1"} 36
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="exec",le="2.5"} 36
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="exec",le="5"} 36
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="exec",le="10"} 36
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="exec",le="+Inf"} 36
+kubelet_runtime_operations_duration_seconds_sum{operation_type="exec"} 0.15021792200000006
+kubelet_runtime_operations_duration_seconds_count{operation_type="exec"} 36
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="exec_sync",le="0.005"} 97
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="exec_sync",le="0.01"} 109
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="exec_sync",le="0.025"} 112
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="exec_sync",le="0.05"} 115
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="exec_sync",le="0.1"} 728
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="exec_sync",le="0.25"} 2.014222e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="exec_sync",le="0.5"} 2.052919e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="exec_sync",le="1"} 2.054257e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="exec_sync",le="2.5"} 2.096797e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="exec_sync",le="5"} 2.096836e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="exec_sync",le="10"} 2.09684e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="exec_sync",le="+Inf"} 2.096841e+06
+kubelet_runtime_operations_duration_seconds_sum{operation_type="exec_sync"} 340567.9231747889
+kubelet_runtime_operations_duration_seconds_count{operation_type="exec_sync"} 2.096841e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="image_status",le="0.005"} 109150
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="image_status",le="0.01"} 112547
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="image_status",le="0.025"} 113572
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="image_status",le="0.05"} 113636
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="image_status",le="0.1"} 113638
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="image_status",le="0.25"} 113638
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="image_status",le="0.5"} 113638
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="image_status",le="1"} 113638
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="image_status",le="2.5"} 113638
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="image_status",le="5"} 113638
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="image_status",le="10"} 113638
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="image_status",le="+Inf"} 113638
+kubelet_runtime_operations_duration_seconds_sum{operation_type="image_status"} 267.7091307010015
+kubelet_runtime_operations_duration_seconds_count{operation_type="image_status"} 113638
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_containers",le="0.005"} 108942
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_containers",le="0.01"} 1.101341e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_containers",le="0.025"} 4.633809e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_containers",le="0.05"} 4.882422e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_containers",le="0.1"} 4.891928e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_containers",le="0.25"} 4.89215e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_containers",le="0.5"} 4.892157e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_containers",le="1"} 4.892158e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_containers",le="2.5"} 4.892158e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_containers",le="5"} 4.892158e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_containers",le="10"} 4.892158e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_containers",le="+Inf"} 4.892158e+06
+kubelet_runtime_operations_duration_seconds_sum{operation_type="list_containers"} 71119.85435019845
+kubelet_runtime_operations_duration_seconds_count{operation_type="list_containers"} 4.892158e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_images",le="0.005"} 6863
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_images",le="0.01"} 12025
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_images",le="0.025"} 26581
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_images",le="0.05"} 170144
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_images",le="0.1"} 221214
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_images",le="0.25"} 420736
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_images",le="0.5"} 432421
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_images",le="1"} 432437
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_images",le="2.5"} 432437
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_images",le="5"} 432437
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_images",le="10"} 432437
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_images",le="+Inf"} 432437
+kubelet_runtime_operations_duration_seconds_sum{operation_type="list_images"} 48740.796126149675
+kubelet_runtime_operations_duration_seconds_count{operation_type="list_images"} 432437
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_podsandbox",le="0.005"} 1.51953e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_podsandbox",le="0.01"} 4.314647e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_podsandbox",le="0.025"} 4.831489e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_podsandbox",le="0.05"} 4.847392e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_podsandbox",le="0.1"} 4.847913e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_podsandbox",le="0.25"} 4.847933e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_podsandbox",le="0.5"} 4.847934e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_podsandbox",le="1"} 4.847934e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_podsandbox",le="2.5"} 4.847934e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_podsandbox",le="5"} 4.847934e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_podsandbox",le="10"} 4.847934e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="list_podsandbox",le="+Inf"} 4.847934e+06
+kubelet_runtime_operations_duration_seconds_sum{operation_type="list_podsandbox"} 34822.2657268408
+kubelet_runtime_operations_duration_seconds_count{operation_type="list_podsandbox"} 4.847934e+06
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="podsandbox_status",le="0.005"} 16678
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="podsandbox_status",le="0.01"} 22665
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="podsandbox_status",le="0.025"} 24220
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="podsandbox_status",le="0.05"} 24418
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="podsandbox_status",le="0.1"} 24504
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="podsandbox_status",le="0.25"} 24688
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="podsandbox_status",le="0.5"} 24790
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="podsandbox_status",le="1"} 24802
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="podsandbox_status",le="2.5"} 24805
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="podsandbox_status",le="5"} 24805
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="podsandbox_status",le="10"} 24805
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="podsandbox_status",le="+Inf"} 24805
+kubelet_runtime_operations_duration_seconds_sum{operation_type="podsandbox_status"} 219.41967488800077
+kubelet_runtime_operations_duration_seconds_count{operation_type="podsandbox_status"} 24805
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="pull_image",le="0.005"} 11
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="pull_image",le="0.01"} 37
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="pull_image",le="0.025"} 3386
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="pull_image",le="0.05"} 3695
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="pull_image",le="0.1"} 3712
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="pull_image",le="0.25"} 4969
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="pull_image",le="0.5"} 5169
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="pull_image",le="1"} 5199
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="pull_image",le="2.5"} 5481
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="pull_image",le="5"} 5536
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="pull_image",le="10"} 5565
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="pull_image",le="+Inf"} 5620
+kubelet_runtime_operations_duration_seconds_sum{operation_type="pull_image"} 2727.8909901949946
+kubelet_runtime_operations_duration_seconds_count{operation_type="pull_image"} 5620
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="remove_container",le="0.005"} 4
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="remove_container",le="0.01"} 4
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="remove_container",le="0.025"} 5688
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="remove_container",le="0.05"} 8285
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="remove_container",le="0.1"} 8495
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="remove_container",le="0.25"} 8531
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="remove_container",le="0.5"} 8543
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="remove_container",le="1"} 8545
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="remove_container",le="2.5"} 8568
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="remove_container",le="5"} 8595
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="remove_container",le="10"} 8606
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="remove_container",le="+Inf"} 8608
+kubelet_runtime_operations_duration_seconds_sum{operation_type="remove_container"} 473.16010441699865
+kubelet_runtime_operations_duration_seconds_count{operation_type="remove_container"} 8608
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="run_podsandbox",le="0.005"} 0
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="run_podsandbox",le="0.01"} 0
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="run_podsandbox",le="0.025"} 0
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="run_podsandbox",le="0.05"} 0
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="run_podsandbox",le="0.1"} 0
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="run_podsandbox",le="0.25"} 0
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="run_podsandbox",le="0.5"} 168
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="run_podsandbox",le="1"} 778
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="run_podsandbox",le="2.5"} 855
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="run_podsandbox",le="5"} 866
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="run_podsandbox",le="10"} 867
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="run_podsandbox",le="+Inf"} 867
+kubelet_runtime_operations_duration_seconds_sum{operation_type="run_podsandbox"} 657.6622557990003
+kubelet_runtime_operations_duration_seconds_count{operation_type="run_podsandbox"} 867
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="start_container",le="0.005"} 0
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="start_container",le="0.01"} 0
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="start_container",le="0.025"} 0
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="start_container",le="0.05"} 0
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="start_container",le="0.1"} 0
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="start_container",le="0.25"} 7970
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="start_container",le="0.5"} 8595
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="start_container",le="1"} 8630
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="start_container",le="2.5"} 8634
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="start_container",le="5"} 8634
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="start_container",le="10"} 8634
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="start_container",le="+Inf"} 8634
+kubelet_runtime_operations_duration_seconds_sum{operation_type="start_container"} 1700.102405432996
+kubelet_runtime_operations_duration_seconds_count{operation_type="start_container"} 8634
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="status",le="0.005"} 0
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="status",le="0.01"} 54
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="status",le="0.025"} 523151
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="status",le="0.05"} 530153
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="status",le="0.1"} 530465
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="status",le="0.25"} 530480
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="status",le="0.5"} 530480
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="status",le="1"} 530480
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="status",le="2.5"} 530480
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="status",le="5"} 530480
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="status",le="10"} 530480
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="status",le="+Inf"} 530480
+kubelet_runtime_operations_duration_seconds_sum{operation_type="status"} 7119.294142057909
+kubelet_runtime_operations_duration_seconds_count{operation_type="status"} 530480
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="stop_container",le="0.005"} 52
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="stop_container",le="0.01"} 53
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="stop_container",le="0.025"} 54
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="stop_container",le="0.05"} 54
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="stop_container",le="0.1"} 55
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="stop_container",le="0.25"} 120
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="stop_container",le="0.5"} 3458
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="stop_container",le="1"} 4158
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="stop_container",le="2.5"} 4179
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="stop_container",le="5"} 4187
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="stop_container",le="10"} 4202
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="stop_container",le="+Inf"} 4397
+kubelet_runtime_operations_duration_seconds_sum{operation_type="stop_container"} 7641.629162314987
+kubelet_runtime_operations_duration_seconds_count{operation_type="stop_container"} 4397
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="stop_podsandbox",le="0.005"} 1393
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="stop_podsandbox",le="0.01"} 1504
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="stop_podsandbox",le="0.025"} 1540
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="stop_podsandbox",le="0.05"} 1544
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="stop_podsandbox",le="0.1"} 1548
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="stop_podsandbox",le="0.25"} 1572
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="stop_podsandbox",le="0.5"} 2274
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="stop_podsandbox",le="1"} 2412
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="stop_podsandbox",le="2.5"} 2423
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="stop_podsandbox",le="5"} 2424
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="stop_podsandbox",le="10"} 2424
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="stop_podsandbox",le="+Inf"} 2424
+kubelet_runtime_operations_duration_seconds_sum{operation_type="stop_podsandbox"} 380.3571571419992
+kubelet_runtime_operations_duration_seconds_count{operation_type="stop_podsandbox"} 2424
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="update_runtime_config",le="0.005"} 1
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="update_runtime_config",le="0.01"} 1
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="update_runtime_config",le="0.025"} 1
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="update_runtime_config",le="0.05"} 1
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="update_runtime_config",le="0.1"} 1
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="update_runtime_config",le="0.25"} 1
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="update_runtime_config",le="0.5"} 1
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="update_runtime_config",le="1"} 1
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="update_runtime_config",le="2.5"} 1
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="update_runtime_config",le="5"} 1
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="update_runtime_config",le="10"} 1
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="update_runtime_config",le="+Inf"} 1
+kubelet_runtime_operations_duration_seconds_sum{operation_type="update_runtime_config"} 0.000540885
+kubelet_runtime_operations_duration_seconds_count{operation_type="update_runtime_config"} 1
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="version",le="0.005"} 0
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="version",le="0.01"} 8513
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="version",le="0.025"} 261663
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="version",le="0.05"} 264675
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="version",le="0.1"} 264786
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="version",le="0.25"} 264793
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="version",le="0.5"} 264794
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="version",le="1"} 264794
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="version",le="2.5"} 264794
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="version",le="5"} 264794
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="version",le="10"} 264794
+kubelet_runtime_operations_duration_seconds_bucket{operation_type="version",le="+Inf"} 264794
+kubelet_runtime_operations_duration_seconds_sum{operation_type="version"} 3232.879553873036
+kubelet_runtime_operations_duration_seconds_count{operation_type="version"} 264794
+# HELP kubelet_runtime_operations_errors [ALPHA] (Deprecated) Cumulative number of runtime operation errors by operation type.
+# TYPE kubelet_runtime_operations_errors counter
+kubelet_runtime_operations_errors{operation_type="container_status"} 1376
+kubelet_runtime_operations_errors{operation_type="exec_sync"} 152
+kubelet_runtime_operations_errors{operation_type="podsandbox_status"} 71
+kubelet_runtime_operations_errors{operation_type="pull_image"} 3737
+kubelet_runtime_operations_errors{operation_type="remove_container"} 4
+kubelet_runtime_operations_errors{operation_type="run_podsandbox"} 1
+kubelet_runtime_operations_errors{operation_type="start_container"} 6
+kubelet_runtime_operations_errors{operation_type="stop_container"} 1
+# HELP kubelet_runtime_operations_errors_total [ALPHA] Cumulative number of runtime operation errors by operation type.
+# TYPE kubelet_runtime_operations_errors_total counter
+kubelet_runtime_operations_errors_total{operation_type="container_status"} 1376
+kubelet_runtime_operations_errors_total{operation_type="exec_sync"} 152
+kubelet_runtime_operations_errors_total{operation_type="podsandbox_status"} 71
+kubelet_runtime_operations_errors_total{operation_type="pull_image"} 3737
+kubelet_runtime_operations_errors_total{operation_type="remove_container"} 4
+kubelet_runtime_operations_errors_total{operation_type="run_podsandbox"} 1
+kubelet_runtime_operations_errors_total{operation_type="start_container"} 6
+kubelet_runtime_operations_errors_total{operation_type="stop_container"} 1
+# HELP kubelet_runtime_operations_latency_microseconds [ALPHA] (Deprecated) Latency in microseconds of runtime operations. Broken down by operation type.
+# TYPE kubelet_runtime_operations_latency_microseconds summary
+kubelet_runtime_operations_latency_microseconds{operation_type="container_status",quantile="0.5"} 3594
+kubelet_runtime_operations_latency_microseconds{operation_type="container_status",quantile="0.9"} 7857
+kubelet_runtime_operations_latency_microseconds{operation_type="container_status",quantile="0.99"} 8376
+kubelet_runtime_operations_latency_microseconds_sum{operation_type="container_status"} 9.61704197e+08
+kubelet_runtime_operations_latency_microseconds_count{operation_type="container_status"} 155216
+kubelet_runtime_operations_latency_microseconds{operation_type="create_container",quantile="0.5"} 260935
+kubelet_runtime_operations_latency_microseconds{operation_type="create_container",quantile="0.9"} 261087
+kubelet_runtime_operations_latency_microseconds{operation_type="create_container",quantile="0.99"} 261087
+kubelet_runtime_operations_latency_microseconds_sum{operation_type="create_container"} 2.660392783e+09
+kubelet_runtime_operations_latency_microseconds_count{operation_type="create_container"} 8634
+kubelet_runtime_operations_latency_microseconds{operation_type="exec",quantile="0.5"} NaN
+kubelet_runtime_operations_latency_microseconds{operation_type="exec",quantile="0.9"} NaN
+kubelet_runtime_operations_latency_microseconds{operation_type="exec",quantile="0.99"} NaN
+kubelet_runtime_operations_latency_microseconds_sum{operation_type="exec"} 150312
+kubelet_runtime_operations_latency_microseconds_count{operation_type="exec"} 36
+kubelet_runtime_operations_latency_microseconds{operation_type="exec_sync",quantile="0.5"} 135714
+kubelet_runtime_operations_latency_microseconds{operation_type="exec_sync",quantile="0.9"} 156270
+kubelet_runtime_operations_latency_microseconds{operation_type="exec_sync",quantile="0.99"} 198853
+kubelet_runtime_operations_latency_microseconds_sum{operation_type="exec_sync"} 3.40578524128e+11
+kubelet_runtime_operations_latency_microseconds_count{operation_type="exec_sync"} 2.096841e+06
+kubelet_runtime_operations_latency_microseconds{operation_type="image_status",quantile="0.5"} 1904
+kubelet_runtime_operations_latency_microseconds{operation_type="image_status",quantile="0.9"} 2259
+kubelet_runtime_operations_latency_microseconds{operation_type="image_status",quantile="0.99"} 3845
+kubelet_runtime_operations_latency_microseconds_sum{operation_type="image_status"} 2.67948521e+08
+kubelet_runtime_operations_latency_microseconds_count{operation_type="image_status"} 113638
+kubelet_runtime_operations_latency_microseconds{operation_type="list_containers",quantile="0.5"} 10640
+kubelet_runtime_operations_latency_microseconds{operation_type="list_containers",quantile="0.9"} 15210
+kubelet_runtime_operations_latency_microseconds{operation_type="list_containers",quantile="0.99"} 28208
+kubelet_runtime_operations_latency_microseconds_sum{operation_type="list_containers"} 7.1131785423e+10
+kubelet_runtime_operations_latency_microseconds_count{operation_type="list_containers"} 4.892156e+06
+kubelet_runtime_operations_latency_microseconds{operation_type="list_images",quantile="0.5"} 204759
+kubelet_runtime_operations_latency_microseconds{operation_type="list_images",quantile="0.9"} 242103
+kubelet_runtime_operations_latency_microseconds{operation_type="list_images",quantile="0.99"} 344779
+kubelet_runtime_operations_latency_microseconds_sum{operation_type="list_images"} 4.8741850659e+10
+kubelet_runtime_operations_latency_microseconds_count{operation_type="list_images"} 432437
+kubelet_runtime_operations_latency_microseconds{operation_type="list_podsandbox",quantile="0.5"} 6708
+kubelet_runtime_operations_latency_microseconds{operation_type="list_podsandbox",quantile="0.9"} 8825
+kubelet_runtime_operations_latency_microseconds{operation_type="list_podsandbox",quantile="0.99"} 15691
+kubelet_runtime_operations_latency_microseconds_sum{operation_type="list_podsandbox"} 3.4833365547e+10
+kubelet_runtime_operations_latency_microseconds_count{operation_type="list_podsandbox"} 4.847933e+06
+kubelet_runtime_operations_latency_microseconds{operation_type="podsandbox_status",quantile="0.5"} 4381
+kubelet_runtime_operations_latency_microseconds{operation_type="podsandbox_status",quantile="0.9"} 11105
+kubelet_runtime_operations_latency_microseconds{operation_type="podsandbox_status",quantile="0.99"} 11105
+kubelet_runtime_operations_latency_microseconds_sum{operation_type="podsandbox_status"} 2.19462126e+08
+kubelet_runtime_operations_latency_microseconds_count{operation_type="podsandbox_status"} 24805
+kubelet_runtime_operations_latency_microseconds{operation_type="pull_image",quantile="0.5"} 12696
+kubelet_runtime_operations_latency_microseconds{operation_type="pull_image",quantile="0.9"} 19347
+kubelet_runtime_operations_latency_microseconds{operation_type="pull_image",quantile="0.99"} 19347
+kubelet_runtime_operations_latency_microseconds_sum{operation_type="pull_image"} 2.727902313e+09
+kubelet_runtime_operations_latency_microseconds_count{operation_type="pull_image"} 5620
+kubelet_runtime_operations_latency_microseconds{operation_type="remove_container",quantile="0.5"} 25308
+kubelet_runtime_operations_latency_microseconds{operation_type="remove_container",quantile="0.9"} 26587
+kubelet_runtime_operations_latency_microseconds{operation_type="remove_container",quantile="0.99"} 26587
+kubelet_runtime_operations_latency_microseconds_sum{operation_type="remove_container"} 4.73178608e+08
+kubelet_runtime_operations_latency_microseconds_count{operation_type="remove_container"} 8608
+kubelet_runtime_operations_latency_microseconds{operation_type="run_podsandbox",quantile="0.5"} NaN
+kubelet_runtime_operations_latency_microseconds{operation_type="run_podsandbox",quantile="0.9"} NaN
+kubelet_runtime_operations_latency_microseconds{operation_type="run_podsandbox",quantile="0.99"} NaN
+kubelet_runtime_operations_latency_microseconds_sum{operation_type="run_podsandbox"} 6.57664184e+08
+kubelet_runtime_operations_latency_microseconds_count{operation_type="run_podsandbox"} 867
+kubelet_runtime_operations_latency_microseconds{operation_type="start_container",quantile="0.5"} 173651
+kubelet_runtime_operations_latency_microseconds{operation_type="start_container",quantile="0.9"} 179992
+kubelet_runtime_operations_latency_microseconds{operation_type="start_container",quantile="0.99"} 179992
+kubelet_runtime_operations_latency_microseconds_sum{operation_type="start_container"} 1.700125839e+09
+kubelet_runtime_operations_latency_microseconds_count{operation_type="start_container"} 8634
+kubelet_runtime_operations_latency_microseconds{operation_type="status",quantile="0.5"} 12744
+kubelet_runtime_operations_latency_microseconds{operation_type="status",quantile="0.9"} 15768
+kubelet_runtime_operations_latency_microseconds{operation_type="status",quantile="0.99"} 29074
+kubelet_runtime_operations_latency_microseconds_sum{operation_type="status"} 7.120328809e+09
+kubelet_runtime_operations_latency_microseconds_count{operation_type="status"} 530480
+kubelet_runtime_operations_latency_microseconds{operation_type="stop_container",quantile="0.5"} 414349
+kubelet_runtime_operations_latency_microseconds{operation_type="stop_container",quantile="0.9"} 414349
+kubelet_runtime_operations_latency_microseconds{operation_type="stop_container",quantile="0.99"} 414349
+kubelet_runtime_operations_latency_microseconds_sum{operation_type="stop_container"} 7.641638619e+09
+kubelet_runtime_operations_latency_microseconds_count{operation_type="stop_container"} 4397
+kubelet_runtime_operations_latency_microseconds{operation_type="stop_podsandbox",quantile="0.5"} NaN
+kubelet_runtime_operations_latency_microseconds{operation_type="stop_podsandbox",quantile="0.9"} NaN
+kubelet_runtime_operations_latency_microseconds{operation_type="stop_podsandbox",quantile="0.99"} NaN
+kubelet_runtime_operations_latency_microseconds_sum{operation_type="stop_podsandbox"} 3.80361571e+08
+kubelet_runtime_operations_latency_microseconds_count{operation_type="stop_podsandbox"} 2424
+kubelet_runtime_operations_latency_microseconds{operation_type="update_runtime_config",quantile="0.5"} NaN
+kubelet_runtime_operations_latency_microseconds{operation_type="update_runtime_config",quantile="0.9"} NaN
+kubelet_runtime_operations_latency_microseconds{operation_type="update_runtime_config",quantile="0.99"} NaN
+kubelet_runtime_operations_latency_microseconds_sum{operation_type="update_runtime_config"} 575
+kubelet_runtime_operations_latency_microseconds_count{operation_type="update_runtime_config"} 1
+kubelet_runtime_operations_latency_microseconds{operation_type="version",quantile="0.5"} 11209
+kubelet_runtime_operations_latency_microseconds{operation_type="version",quantile="0.9"} 13747
+kubelet_runtime_operations_latency_microseconds{operation_type="version",quantile="0.99"} 32498
+kubelet_runtime_operations_latency_microseconds_sum{operation_type="version"} 3.233389836e+09
+kubelet_runtime_operations_latency_microseconds_count{operation_type="version"} 264794
+# HELP kubelet_runtime_operations_total [ALPHA] Cumulative number of runtime operations by operation type.
+# TYPE kubelet_runtime_operations_total counter
+kubelet_runtime_operations_total{operation_type="container_status"} 155216
+kubelet_runtime_operations_total{operation_type="create_container"} 8634
+kubelet_runtime_operations_total{operation_type="exec"} 36
+kubelet_runtime_operations_total{operation_type="exec_sync"} 2.096841e+06
+kubelet_runtime_operations_total{operation_type="image_status"} 113638
+kubelet_runtime_operations_total{operation_type="list_containers"} 4.892158e+06
+kubelet_runtime_operations_total{operation_type="list_images"} 432437
+kubelet_runtime_operations_total{operation_type="list_podsandbox"} 4.847934e+06
+kubelet_runtime_operations_total{operation_type="podsandbox_status"} 24805
+kubelet_runtime_operations_total{operation_type="pull_image"} 5620
+kubelet_runtime_operations_total{operation_type="remove_container"} 8608
+kubelet_runtime_operations_total{operation_type="run_podsandbox"} 867
+kubelet_runtime_operations_total{operation_type="start_container"} 8634
+kubelet_runtime_operations_total{operation_type="status"} 530480
+kubelet_runtime_operations_total{operation_type="stop_container"} 4397
+kubelet_runtime_operations_total{operation_type="stop_podsandbox"} 2424
+kubelet_runtime_operations_total{operation_type="update_runtime_config"} 1
+kubelet_runtime_operations_total{operation_type="version"} 264794
+# HELP kubelet_volume_stats_available_bytes Number of available bytes in the volume
+# TYPE kubelet_volume_stats_available_bytes gauge
+kubelet_volume_stats_available_bytes{namespace="pipeline-10000386",persistentvolumeclaim="pipeline-10000386-pipeline-task-1203-0"} 7.6602925056e+10
+# HELP kubelet_volume_stats_capacity_bytes Capacity in bytes of the volume
+# TYPE kubelet_volume_stats_capacity_bytes gauge
+kubelet_volume_stats_capacity_bytes{namespace="pipeline-10000386",persistentvolumeclaim="pipeline-10000386-pipeline-task-1203-0"} 2.11243667456e+11
+# HELP kubelet_volume_stats_inodes Maximum number of inodes in the volume
+# TYPE kubelet_volume_stats_inodes gauge
+kubelet_volume_stats_inodes{namespace="pipeline-10000386",persistentvolumeclaim="pipeline-10000386-pipeline-task-1203-0"} 1.31072e+07
+# HELP kubelet_volume_stats_inodes_free Number of free inodes in the volume
+# TYPE kubelet_volume_stats_inodes_free gauge
+kubelet_volume_stats_inodes_free{namespace="pipeline-10000386",persistentvolumeclaim="pipeline-10000386-pipeline-task-1203-0"} 1.1724682e+07
+# HELP kubelet_volume_stats_inodes_used Number of used inodes in the volume
+# TYPE kubelet_volume_stats_inodes_used gauge
+kubelet_volume_stats_inodes_used{namespace="pipeline-10000386",persistentvolumeclaim="pipeline-10000386-pipeline-task-1203-0"} 1.382518e+06
+# HELP kubelet_volume_stats_used_bytes Number of used bytes in the volume
+# TYPE kubelet_volume_stats_used_bytes gauge
+kubelet_volume_stats_used_bytes{namespace="pipeline-10000386",persistentvolumeclaim="pipeline-10000386-pipeline-task-1203-0"} 1.27932002304e+11
+# HELP kubernetes_build_info [ALPHA] A metric with a constant '1' value labeled by major, minor, git version, git commit, git tree state, build date, Go version, and compiler from which Kubernetes was built, and platform on which it is running.
+# TYPE kubernetes_build_info gauge
+kubernetes_build_info{buildDate="2020-09-25T02:57:14Z",compiler="gc",gitCommit="384801d",gitTreeState="",gitVersion="v1.16.9-aliyun.1",goVersion="go1.13.9",major="1",minor="16+",platform="linux/amd64"} 1
+# HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.
+# TYPE process_cpu_seconds_total counter
+process_cpu_seconds_total 128028.95
+# HELP process_max_fds Maximum number of open file descriptors.
+# TYPE process_max_fds gauge
+process_max_fds 1e+06
+# HELP process_open_fds Number of open file descriptors.
+# TYPE process_open_fds gauge
+process_open_fds 121
+# HELP process_resident_memory_bytes Resident memory size in bytes.
+# TYPE process_resident_memory_bytes gauge
+process_resident_memory_bytes 1.55836416e+08
+# HELP process_start_time_seconds Start time of the process since unix epoch in seconds.
+# TYPE process_start_time_seconds gauge
+process_start_time_seconds 1.60121072324e+09
+# HELP process_virtual_memory_bytes Virtual memory size in bytes.
+# TYPE process_virtual_memory_bytes gauge
+process_virtual_memory_bytes 1.315434496e+09
+# HELP process_virtual_memory_max_bytes Maximum amount of virtual memory available in bytes.
+# TYPE process_virtual_memory_max_bytes gauge
+process_virtual_memory_max_bytes -1
+# HELP storage_operation_duration_seconds [ALPHA] Storage operation duration
+# TYPE storage_operation_duration_seconds histogram
+storage_operation_duration_seconds_bucket{operation_name="unmount_device",volume_plugin="kubernetes.io/local-volume",le="0.1"} 434
+storage_operation_duration_seconds_bucket{operation_name="unmount_device",volume_plugin="kubernetes.io/local-volume",le="0.25"} 434
+storage_operation_duration_seconds_bucket{operation_name="unmount_device",volume_plugin="kubernetes.io/local-volume",le="0.5"} 434
+storage_operation_duration_seconds_bucket{operation_name="unmount_device",volume_plugin="kubernetes.io/local-volume",le="1"} 434
+storage_operation_duration_seconds_bucket{operation_name="unmount_device",volume_plugin="kubernetes.io/local-volume",le="2.5"} 434
+storage_operation_duration_seconds_bucket{operation_name="unmount_device",volume_plugin="kubernetes.io/local-volume",le="5"} 434
+storage_operation_duration_seconds_bucket{operation_name="unmount_device",volume_plugin="kubernetes.io/local-volume",le="10"} 434
+storage_operation_duration_seconds_bucket{operation_name="unmount_device",volume_plugin="kubernetes.io/local-volume",le="15"} 434
+storage_operation_duration_seconds_bucket{operation_name="unmount_device",volume_plugin="kubernetes.io/local-volume",le="25"} 434
+storage_operation_duration_seconds_bucket{operation_name="unmount_device",volume_plugin="kubernetes.io/local-volume",le="50"} 434
+storage_operation_duration_seconds_bucket{operation_name="unmount_device",volume_plugin="kubernetes.io/local-volume",le="120"} 434
+storage_operation_duration_seconds_bucket{operation_name="unmount_device",volume_plugin="kubernetes.io/local-volume",le="300"} 434
+storage_operation_duration_seconds_bucket{operation_name="unmount_device",volume_plugin="kubernetes.io/local-volume",le="600"} 434
+storage_operation_duration_seconds_bucket{operation_name="unmount_device",volume_plugin="kubernetes.io/local-volume",le="+Inf"} 434
+storage_operation_duration_seconds_sum{operation_name="unmount_device",volume_plugin="kubernetes.io/local-volume"} 4.213865492000001
+storage_operation_duration_seconds_count{operation_name="unmount_device",volume_plugin="kubernetes.io/local-volume"} 434
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/configmap",le="0.1"} 8
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/configmap",le="0.25"} 8
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/configmap",le="0.5"} 8
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/configmap",le="1"} 8
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/configmap",le="2.5"} 8
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/configmap",le="5"} 8
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/configmap",le="10"} 8
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/configmap",le="15"} 8
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/configmap",le="25"} 8
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/configmap",le="50"} 8
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/configmap",le="120"} 8
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/configmap",le="300"} 8
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/configmap",le="600"} 8
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/configmap",le="+Inf"} 8
+storage_operation_duration_seconds_sum{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/configmap"} 0.0017228550000000001
+storage_operation_duration_seconds_count{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/configmap"} 8
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/downward-api",le="0.1"} 3
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/downward-api",le="0.25"} 3
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/downward-api",le="0.5"} 3
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/downward-api",le="1"} 3
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/downward-api",le="2.5"} 3
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/downward-api",le="5"} 3
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/downward-api",le="10"} 3
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/downward-api",le="15"} 3
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/downward-api",le="25"} 3
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/downward-api",le="50"} 3
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/downward-api",le="120"} 3
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/downward-api",le="300"} 3
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/downward-api",le="600"} 3
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/downward-api",le="+Inf"} 3
+storage_operation_duration_seconds_sum{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/downward-api"} 0.000529631
+storage_operation_duration_seconds_count{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/downward-api"} 3
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/empty-dir",le="0.1"} 271
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/empty-dir",le="0.25"} 271
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/empty-dir",le="0.5"} 271
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/empty-dir",le="1"} 271
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/empty-dir",le="2.5"} 271
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/empty-dir",le="5"} 271
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/empty-dir",le="10"} 271
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/empty-dir",le="15"} 271
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/empty-dir",le="25"} 271
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/empty-dir",le="50"} 271
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/empty-dir",le="120"} 271
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/empty-dir",le="300"} 271
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/empty-dir",le="600"} 271
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/empty-dir",le="+Inf"} 271
+storage_operation_duration_seconds_sum{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/empty-dir"} 0.044895766999999996
+storage_operation_duration_seconds_count{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/empty-dir"} 271
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/host-path",le="0.1"} 1683
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/host-path",le="0.25"} 1683
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/host-path",le="0.5"} 1683
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/host-path",le="1"} 1683
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/host-path",le="2.5"} 1683
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/host-path",le="5"} 1683
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/host-path",le="10"} 1683
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/host-path",le="15"} 1683
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/host-path",le="25"} 1683
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/host-path",le="50"} 1683
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/host-path",le="120"} 1683
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/host-path",le="300"} 1683
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/host-path",le="600"} 1683
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/host-path",le="+Inf"} 1683
+storage_operation_duration_seconds_sum{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/host-path"} 0.26201470099999946
+storage_operation_duration_seconds_count{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/host-path"} 1683
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/local-volume",le="0.1"} 435
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/local-volume",le="0.25"} 435
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/local-volume",le="0.5"} 435
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/local-volume",le="1"} 435
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/local-volume",le="2.5"} 435
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/local-volume",le="5"} 435
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/local-volume",le="10"} 435
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/local-volume",le="15"} 435
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/local-volume",le="25"} 435
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/local-volume",le="50"} 435
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/local-volume",le="120"} 435
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/local-volume",le="300"} 435
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/local-volume",le="600"} 435
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/local-volume",le="+Inf"} 435
+storage_operation_duration_seconds_sum{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/local-volume"} 0.07575181300000002
+storage_operation_duration_seconds_count{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/local-volume"} 435
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/secret",le="0.1"} 870
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/secret",le="0.25"} 870
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/secret",le="0.5"} 870
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/secret",le="1"} 870
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/secret",le="2.5"} 870
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/secret",le="5"} 870
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/secret",le="10"} 870
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/secret",le="15"} 870
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/secret",le="25"} 870
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/secret",le="50"} 870
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/secret",le="120"} 870
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/secret",le="300"} 870
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/secret",le="600"} 870
+storage_operation_duration_seconds_bucket{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/secret",le="+Inf"} 870
+storage_operation_duration_seconds_sum{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/secret"} 0.12795073199999996
+storage_operation_duration_seconds_count{operation_name="verify_controller_attached_volume",volume_plugin="kubernetes.io/secret"} 870
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/configmap",le="0.1"} 72603
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/configmap",le="0.25"} 72603
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/configmap",le="0.5"} 72603
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/configmap",le="1"} 72603
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/configmap",le="2.5"} 72603
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/configmap",le="5"} 72603
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/configmap",le="10"} 72603
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/configmap",le="15"} 72603
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/configmap",le="25"} 72603
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/configmap",le="50"} 72603
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/configmap",le="120"} 72603
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/configmap",le="300"} 72603
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/configmap",le="600"} 72603
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/configmap",le="+Inf"} 72603
+storage_operation_duration_seconds_sum{operation_name="volume_mount",volume_plugin="kubernetes.io/configmap"} 33.46736167799976
+storage_operation_duration_seconds_count{operation_name="volume_mount",volume_plugin="kubernetes.io/configmap"} 72603
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/downward-api",le="0.1"} 2079
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/downward-api",le="0.25"} 2079
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/downward-api",le="0.5"} 2079
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/downward-api",le="1"} 2079
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/downward-api",le="2.5"} 2079
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/downward-api",le="5"} 2079
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/downward-api",le="10"} 2079
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/downward-api",le="15"} 2079
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/downward-api",le="25"} 2079
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/downward-api",le="50"} 2079
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/downward-api",le="120"} 2079
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/downward-api",le="300"} 2079
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/downward-api",le="600"} 2079
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/downward-api",le="+Inf"} 2079
+storage_operation_duration_seconds_sum{operation_name="volume_mount",volume_plugin="kubernetes.io/downward-api"} 1.4023519320000033
+storage_operation_duration_seconds_count{operation_name="volume_mount",volume_plugin="kubernetes.io/downward-api"} 2079
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/empty-dir",le="0.1"} 271
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/empty-dir",le="0.25"} 271
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/empty-dir",le="0.5"} 271
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/empty-dir",le="1"} 271
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/empty-dir",le="2.5"} 271
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/empty-dir",le="5"} 271
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/empty-dir",le="10"} 271
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/empty-dir",le="15"} 271
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/empty-dir",le="25"} 271
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/empty-dir",le="50"} 271
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/empty-dir",le="120"} 271
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/empty-dir",le="300"} 271
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/empty-dir",le="600"} 271
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/empty-dir",le="+Inf"} 271
+storage_operation_duration_seconds_sum{operation_name="volume_mount",volume_plugin="kubernetes.io/empty-dir"} 0.3151051830000002
+storage_operation_duration_seconds_count{operation_name="volume_mount",volume_plugin="kubernetes.io/empty-dir"} 271
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/host-path",le="0.1"} 1683
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/host-path",le="0.25"} 1683
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/host-path",le="0.5"} 1683
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/host-path",le="1"} 1683
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/host-path",le="2.5"} 1683
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/host-path",le="5"} 1683
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/host-path",le="10"} 1683
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/host-path",le="15"} 1683
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/host-path",le="25"} 1683
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/host-path",le="50"} 1683
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/host-path",le="120"} 1683
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/host-path",le="300"} 1683
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/host-path",le="600"} 1683
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/host-path",le="+Inf"} 1683
+storage_operation_duration_seconds_sum{operation_name="volume_mount",volume_plugin="kubernetes.io/host-path"} 0.5164962330000001
+storage_operation_duration_seconds_count{operation_name="volume_mount",volume_plugin="kubernetes.io/host-path"} 1683
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/local-volume",le="0.1"} 313
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/local-volume",le="0.25"} 433
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/local-volume",le="0.5"} 435
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/local-volume",le="1"} 435
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/local-volume",le="2.5"} 435
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/local-volume",le="5"} 435
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/local-volume",le="10"} 435
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/local-volume",le="15"} 435
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/local-volume",le="25"} 435
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/local-volume",le="50"} 435
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/local-volume",le="120"} 435
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/local-volume",le="300"} 435
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/local-volume",le="600"} 435
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/local-volume",le="+Inf"} 435
+storage_operation_duration_seconds_sum{operation_name="volume_mount",volume_plugin="kubernetes.io/local-volume"} 37.03803814100002
+storage_operation_duration_seconds_count{operation_name="volume_mount",volume_plugin="kubernetes.io/local-volume"} 435
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/secret",le="0.1"} 1.031511e+06
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/secret",le="0.25"} 1.031513e+06
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/secret",le="0.5"} 1.031514e+06
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/secret",le="1"} 1.031514e+06
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/secret",le="2.5"} 1.031514e+06
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/secret",le="5"} 1.031514e+06
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/secret",le="10"} 1.031514e+06
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/secret",le="15"} 1.031514e+06
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/secret",le="25"} 1.031514e+06
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/secret",le="50"} 1.031514e+06
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/secret",le="120"} 1.031514e+06
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/secret",le="300"} 1.031514e+06
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/secret",le="600"} 1.031514e+06
+storage_operation_duration_seconds_bucket{operation_name="volume_mount",volume_plugin="kubernetes.io/secret",le="+Inf"} 1.031514e+06
+storage_operation_duration_seconds_sum{operation_name="volume_mount",volume_plugin="kubernetes.io/secret"} 539.9104323130107
+storage_operation_duration_seconds_count{operation_name="volume_mount",volume_plugin="kubernetes.io/secret"} 1.031514e+06
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/configmap",le="0.1"} 6
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/configmap",le="0.25"} 6
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/configmap",le="0.5"} 6
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/configmap",le="1"} 6
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/configmap",le="2.5"} 6
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/configmap",le="5"} 6
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/configmap",le="10"} 6
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/configmap",le="15"} 6
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/configmap",le="25"} 6
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/configmap",le="50"} 6
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/configmap",le="120"} 6
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/configmap",le="300"} 6
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/configmap",le="600"} 6
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/configmap",le="+Inf"} 6
+storage_operation_duration_seconds_sum{operation_name="volume_unmount",volume_plugin="kubernetes.io/configmap"} 0.011670479
+storage_operation_duration_seconds_count{operation_name="volume_unmount",volume_plugin="kubernetes.io/configmap"} 6
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/downward-api",le="0.1"} 3
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/downward-api",le="0.25"} 3
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/downward-api",le="0.5"} 3
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/downward-api",le="1"} 3
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/downward-api",le="2.5"} 3
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/downward-api",le="5"} 3
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/downward-api",le="10"} 3
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/downward-api",le="15"} 3
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/downward-api",le="25"} 3
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/downward-api",le="50"} 3
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/downward-api",le="120"} 3
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/downward-api",le="300"} 3
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/downward-api",le="600"} 3
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/downward-api",le="+Inf"} 3
+storage_operation_duration_seconds_sum{operation_name="volume_unmount",volume_plugin="kubernetes.io/downward-api"} 0.051710976
+storage_operation_duration_seconds_count{operation_name="volume_unmount",volume_plugin="kubernetes.io/downward-api"} 3
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/empty-dir",le="0.1"} 259
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/empty-dir",le="0.25"} 260
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/empty-dir",le="0.5"} 260
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/empty-dir",le="1"} 260
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/empty-dir",le="2.5"} 260
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/empty-dir",le="5"} 260
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/empty-dir",le="10"} 260
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/empty-dir",le="15"} 260
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/empty-dir",le="25"} 260
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/empty-dir",le="50"} 260
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/empty-dir",le="120"} 260
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/empty-dir",le="300"} 260
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/empty-dir",le="600"} 260
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/empty-dir",le="+Inf"} 260
+storage_operation_duration_seconds_sum{operation_name="volume_unmount",volume_plugin="kubernetes.io/empty-dir"} 2.8866235760000007
+storage_operation_duration_seconds_count{operation_name="volume_unmount",volume_plugin="kubernetes.io/empty-dir"} 260
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/host-path",le="0.1"} 1658
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/host-path",le="0.25"} 1658
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/host-path",le="0.5"} 1658
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/host-path",le="1"} 1658
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/host-path",le="2.5"} 1658
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/host-path",le="5"} 1658
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/host-path",le="10"} 1658
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/host-path",le="15"} 1658
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/host-path",le="25"} 1658
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/host-path",le="50"} 1658
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/host-path",le="120"} 1658
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/host-path",le="300"} 1658
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/host-path",le="600"} 1658
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/host-path",le="+Inf"} 1658
+storage_operation_duration_seconds_sum{operation_name="volume_unmount",volume_plugin="kubernetes.io/host-path"} 1.2245066020000017
+storage_operation_duration_seconds_count{operation_name="volume_unmount",volume_plugin="kubernetes.io/host-path"} 1658
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/local-volume",le="0.1"} 434
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/local-volume",le="0.25"} 434
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/local-volume",le="0.5"} 434
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/local-volume",le="1"} 434
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/local-volume",le="2.5"} 434
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/local-volume",le="5"} 434
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/local-volume",le="10"} 434
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/local-volume",le="15"} 434
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/local-volume",le="25"} 434
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/local-volume",le="50"} 434
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/local-volume",le="120"} 434
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/local-volume",le="300"} 434
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/local-volume",le="600"} 434
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/local-volume",le="+Inf"} 434
+storage_operation_duration_seconds_sum{operation_name="volume_unmount",volume_plugin="kubernetes.io/local-volume"} 11.791641819000002
+storage_operation_duration_seconds_count{operation_name="volume_unmount",volume_plugin="kubernetes.io/local-volume"} 434
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/secret",le="0.1"} 844
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/secret",le="0.25"} 846
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/secret",le="0.5"} 846
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/secret",le="1"} 846
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/secret",le="2.5"} 846
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/secret",le="5"} 846
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/secret",le="10"} 846
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/secret",le="15"} 846
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/secret",le="25"} 846
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/secret",le="50"} 846
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/secret",le="120"} 846
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/secret",le="300"} 846
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/secret",le="600"} 846
+storage_operation_duration_seconds_bucket{operation_name="volume_unmount",volume_plugin="kubernetes.io/secret",le="+Inf"} 846
+storage_operation_duration_seconds_sum{operation_name="volume_unmount",volume_plugin="kubernetes.io/secret"} 12.28831378999999
+storage_operation_duration_seconds_count{operation_name="volume_unmount",volume_plugin="kubernetes.io/secret"} 846
+# HELP storage_operation_status_count [ALPHA] Storage operation return statuses count
+# TYPE storage_operation_status_count counter
+storage_operation_status_count{operation_name="unmount_device",status="success",volume_plugin="kubernetes.io/local-volume"} 434
+storage_operation_status_count{operation_name="verify_controller_attached_volume",status="success",volume_plugin="kubernetes.io/configmap"} 8
+storage_operation_status_count{operation_name="verify_controller_attached_volume",status="success",volume_plugin="kubernetes.io/downward-api"} 3
+storage_operation_status_count{operation_name="verify_controller_attached_volume",status="success",volume_plugin="kubernetes.io/empty-dir"} 271
+storage_operation_status_count{operation_name="verify_controller_attached_volume",status="success",volume_plugin="kubernetes.io/host-path"} 1683
+storage_operation_status_count{operation_name="verify_controller_attached_volume",status="success",volume_plugin="kubernetes.io/local-volume"} 435
+storage_operation_status_count{operation_name="verify_controller_attached_volume",status="success",volume_plugin="kubernetes.io/secret"} 870
+storage_operation_status_count{operation_name="volume_mount",status="success",volume_plugin="kubernetes.io/configmap"} 72603
+storage_operation_status_count{operation_name="volume_mount",status="success",volume_plugin="kubernetes.io/downward-api"} 2079
+storage_operation_status_count{operation_name="volume_mount",status="success",volume_plugin="kubernetes.io/empty-dir"} 271
+storage_operation_status_count{operation_name="volume_mount",status="success",volume_plugin="kubernetes.io/host-path"} 1683
+storage_operation_status_count{operation_name="volume_mount",status="success",volume_plugin="kubernetes.io/local-volume"} 435
+storage_operation_status_count{operation_name="volume_mount",status="success",volume_plugin="kubernetes.io/secret"} 1.031514e+06
+storage_operation_status_count{operation_name="volume_unmount",status="success",volume_plugin="kubernetes.io/configmap"} 6
+storage_operation_status_count{operation_name="volume_unmount",status="success",volume_plugin="kubernetes.io/downward-api"} 3
+storage_operation_status_count{operation_name="volume_unmount",status="success",volume_plugin="kubernetes.io/empty-dir"} 260
+storage_operation_status_count{operation_name="volume_unmount",status="success",volume_plugin="kubernetes.io/host-path"} 1658
+storage_operation_status_count{operation_name="volume_unmount",status="success",volume_plugin="kubernetes.io/local-volume"} 434
+storage_operation_status_count{operation_name="volume_unmount",status="success",volume_plugin="kubernetes.io/secret"} 846
+# HELP volume_manager_total_volumes Number of volumes in Volume Manager
+# TYPE volume_manager_total_volumes gauge
+volume_manager_total_volumes{plugin_name="kubernetes.io/configmap",state="actual_state_of_world"} 2
+volume_manager_total_volumes{plugin_name="kubernetes.io/configmap",state="desired_state_of_world"} 2
+volume_manager_total_volumes{plugin_name="kubernetes.io/empty-dir",state="actual_state_of_world"} 11
+volume_manager_total_volumes{plugin_name="kubernetes.io/empty-dir",state="desired_state_of_world"} 11
+volume_manager_total_volumes{plugin_name="kubernetes.io/host-path",state="actual_state_of_world"} 25
+volume_manager_total_volumes{plugin_name="kubernetes.io/host-path",state="desired_state_of_world"} 25
+volume_manager_total_volumes{plugin_name="kubernetes.io/local-volume",state="actual_state_of_world"} 1
+volume_manager_total_volumes{plugin_name="kubernetes.io/local-volume",state="desired_state_of_world"} 1
+volume_manager_total_volumes{plugin_name="kubernetes.io/secret",state="actual_state_of_world"} 24
+volume_manager_total_volumes{plugin_name="kubernetes.io/secret",state="desired_state_of_world"} 24

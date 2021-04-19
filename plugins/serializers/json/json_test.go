@@ -2,15 +2,14 @@ package json
 
 import (
 	"fmt"
-	"math"
 	"testing"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/metric"
-	"github.com/influxdata/telegraf/testutil"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	"github.com/influxdata/telegraf"
+	"github.com/influxdata/telegraf/metric"
 )
 
 func MustMetric(v telegraf.Metric, err error) telegraf.Metric {
@@ -193,43 +192,4 @@ func TestSerializeBatch(t *testing.T) {
 	buf, err := s.SerializeBatch(metrics)
 	require.NoError(t, err)
 	require.Equal(t, []byte(`{"metrics":[{"fields":{"value":42},"name":"cpu","tags":{},"timestamp":0},{"fields":{"value":42},"name":"cpu","tags":{},"timestamp":0}]}`), buf)
-}
-
-func TestSerializeBatchSkipInf(t *testing.T) {
-	metrics := []telegraf.Metric{
-		testutil.MustMetric(
-			"cpu",
-			map[string]string{},
-			map[string]interface{}{
-				"inf":       math.Inf(1),
-				"time_idle": 42,
-			},
-			time.Unix(0, 0),
-		),
-	}
-
-	s, err := NewSerializer(0)
-	require.NoError(t, err)
-	buf, err := s.SerializeBatch(metrics)
-	require.NoError(t, err)
-	require.Equal(t, []byte(`{"metrics":[{"fields":{"time_idle":42},"name":"cpu","tags":{},"timestamp":0}]}`), buf)
-}
-
-func TestSerializeBatchSkipInfAllFields(t *testing.T) {
-	metrics := []telegraf.Metric{
-		testutil.MustMetric(
-			"cpu",
-			map[string]string{},
-			map[string]interface{}{
-				"inf": math.Inf(1),
-			},
-			time.Unix(0, 0),
-		),
-	}
-
-	s, err := NewSerializer(0)
-	require.NoError(t, err)
-	buf, err := s.SerializeBatch(metrics)
-	require.NoError(t, err)
-	require.Equal(t, []byte(`{"metrics":[{"fields":{},"name":"cpu","tags":{},"timestamp":0}]}`), buf)
 }

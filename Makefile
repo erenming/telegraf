@@ -90,7 +90,7 @@ deps:
 
 .PHONY: telegraf
 telegraf:
-	go build -ldflags "$(LDFLAGS)" ./cmd/telegraf
+	go build -ldflags "$(LDFLAGS)" -ldflags "-extldflags -static" -tags "netgo osusergo" ./cmd/telegraf
 
 # Used by dockerfile builds
 .PHONY: go-install

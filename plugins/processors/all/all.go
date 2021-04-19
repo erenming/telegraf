@@ -1,7 +1,7 @@
 package all
 
 import (
-	//Blank imports for plugins to register themselves
+	// Blank imports for plugins to register themselves
 	_ "github.com/influxdata/telegraf/plugins/processors/aws/ec2"
 	_ "github.com/influxdata/telegraf/plugins/processors/clone"
 	_ "github.com/influxdata/telegraf/plugins/processors/converter"
@@ -27,4 +27,14 @@ import (
 	_ "github.com/influxdata/telegraf/plugins/processors/template"
 	_ "github.com/influxdata/telegraf/plugins/processors/topk"
 	_ "github.com/influxdata/telegraf/plugins/processors/unpivot"
+
+	// erda related
+	_ "github.com/influxdata/telegraf/plugins/processors/add_kubernetes_metadata"
+	_ "github.com/influxdata/telegraf/plugins/processors/application_slow"
+	_ "github.com/influxdata/telegraf/plugins/processors/clusterclock"
+	_ "github.com/influxdata/telegraf/plugins/processors/compatibility"
+	_ "github.com/influxdata/telegraf/plugins/processors/meta"
+	_ "github.com/influxdata/telegraf/plugins/processors/point_space_to_underline"
+	_ "github.com/influxdata/telegraf/plugins/processors/rate_limiter"
+	_ "github.com/influxdata/telegraf/plugins/processors/tag_override"
 )

@@ -16,6 +16,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"unsafe"
 
 	"github.com/influxdata/telegraf"
 	"github.com/influxdata/telegraf/internal"
@@ -43,7 +44,7 @@ var (
 	outputDefaults = []string{"influxdb"}
 
 	// envVarRe is a regex to find environment variables in the config file
-	envVarRe = regexp.MustCompile(`\$\{(\w+)\}|\$(\w+)`)
+	envVarRe = regexp.MustCompile(`\$(\w+)|\$\{(\w+)(:[^}]*)?\}`)
 
 	envVarEscaper = strings.NewReplacer(
 		`"`, `\"`,
@@ -950,29 +951,50 @@ func fetchConfig(u *url.URL) ([]byte, error) {
 func parseConfig(contents []byte) (*ast.Table, error) {
 	contents = trimBOM(contents)
 
-	parameters := envVarRe.FindAllSubmatch(contents, -1)
-	for _, parameter := range parameters {
-		if len(parameter) != 3 {
+	params := envVarRe.FindAllSubmatch(contents, -1)
+	for _, param := range params {
+		if len(param) != 4 {
 			continue
 		}
-
-		var envVar []byte
-		if parameter[1] != nil {
-			envVar = parameter[1]
-		} else if parameter[2] != nil {
-			envVar = parameter[2]
+		var key, defval []byte
+		if len(param[1]) > 0 {
+			key = param[1]
+		} else if len(param[2]) > 0 {
+			key = param[2]
 		} else {
 			continue
 		}
-
-		envVal, ok := os.LookupEnv(strings.TrimPrefix(string(envVar), "$"))
-		if ok {
-			envVal = escapeEnv(envVal)
-			contents = bytes.Replace(contents, parameter[0], []byte(envVal), 1)
+		if len(param[3]) > 0 {
+			defval = param[3][1:]
 		}
+		val, ok := os.LookupEnv(strings.TrimPrefix(BytesToString(key), "$"))
+		if !ok {
+			val = string(defval)
+		}
+		val = envVarEscaper.Replace(val)
+		contents = bytes.Replace(contents, param[0], StringToBytes(val), 1)
 	}
 
 	return toml.Parse(contents)
+}
+
+// BytesToString []byte to string without data copy
+func BytesToString(b []byte) (s string) {
+	pbytes := (*reflect.SliceHeader)(unsafe.Pointer(&b))
+	pstring := (*reflect.StringHeader)(unsafe.Pointer(&s))
+	pstring.Data = pbytes.Data
+	pstring.Len = pbytes.Len
+	return
+}
+
+// StringToBytes string to []byte without data copy
+func StringToBytes(s string) (b []byte) {
+	pbytes := (*reflect.SliceHeader)(unsafe.Pointer(&b))
+	pstring := (*reflect.StringHeader)(unsafe.Pointer(&s))
+	pbytes.Data = pstring.Data
+	pbytes.Len = pstring.Len
+	pbytes.Cap = pstring.Len
+	return
 }
 
 func (c *Config) addAggregator(name string, table *ast.Table) error {
@@ -1313,7 +1335,7 @@ func (c *Config) getParserConfig(name string, tbl *ast.Table) (*parsers.Config, 
 	c.getFieldString(tbl, "dropwizard_tags_path", &pc.DropwizardTagsPath)
 	c.getFieldStringMap(tbl, "dropwizard_tag_paths", &pc.DropwizardTagPathsMap)
 
-	//for grok data_format
+	// for grok data_format
 	c.getFieldStringSlice(tbl, "grok_named_patterns", &pc.GrokNamedPatterns)
 	c.getFieldStringSlice(tbl, "grok_patterns", &pc.GrokPatterns)
 	c.getFieldString(tbl, "grok_custom_patterns", &pc.GrokCustomPatterns)
@@ -1321,7 +1343,7 @@ func (c *Config) getParserConfig(name string, tbl *ast.Table) (*parsers.Config, 
 	c.getFieldString(tbl, "grok_timezone", &pc.GrokTimezone)
 	c.getFieldString(tbl, "grok_unique_timestamp", &pc.GrokUniqueTimestamp)
 
-	//for csv parser
+	// for csv parser
 	c.getFieldStringSlice(tbl, "csv_column_names", &pc.CSVColumnNames)
 	c.getFieldStringSlice(tbl, "csv_column_types", &pc.CSVColumnTypes)
 	c.getFieldStringSlice(tbl, "csv_tag_columns", &pc.CSVTagColumns)
@@ -1341,7 +1363,7 @@ func (c *Config) getParserConfig(name string, tbl *ast.Table) (*parsers.Config, 
 
 	c.getFieldString(tbl, "value_field_name", &pc.ValueFieldName)
 
-	//for XML parser
+	// for XML parser
 	if node, ok := tbl.Fields["xml"]; ok {
 		if subtbls, ok := node.([]*ast.Table); ok {
 			pc.XMLConfig = make([]parsers.XMLConfig, len(subtbls))

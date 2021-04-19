@@ -33,6 +33,6 @@ func (ki *KubernetesInventory) gatherDeployment(d v1.Deployment, acc telegraf.Ac
 			tags["selector_"+key] = val
 		}
 	}
-
+	getLabels(d.ObjectMeta, tags)
 	acc.AddFields(deploymentMeasurement, fields, tags)
 }

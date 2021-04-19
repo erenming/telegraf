@@ -42,6 +42,6 @@ func (ki *KubernetesInventory) gatherPersistentVolume(pv corev1.PersistentVolume
 		"phase":        string(pv.Status.Phase),
 		"storageclass": pv.Spec.StorageClassName,
 	}
-
+	getLabels(pv.ObjectMeta, tags)
 	acc.AddFields(persistentVolumeMeasurement, fields, tags)
 }

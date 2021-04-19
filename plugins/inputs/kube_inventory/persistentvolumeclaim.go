@@ -44,6 +44,6 @@ func (ki *KubernetesInventory) gatherPersistentVolumeClaim(pvc corev1.Persistent
 			tags["selector_"+key] = val
 		}
 	}
-
+	getLabels(pvc.ObjectMeta, tags)
 	acc.AddFields(persistentVolumeClaimMeasurement, fields, tags)
 }

@@ -198,4 +198,22 @@ import (
 	_ "github.com/influxdata/telegraf/plugins/inputs/zfs"
 	_ "github.com/influxdata/telegraf/plugins/inputs/zipkin"
 	_ "github.com/influxdata/telegraf/plugins/inputs/zookeeper"
+
+	// erda related
+	_ "github.com/influxdata/telegraf/plugins/inputs/addons"
+	_ "github.com/influxdata/telegraf/plugins/inputs/clusterclock"
+	_ "github.com/influxdata/telegraf/plugins/inputs/dcos_app_status"
+	_ "github.com/influxdata/telegraf/plugins/inputs/dcos_health_checker"
+	_ "github.com/influxdata/telegraf/plugins/inputs/dice_health"
+	_ "github.com/influxdata/telegraf/plugins/inputs/metaserver"
+	_ "github.com/influxdata/telegraf/plugins/inputs/spark"
+	_ "github.com/influxdata/telegraf/plugins/inputs/docker_summary"
+	_ "github.com/influxdata/telegraf/plugins/inputs/host_summary"
+	_ "github.com/influxdata/telegraf/plugins/inputs/global"
+	_ "github.com/influxdata/telegraf/plugins/inputs/global/docker"
+	_ "github.com/influxdata/telegraf/plugins/inputs/global/kubelet"
+	_ "github.com/influxdata/telegraf/plugins/inputs/global/kubernetes"
+	_ "github.com/influxdata/telegraf/plugins/inputs/global/node"
+	_ "github.com/influxdata/telegraf/plugins/inputs/termiuns_sidecar"
+
 )

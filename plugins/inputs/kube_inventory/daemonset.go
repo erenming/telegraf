@@ -43,6 +43,6 @@ func (ki *KubernetesInventory) gatherDaemonSet(d v1.DaemonSet, acc telegraf.Accu
 	if d.GetCreationTimestamp().Second() != 0 {
 		fields["created"] = d.GetCreationTimestamp().UnixNano()
 	}
-
+	getLabels(d.ObjectMeta, tags)
 	acc.AddFields(daemonSetMeasurement, fields, tags)
 }

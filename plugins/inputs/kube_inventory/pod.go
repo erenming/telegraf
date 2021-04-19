@@ -115,6 +115,6 @@ func gatherPodContainer(ki *KubernetesInventory, p corev1.Pod, cs corev1.Contain
 			fields["resource_limits_memory_bytes"] = convertQuantity(string(val.Format), 1)
 		}
 	}
-
+	getLabels(p.ObjectMeta, tags)
 	acc.AddFields(podContainerMeasurement, fields, tags)
 }
