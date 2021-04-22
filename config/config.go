@@ -1430,6 +1430,9 @@ func (c *Config) buildSerializer(tbl *ast.Table) (serializers.Serializer, error)
 	c.getFieldBool(tbl, "prometheus_sort_metrics", &sc.PrometheusSortMetrics)
 	c.getFieldBool(tbl, "prometheus_string_as_label", &sc.PrometheusStringAsLabel)
 
+	// erda
+	c.getFieldString(tbl, "json_object_key", &sc.JsonObjectKey)
+
 	if c.hasErrs() {
 		return nil, c.firstErr()
 	}
@@ -1493,6 +1496,7 @@ func (c *Config) missingTomlField(_ reflect.Type, key string) error {
 		"value_field_name", "wavefront_source_override", "wavefront_use_strict", "xml":
 
 		// ignore fields that are common to all plugins.
+	case "json_object_key": // erda
 	default:
 		c.UnusedFields[key] = true
 	}
