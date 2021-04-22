@@ -1,7 +1,7 @@
 package all
 
 import (
-	//Blank imports for plugins to register themselves
+	// Blank imports for plugins to register themselves
 	_ "github.com/influxdata/telegraf/plugins/inputs/activemq"
 	_ "github.com/influxdata/telegraf/plugins/inputs/aerospike"
 	_ "github.com/influxdata/telegraf/plugins/inputs/aliyuncms"
@@ -201,19 +201,21 @@ import (
 
 	// erda related
 	_ "github.com/influxdata/telegraf/plugins/inputs/addons"
+	// _ "github.com/influxdata/telegraf/plugins/inputs/cassandra_jolokia_wraper"
 	_ "github.com/influxdata/telegraf/plugins/inputs/clusterclock"
 	_ "github.com/influxdata/telegraf/plugins/inputs/dcos_app_status"
 	_ "github.com/influxdata/telegraf/plugins/inputs/dcos_health_checker"
 	_ "github.com/influxdata/telegraf/plugins/inputs/dice_health"
-	_ "github.com/influxdata/telegraf/plugins/inputs/metaserver"
-	_ "github.com/influxdata/telegraf/plugins/inputs/spark"
 	_ "github.com/influxdata/telegraf/plugins/inputs/docker_summary"
-	_ "github.com/influxdata/telegraf/plugins/inputs/host_summary"
 	_ "github.com/influxdata/telegraf/plugins/inputs/global"
 	_ "github.com/influxdata/telegraf/plugins/inputs/global/docker"
 	_ "github.com/influxdata/telegraf/plugins/inputs/global/kubelet"
 	_ "github.com/influxdata/telegraf/plugins/inputs/global/kubernetes"
 	_ "github.com/influxdata/telegraf/plugins/inputs/global/node"
+	_ "github.com/influxdata/telegraf/plugins/inputs/host_summary"
+	_ "github.com/influxdata/telegraf/plugins/inputs/kafka_monitor"
+	_ "github.com/influxdata/telegraf/plugins/inputs/metaserver"
+	_ "github.com/influxdata/telegraf/plugins/inputs/mysql_size_summary"
+	_ "github.com/influxdata/telegraf/plugins/inputs/spark"
 	_ "github.com/influxdata/telegraf/plugins/inputs/termiuns_sidecar"
-
 )
