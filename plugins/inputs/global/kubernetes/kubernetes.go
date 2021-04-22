@@ -1,6 +1,7 @@
 package kubernetes
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"time"
@@ -57,11 +58,8 @@ func (k *kubernetes) initClient() error {
 
 	clusterConfig, err := rest.InClusterConfig()
 	if err != nil {
-		log.Printf("I! failed to get InClusterConfig - %v", err)
-	}
-	c, err := k8s.NewForConfig(clusterConfig)
-	if err != nil {
-		c, err = k8s.NewForConfig(&rest.Config{
+		log.Printf("I! unabled to do with InClusterConfig - %v. try with static config", err)
+		c, err := k8s.NewForConfig(&rest.Config{
 			TLSClientConfig: rest.TLSClientConfig{
 				ServerName: k.K8sURL,
 				Insecure:   k.K8sClientConfig.InsecureSkipVerify,
@@ -75,8 +73,18 @@ func (k *kubernetes) initClient() error {
 		if err != nil {
 			return err
 		}
+
+		k.client = c
+	} else {
+		c, err := k8s.NewForConfig(clusterConfig)
+		if err != nil {
+			return fmt.Errorf("E! failed to NewForConfig with InClusterConfig. err %s", err)
+		}
+
+		k.client = c
 	}
-	k.client = c
+
+	log.Printf("create k8s client success!!!")
 	return nil
 }
 
