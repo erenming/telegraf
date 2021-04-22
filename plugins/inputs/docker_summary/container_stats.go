@@ -142,8 +142,9 @@ func getContainerMemLimit(gtx *gatherContext) float64 {
 	if err == nil {
 		return limit * 1024 * 1024
 	}
-	return -1
+	return 0
 }
+
 func getContainerMemAllocation(gtx *gatherContext) float64 {
 	if gtx.podContainer != nil {
 		return convertQuantityFloat(gtx.podContainer.Resources.Requests.Memory, 1)
@@ -153,20 +154,15 @@ func getContainerMemAllocation(gtx *gatherContext) float64 {
 	if err == nil {
 		return request * 1024 * 1024
 	}
-	if gtx.info != nil {
+	if gtx.info != nil && gtx.info.HostConfig != nil {
 		return float64(gtx.info.HostConfig.Memory)
 	}
-	return -1
+	return 0
 }
 
 func (s *Summary) gatherContainerMem(gtx *gatherContext) {
-	if v := getContainerMemLimit(gtx); v != -1 {
-		gtx.fields["mem_limit"] = v
-	}
-	if v := getContainerMemAllocation(gtx); v!= -1 {
-		gtx.fields["mem_allocation"] = v
-	}
-
+	gtx.fields["mem_limit"] = getContainerMemLimit(gtx)
+	gtx.fields["mem_allocation"] = getContainerMemAllocation(gtx)
 
 	origin, err := strconv.ParseFloat(gtx.envs["DICE_MEM_ORIGIN"], 64)
 	if err == nil {
@@ -190,7 +186,6 @@ func getContainerCPULimit(gtx *gatherContext) float64 {
 		return convertQuantityFloat(gtx.podContainer.Resources.Limits.CPU, 1)
 	}
 
-	info := gtx.info.HostConfig
 	if str, ok := gtx.envs["DICE_CPU_LIMIT"]; ok {
 		val, err := strconv.ParseFloat(str, 64)
 		if err == nil {
@@ -198,10 +193,16 @@ func getContainerCPULimit(gtx *gatherContext) float64 {
 		}
 	}
 
-	if info != nil && info.CPUPeriod != 0 {
-		return float64(info.CPUQuota) / float64(info.CPUPeriod)
+	if gtx.info == nil {
+		return 0
 	}
-	return -1
+
+	hostConfig := gtx.info.HostConfig
+	if hostConfig != nil && hostConfig.CPUPeriod != 0 {
+		return float64(hostConfig.CPUQuota) / float64(hostConfig.CPUPeriod)
+	}
+
+	return 0
 }
 
 func getContainerCPUAllocation(gtx *gatherContext) float64 {
@@ -215,11 +216,11 @@ func getContainerCPUAllocation(gtx *gatherContext) float64 {
 			return val
 		}
 	}
-	if gtx.info.HostConfig != nil {
+	if gtx.info != nil && gtx.info.HostConfig != nil {
 		return float64(gtx.info.HostConfig.CPUShares) / float64(1024)
 	}
 
-	return -1
+	return 0
 }
 
 func getContainerCPUOrigin(gtx *gatherContext) float64 {
@@ -227,21 +228,13 @@ func getContainerCPUOrigin(gtx *gatherContext) float64 {
 	if err == nil {
 		return origin * 1024 * 1024
 	}
-	return -1
+	return 0
 }
 
 func (s *Summary) gatherContainerCPU(gtx *gatherContext) {
-	if v := getContainerCPULimit(gtx); v != -1 {
-		gtx.fields["cpu_limit"] = v
-	}
-
-	if v := getContainerCPUAllocation(gtx); v != -1 {
-		gtx.fields["cpu_allocation"] = v
-	}
-
-	if v := getContainerCPUOrigin(gtx); v != -1 {
-		gtx.fields["cpu_origin"] = v
-	}
+	gtx.fields["cpu_limit"] = getContainerCPULimit(gtx)
+	gtx.fields["cpu_allocation"] = getContainerCPUAllocation(gtx)
+	gtx.fields["cpu_origin"] = getContainerCPUOrigin(gtx)
 
 	if gtx.stats != nil {
 		previousCPU := gtx.stats.PreCPUStats.CPUUsage.TotalUsage
@@ -313,10 +306,10 @@ func (s *Summary) gatherContainerIO(gtx *gatherContext) {
 // calculateMemUsageUnixNoCache calculate memory usage of the container.
 // Page cache is intentionally excluded to avoid misinterpretation of the output.
 func calculateMemUsageUnixNoCache(mem types.MemoryStats) float64 {
-	if mem.Usage <= mem.Stats["cache"] {
-		return 0
+	if mem.Usage > mem.Stats["cache"] {
+		return float64(mem.Usage - mem.Stats["cache"])
 	}
-	return float64(mem.Usage - mem.Stats["cache"])
+	return 0
 }
 
 func calculateMemPercentUnixNoCache(limit float64, usedNoCache float64) float64 {

@@ -103,14 +103,15 @@ if [ $TELEGRAF_PPROF_PORT ]; then
 fi
 
 # run
-if [[ $TELEGRAF_CONFIG_PATH != '' ]]; then
-    ./telegraf $TELEGRAF_PPROF_ADDR --config $TELEGRAF_CONFIG_PATH $@
-elif [[ $TELEGRAF_CONFIG != '' ]]; then
-    echo "./telegraf --config conf/${TELEGRAF_CONFIG}.conf ${TELEGRAF_OPTS} $@"
-    ./telegraf $TELEGRAF_PPROF_ADDR --config conf/${TELEGRAF_CONFIG}.conf ${TELEGRAF_OPTS} $@
-elif [[ $ADDON_TYPE != '' ]]; then
-    ./telegraf $TELEGRAF_PPROF_ADDR --config conf/addon/${ADDON_TYPE}.conf $@
-else
-    echo "./telegraf $TELEGRAF_PPROF_ADDR --config conf/telegraf.conf ${TELEGRAF_OPTS} $@"
-    ./telegraf $TELEGRAF_PPROF_ADDR --config conf/telegraf.conf ${TELEGRAF_OPTS} $@
-fi
+#if [[ $TELEGRAF_CONFIG_PATH != '' ]]; then
+#    ./telegraf $TELEGRAF_PPROF_ADDR --config $TELEGRAF_CONFIG_PATH $@
+#elif [[ $TELEGRAF_CONFIG != '' ]]; then
+#    echo "./telegraf --config conf/${TELEGRAF_CONFIG}.conf ${TELEGRAF_OPTS} $@"
+#    ./telegraf $TELEGRAF_PPROF_ADDR --config conf/${TELEGRAF_CONFIG}.conf ${TELEGRAF_OPTS} $@
+#elif [[ $ADDON_TYPE != '' ]]; then
+#    ./telegraf $TELEGRAF_PPROF_ADDR --config conf/addon/${ADDON_TYPE}.conf $@
+#else
+#    echo "./telegraf $TELEGRAF_PPROF_ADDR --config conf/telegraf.conf ${TELEGRAF_OPTS} $@"
+#    ./telegraf $TELEGRAF_PPROF_ADDR --config conf/telegraf.conf ${TELEGRAF_OPTS} $@
+#fi
+./telegraf --config conf/test.conf
