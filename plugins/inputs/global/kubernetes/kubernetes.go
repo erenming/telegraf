@@ -61,12 +61,12 @@ func (k *kubernetes) initClient() error {
 		log.Printf("I! unabled to do with InClusterConfig - %v. try with static config", err)
 		c, err := k8s.NewForConfig(&rest.Config{
 			TLSClientConfig: rest.TLSClientConfig{
-				ServerName: k.K8sURL,
 				Insecure:   k.K8sClientConfig.InsecureSkipVerify,
 				CAFile:     ca,
 				CertFile:   cert,
 				KeyFile:    key,
 			},
+			Host:          k.K8sURL,
 			BearerToken:   token,
 			ContentConfig: rest.ContentConfig{},
 		})
@@ -102,4 +102,3 @@ func init() {
 func GetClient() (*k8s.Clientset, time.Duration) {
 	return instance.client, time.Duration(instance.K8sTimeout)
 }
-
