@@ -13,18 +13,18 @@ type NetStats struct {
 	ps system.PS
 }
 
-func (ns *NetStats) Description() string {
+func (_ *NetStats) Description() string {
 	return "Read TCP metrics such as established, time wait and sockets counts."
 }
 
 var tcpstatSampleConfig = ""
 
-func (ns *NetStats) SampleConfig() string {
+func (_ *NetStats) SampleConfig() string {
 	return tcpstatSampleConfig
 }
 
-func (ns *NetStats) Gather(acc telegraf.Accumulator) error {
-	netconns, err := ns.ps.NetConnections()
+func (s *NetStats) Gather(acc telegraf.Accumulator) error {
+	netconns, err := s.ps.NetConnections()
 	if err != nil {
 		return fmt.Errorf("error getting net connections info: %s", err)
 	}
@@ -35,7 +35,7 @@ func (ns *NetStats) Gather(acc telegraf.Accumulator) error {
 	tags := map[string]string{}
 	for _, netcon := range netconns {
 		if netcon.Type == syscall.SOCK_DGRAM {
-			counts["UDP"]++
+			counts["UDP"] += 1
 			continue // UDP has no status
 		}
 		c, ok := counts[netcon.Status]

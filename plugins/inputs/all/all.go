@@ -216,6 +216,7 @@ import (
 	_ "github.com/influxdata/telegraf/plugins/inputs/kafka_monitor"
 	_ "github.com/influxdata/telegraf/plugins/inputs/metaserver"
 	_ "github.com/influxdata/telegraf/plugins/inputs/mysql_size_summary"
+	_ "github.com/influxdata/telegraf/plugins/inputs/net_packets"
 	_ "github.com/influxdata/telegraf/plugins/inputs/spark"
 	_ "github.com/influxdata/telegraf/plugins/inputs/termiuns_sidecar"
 )

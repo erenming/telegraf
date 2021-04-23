@@ -103,8 +103,8 @@ if [ $TELEGRAF_PPROF_PORT ]; then
 fi
 
 # run
-if [[ $TELEGRAF_CONF != '' ]]; then
-    ./telegraf --config $TELEGRAF_CONF $@
+if [[ $TELEGRAF_STATIC_CONF != '' ]]; then
+    ./telegraf --config $TELEGRAF_STATIC_CONF $@
 elif [[ $TELEGRAF_CONFIG_PATH != '' ]]; then
     ./telegraf $TELEGRAF_PPROF_ADDR --config $TELEGRAF_CONFIG_PATH $@
 elif [[ $TELEGRAF_CONFIG != '' ]]; then

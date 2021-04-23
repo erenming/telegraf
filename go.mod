@@ -64,6 +64,7 @@ require (
 	github.com/golang/snappy v0.0.1
 	github.com/google/go-cmp v0.5.5
 	github.com/google/go-github/v32 v32.1.0
+	github.com/google/gopacket v1.1.19 // indirect
 	github.com/google/uuid v1.1.2
 	github.com/gopcua/opcua v0.1.13
 	github.com/gorilla/mux v1.7.3

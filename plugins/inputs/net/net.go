@@ -4,23 +4,30 @@ import (
 	"fmt"
 	"net"
 	"strings"
+	"time"
 
 	"github.com/influxdata/telegraf"
 	"github.com/influxdata/telegraf/filter"
 	"github.com/influxdata/telegraf/plugins/inputs"
 	"github.com/influxdata/telegraf/plugins/inputs/system"
+	gnet "github.com/shirou/gopsutil/net"
 )
 
 type NetIOStats struct {
-	filter filter.Filter
-	ps     system.PS
+	filter       filter.Filter
+	ignoreFilter filter.Filter
+	ps           system.PS
 
 	skipChecks          bool
 	IgnoreProtocolStats bool
 	Interfaces          []string
+	IgnoreInterfaces    []string `toml:"ignore_interfaces"`
+
+	lastIOStat    map[string]gnet.IOCountersStat
+	lastTimestamp time.Time
 }
 
-func (n *NetIOStats) Description() string {
+func (_ *NetIOStats) Description() string {
 	return "Read metrics about network interface usage"
 }
 
@@ -38,45 +45,49 @@ var netSampleConfig = `
   ##
 `
 
-func (n *NetIOStats) SampleConfig() string {
+func (_ *NetIOStats) SampleConfig() string {
 	return netSampleConfig
 }
 
-func (n *NetIOStats) Gather(acc telegraf.Accumulator) error {
-	netio, err := n.ps.NetIO()
+func (s *NetIOStats) Gather(acc telegraf.Accumulator) error {
+	netio, err := s.ps.NetIO()
 	if err != nil {
 		return fmt.Errorf("error getting net io info: %s", err)
 	}
 
-	if n.filter == nil {
-		if n.filter, err = filter.Compile(n.Interfaces); err != nil {
+	if s.filter == nil {
+		if s.filter, err = filter.Compile(s.Interfaces); err != nil {
 			return fmt.Errorf("error compiling filter: %s", err)
 		}
 	}
 
-	interfaces, err := net.Interfaces()
-	if err != nil {
-		return fmt.Errorf("error getting list of interfaces: %s", err)
+	if s.ignoreFilter == nil {
+		if s.ignoreFilter, err = filter.Compile(s.IgnoreInterfaces); err != nil {
+			return fmt.Errorf("error compiling ignore filter: %s", err)
+		}
 	}
-	interfacesByName := map[string]net.Interface{}
-	for _, iface := range interfaces {
-		interfacesByName[iface.Name] = iface
+
+	now := time.Now()
+	var seconds float64 = 0
+	lastIOStat := make(map[string]gnet.IOCountersStat)
+	if s.lastIOStat != nil {
+		seconds = now.Sub(s.lastTimestamp).Seconds()
 	}
 
 	for _, io := range netio {
-		if len(n.Interfaces) != 0 {
+		if len(s.Interfaces) != 0 {
 			var found bool
 
-			if n.filter.Match(io.Name) {
+			if s.filter.Match(io.Name) {
 				found = true
 			}
 
 			if !found {
 				continue
 			}
-		} else if !n.skipChecks {
-			iface, ok := interfacesByName[io.Name]
-			if !ok {
+		} else if !s.skipChecks {
+			iface, err := net.InterfaceByName(io.Name)
+			if err != nil {
 				continue
 			}
 
@@ -85,6 +96,17 @@ func (n *NetIOStats) Gather(acc telegraf.Accumulator) error {
 			}
 
 			if iface.Flags&net.FlagUp == 0 {
+				continue
+			}
+		}
+
+		if len(s.IgnoreInterfaces) != 0 {
+			var found bool
+
+			if s.ignoreFilter.Match(io.Name) {
+				found = true
+			}
+			if found {
 				continue
 			}
 		}
@@ -103,13 +125,36 @@ func (n *NetIOStats) Gather(acc telegraf.Accumulator) error {
 			"drop_in":      io.Dropin,
 			"drop_out":     io.Dropout,
 		}
+
+		lastIOStat[io.Name] = gnet.IOCountersStat{
+			BytesRecv:   io.BytesRecv,
+			BytesSent:   io.BytesSent,
+			PacketsSent: io.PacketsSent,
+			PacketsRecv: io.PacketsRecv,
+		}
+		if seconds > 0 {
+			if stat, ok := s.lastIOStat[io.Name]; ok {
+				sendRate := float64(io.BytesSent-stat.BytesSent) / seconds
+				fields["send_rate"] = sendRate
+				recvRate := float64(io.BytesRecv-stat.BytesRecv) / seconds
+				fields["recv_rate"] = recvRate
+				pkgSendRate := float64(io.PacketsSent-stat.PacketsSent) / seconds
+				fields["pkg_send_rate"] = pkgSendRate
+				pkgRecvRate := float64(io.PacketsRecv-stat.PacketsRecv) / seconds
+				fields["pkg_recv_rate"] = pkgRecvRate
+			}
+		}
+
 		acc.AddCounter("net", fields, tags)
 	}
 
+	s.lastIOStat = lastIOStat
+	s.lastTimestamp = now
+
 	// Get system wide stats for different network protocols
 	// (ignore these stats if the call fails)
-	if !n.IgnoreProtocolStats {
-		netprotos, _ := n.ps.NetProto()
+	if !s.IgnoreProtocolStats {
+		netprotos, _ := s.ps.NetProto()
 		fields := make(map[string]interface{})
 		for _, proto := range netprotos {
 			for stat, value := range proto.Stats {
