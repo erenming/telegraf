@@ -42,6 +42,7 @@ var mapping = map[string]string{
 	"EDAS_GROUP_ID":               "edas_group_id",
 	"io.kubernetes.pod.name":      "pod_name",
 	"io.kubernetes.pod.namespace": "pod_namespace",
+	"io.kubernetes.pod.uid":       "pod_uid",
 	"POD_IP":                      "pod_ip",
 	"TERMINUS_KEY":                "terminus_key",
 }
