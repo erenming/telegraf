@@ -80,10 +80,6 @@ func (s *SystemPS) DiskUsage(
 	for _, filter := range fstypeExclude {
 		fstypeExcludeSet[filter] = true
 	}
-	paths := make(map[string]bool)
-	for _, part := range parts {
-		paths[part.Mountpoint] = true
-	}
 
 	// Autofs mounts indicate a potential mount, the partition will also be
 	// listed with the actual filesystem when mounted.  Ignore the autofs
@@ -93,6 +89,7 @@ func (s *SystemPS) DiskUsage(
 	var usage []*disk.UsageStat
 	var partitions []*disk.PartitionStat
 	hostMountPrefix := s.OSGetenv("HOST_MOUNT_PREFIX")
+	device := deviceMap(parts)
 
 	for i := range parts {
 		p := parts[i]
@@ -111,11 +108,16 @@ func (s *SystemPS) DiskUsage(
 			continue
 		}
 
-		// If there's a host mount prefix, exclude any paths which conflict
+		// exclude sub mount point which has same device
+		if paths, ok := device[p.Device]; ok {
+			if _, ok := paths[p.Mountpoint]; !ok {
+				continue
+			}
+		}
+
+		// If there's a host mount prefix, exclude any mount point which conflict
 		// with the prefix.
-		if len(hostMountPrefix) > 0 &&
-			!strings.HasPrefix(p.Mountpoint, hostMountPrefix) &&
-			paths[hostMountPrefix+p.Mountpoint] {
+		if len(hostMountPrefix) > 0 && !strings.HasPrefix(p.Mountpoint, hostMountPrefix) {
 			continue
 		}
 
@@ -131,6 +133,41 @@ func (s *SystemPS) DiskUsage(
 	}
 
 	return usage, partitions, nil
+}
+
+// one device mapped with multi mountPoint (different prefix)
+func deviceMap(parts []disk.PartitionStat) map[string]map[string]struct{} {
+	device := make(map[string]map[string]struct{})
+	for i := range parts {
+		p := parts[i]
+
+		var ps map[string]struct{}
+		if _ps, ok := device[p.Device]; ok {
+			ps = _ps
+		} else {
+			ps = make(map[string]struct{}, 2)
+			ps[p.Mountpoint] = struct{}{}
+			device[p.Device] = ps
+			continue
+		}
+
+		for path := range ps {
+			// mount point sub of path
+			target, err := filepath.Rel(path, p.Mountpoint)
+			if err == nil && !strings.HasPrefix(target, "../") {
+				continue
+			}
+
+			// path sub of mount point
+			target, err = filepath.Rel(p.Mountpoint, path)
+			if err == nil && !strings.HasPrefix(target, "../") {
+				delete(ps, path)
+			}
+
+			ps[p.Mountpoint] = struct{}{}
+		}
+	}
+	return device
 }
 
 func (s *SystemPS) NetProto() ([]net.ProtoCountersStat, error) {
