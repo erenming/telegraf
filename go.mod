@@ -64,7 +64,7 @@ require (
 	github.com/golang/snappy v0.0.1
 	github.com/google/go-cmp v0.5.5
 	github.com/google/go-github/v32 v32.1.0
-	github.com/google/gopacket v1.1.19 // indirect
+	github.com/google/gopacket v1.1.19
 	github.com/google/uuid v1.1.2
 	github.com/gopcua/opcua v0.1.13
 	github.com/gorilla/mux v1.7.3
@@ -155,5 +155,3 @@ require (
 
 // replaced due to https://github.com/satori/go.uuid/issues/73
 replace github.com/satori/go.uuid => github.com/gofrs/uuid v3.2.0+incompatible
-
-replace github.com/shirou/gopsutil v3.20.11+incompatible => ./libs/gopsutil
