@@ -19,64 +19,7 @@ func Test_deviceMap1(t *testing.T) {
 		want map[string]map[string]struct{}
 	}{
 		{
-			name: "same device with one path",
-			args: args{parts: []disk.PartitionStat{
-				{
-					"/dev/vda1",
-					"/data",
-					"xfs",
-					"rw",
-				},
-				{
-					"/dev/vda1",
-					"/data/docker/xxx",
-					"xfs",
-					"rw",
-				},
-				{
-					"/dev/vda1",
-					"/data/docker/xxx/yyy",
-					"xfs",
-					"rw",
-				},
-			}},
-			want: map[string]map[string]struct{}{
-				"/dev/vda1": {
-					"/data": struct {}{},
-				},
-			},
-		},
-		{
-			name: "multi mount with same device",
-			args: args{parts: []disk.PartitionStat{
-				{
-					"/dev/vda1",
-					"/data",
-					"xfs",
-					"rw",
-				},
-				{
-					"/dev/vda1",
-					"/data/xxx",
-					"xfs",
-					"rw",
-				},
-				{
-					"/dev/vda1",
-					"/datax",
-					"xfs",
-					"rw",
-				},
-			}},
-			want: map[string]map[string]struct{}{
-				"/dev/vda1": {
-					"/data": struct {}{},
-					"/datax": struct {}{},
-				},
-			},
-		},
-		{
-			name: "rootfs",
+			name: "",
 			args: args{parts: []disk.PartitionStat{
 				{
 					"/dev/vda1",
@@ -86,7 +29,7 @@ func Test_deviceMap1(t *testing.T) {
 				},
 				{
 					"/dev/vda1",
-					"/rootfs/tmp",
+					"/rootfs",
 					"xfs",
 					"rw",
 				},
@@ -94,6 +37,51 @@ func Test_deviceMap1(t *testing.T) {
 			want: map[string]map[string]struct{}{
 				"/dev/vda1": {
 					"/rootfs": struct {}{},
+				},
+			},
+		},
+		{
+			name: "",
+			args: args{parts: []disk.PartitionStat{
+				{
+					"/dev/vda1",
+					"/rootfs/tmp",
+					"xfs",
+					"rw",
+				},
+				{
+					"/dev/vda1",
+					"/rootfs",
+					"xfs",
+					"rw",
+				},
+			}},
+			want: map[string]map[string]struct{}{
+				"/dev/vda1": {
+					"/rootfs": struct {}{},
+				},
+			},
+		},
+		{
+			name: "",
+			args: args{parts: []disk.PartitionStat{
+				{
+					"/dev/vda1",
+					"/rootfs",
+					"xfs",
+					"rw",
+				},
+				{
+					"/dev/vda1",
+					"/rootfsxx",
+					"xfs",
+					"rw",
+				},
+			}},
+			want: map[string]map[string]struct{}{
+				"/dev/vda1": {
+					"/rootfs": struct {}{},
+					"/rootfsxx": struct {}{},
 				},
 			},
 		},
