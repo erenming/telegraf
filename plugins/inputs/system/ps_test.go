@@ -80,13 +80,13 @@ func Test_deviceMap1(t *testing.T) {
 			args: args{parts: []disk.PartitionStat{
 				{
 					"/dev/vda1",
-					"/rootfs",
+					"/rootfs/tmp",
 					"xfs",
 					"rw",
 				},
 				{
 					"/dev/vda1",
-					"/rootfs/tmp",
+					"/rootfs",
 					"xfs",
 					"rw",
 				},

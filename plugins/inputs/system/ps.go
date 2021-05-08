@@ -154,13 +154,13 @@ func deviceMap(parts []disk.PartitionStat) map[string]map[string]struct{} {
 		for path := range ps {
 			// mount point sub of path
 			target, err := filepath.Rel(path, p.Mountpoint)
-			if err == nil && !strings.HasPrefix(target, "../") {
+			if err == nil && !strings.HasPrefix(target, ".") {
 				continue
 			}
 
 			// path sub of mount point
 			target, err = filepath.Rel(p.Mountpoint, path)
-			if err == nil && !strings.HasPrefix(target, "../") {
+			if err == nil && !strings.HasPrefix(target, ".") {
 				delete(ps, path)
 			}
 
