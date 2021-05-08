@@ -47,6 +47,9 @@ type Mysql struct {
 	lastT            time.Time
 	initDone         bool
 	scanIntervalSlow uint32
+
+	// erda
+	GatherServerID bool `toml:"gather_server_id"`
 }
 
 const sampleConfig = `
@@ -292,6 +295,8 @@ const (
 
 // metric queries
 const (
+	globalServerID             = `SHOW GLOBAL VARIABLES LIKE 'server_id'`
+
 	globalStatusQuery          = `SHOW GLOBAL STATUS`
 	globalVariablesQuery       = `SHOW GLOBAL VARIABLES`
 	slaveStatusQuery           = `SHOW SLAVE STATUS`
@@ -459,6 +464,29 @@ const (
 		FROM performance_schema.events_statements_summary_by_account_by_event_name
 	`
 )
+
+// erda
+func (m *Mysql) gatherServerID(db *sql.DB, serv string, acc telegraf.Accumulator) (string, error) {
+	// run query
+	rows, err := db.Query(globalServerID)
+	if err != nil {
+		return "", err
+	}
+	defer rows.Close()
+
+	var key string
+	var val sql.RawBytes
+
+	if rows.Next() {
+		if err := rows.Scan(&key, &val); err != nil {
+			return "", err
+		}
+		if value, ok := m.parseValue(val); ok {
+			return fmt.Sprint(value), nil
+		}
+	}
+	return "", nil
+}
 
 func (m *Mysql) gatherServer(serv string, acc telegraf.Accumulator) error {
 	serv, err := dsnAddTimeout(serv)
@@ -764,6 +792,16 @@ func (m *Mysql) gatherGlobalStatuses(db *sql.DB, serv string, acc telegraf.Accum
 	// parse the DSN and save host name as a tag
 	servtag := getDSNTag(serv)
 	tags := map[string]string{"server": servtag}
+
+	// erda
+	if m.GatherServerID {
+		id, err := m.gatherServerID(db, serv, acc)
+		if err != nil {
+			return err
+		}
+		tags["server_id"] = id
+	}
+
 	fields := make(map[string]interface{})
 	for rows.Next() {
 		var key string

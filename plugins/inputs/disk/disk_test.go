@@ -202,6 +202,12 @@ func TestDiskUsageHostMountPrefix(t *testing.T) {
 					Fstype:     "ext4",
 					Opts:       "ro",
 				},
+				{
+					Device:     "/dev/sda",
+					Mountpoint: "/etc/hosts",
+					Fstype:     "ext4",
+					Opts:       "ro",
+				},
 			},
 			usageStats: []*disk.UsageStat{
 				{

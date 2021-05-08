@@ -10,4 +10,7 @@ import (
 	_ "github.com/influxdata/telegraf/plugins/aggregators/minmax"
 	_ "github.com/influxdata/telegraf/plugins/aggregators/quantile"
 	_ "github.com/influxdata/telegraf/plugins/aggregators/valuecounter"
+
+	// erda
+	_ "github.com/influxdata/telegraf/plugins/aggregators/summary"
 )

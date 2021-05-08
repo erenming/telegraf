@@ -3,6 +3,7 @@ package system
 import (
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 
 	"github.com/influxdata/telegraf/internal"
@@ -80,10 +81,6 @@ func (s *SystemPS) DiskUsage(
 	for _, filter := range fstypeExclude {
 		fstypeExcludeSet[filter] = true
 	}
-	paths := make(map[string]bool)
-	for _, part := range parts {
-		paths[part.Mountpoint] = true
-	}
 
 	// Autofs mounts indicate a potential mount, the partition will also be
 	// listed with the actual filesystem when mounted.  Ignore the autofs
@@ -93,6 +90,7 @@ func (s *SystemPS) DiskUsage(
 	var usage []*disk.UsageStat
 	var partitions []*disk.PartitionStat
 	hostMountPrefix := s.OSGetenv("HOST_MOUNT_PREFIX")
+	device := deviceMap(parts)
 
 	for i := range parts {
 		p := parts[i]
@@ -111,11 +109,16 @@ func (s *SystemPS) DiskUsage(
 			continue
 		}
 
-		// If there's a host mount prefix, exclude any paths which conflict
+		// exclude sub mount point which has same device
+		if paths, ok := device[p.Device]; ok {
+			if _, ok := paths[p.Mountpoint]; !ok {
+				continue
+			}
+		}
+
+		// If there's a host mount prefix, exclude any mount point which conflict
 		// with the prefix.
-		if len(hostMountPrefix) > 0 &&
-			!strings.HasPrefix(p.Mountpoint, hostMountPrefix) &&
-			paths[hostMountPrefix+p.Mountpoint] {
+		if len(hostMountPrefix) > 0 && !strings.HasPrefix(p.Mountpoint, hostMountPrefix) {
 			continue
 		}
 
@@ -131,6 +134,54 @@ func (s *SystemPS) DiskUsage(
 	}
 
 	return usage, partitions, nil
+}
+
+// one device mapped with multi mountPoint (different prefix)
+func deviceMap(parts []disk.PartitionStat) map[string]map[string]struct{} {
+	tmp := make(map[string][]string)
+	for i := range parts {
+		p := parts[i]
+		ps, ok := tmp[p.Device]
+		if !ok {
+			tmp[p.Device] = []string{p.Mountpoint}
+			continue
+		}
+		tmp[p.Device] = append(ps, p.Mountpoint)
+	}
+
+	device := make(map[string]map[string]struct{})
+	for name, v := range tmp {
+		sort.Strings(v)
+		data := make(map[string]struct{})
+		root := ""
+		for i, j := range v {
+			if i == 0 {
+				root = j
+				data[j] = struct{}{}
+			}
+
+			if subPath(root, j) {
+				continue
+			}
+			if subPath(j, root) {
+				delete(data, root)
+			}
+
+			root = j
+			data[j] = struct{}{}
+		}
+		device[name] = data
+	}
+
+	return device
+}
+
+func subPath(base, sub string) bool {
+	target, err := filepath.Rel(base, sub)
+	if err == nil && !strings.HasPrefix(target, ".") {
+		return true
+	}
+	return false
 }
 
 func (s *SystemPS) NetProto() ([]net.ProtoCountersStat, error) {

@@ -254,7 +254,6 @@ func (k *kubelet) getStatsSummary() (map[PodID]*PodStatus, error) {
 	for _, pod := range stats.Pods {
 		pods[pod.PodRef] = pod
 	}
-	fmt.Println("succ")
 	return pods, nil
 }
 
