@@ -152,11 +152,15 @@ func deviceMap(parts []disk.PartitionStat) map[string]map[string]struct{} {
 		}
 
 		for path := range ps {
-			if subPath(path, p.Mountpoint) {
+			// mount point sub of path
+			target, err := filepath.Rel(path, p.Mountpoint)
+			if err == nil && !strings.HasPrefix(target, "../") {
 				continue
 			}
 
-			if subPath(p.Mountpoint, path) {
+			// path sub of mount point
+			target, err = filepath.Rel(p.Mountpoint, path)
+			if err == nil && !strings.HasPrefix(target, "../") {
 				delete(ps, path)
 			}
 
@@ -164,14 +168,6 @@ func deviceMap(parts []disk.PartitionStat) map[string]map[string]struct{} {
 		}
 	}
 	return device
-}
-
-func subPath(base, sub string) bool {
-	target, err := filepath.Rel(base, sub)
-	if err == nil && !strings.HasPrefix(target, ".") {
-		return true
-	}
-	return false
 }
 
 func (s *SystemPS) NetProto() ([]net.ProtoCountersStat, error) {
