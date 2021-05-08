@@ -8,8 +8,9 @@ import (
 )
 
 
+func Test_deviceMap(t *testing.T) {
 
-func Test_deviceMap1(t *testing.T) {
+
 	type args struct {
 		parts []disk.PartitionStat
 	}
@@ -23,13 +24,19 @@ func Test_deviceMap1(t *testing.T) {
 			args: args{parts: []disk.PartitionStat{
 				{
 					"/dev/vda1",
+					"/etc/hostname",
+					"xfs",
+					"rw",
+				},
+				{
+					"/dev/vda1",
 					"/data",
 					"xfs",
 					"rw",
 				},
 				{
 					"/dev/vda1",
-					"/data/docker/xxx",
+					"/etc/hosts",
 					"xfs",
 					"rw",
 				},
@@ -39,10 +46,18 @@ func Test_deviceMap1(t *testing.T) {
 					"xfs",
 					"rw",
 				},
+				{
+					"/dev/vda1",
+					"/data/tmp",
+					"xfs",
+					"rw",
+				},
 			}},
 			want: map[string]map[string]struct{}{
 				"/dev/vda1": {
-					"/data": struct {}{},
+					"/data":         {},
+					"/etc/hosts":    {},
+					"/etc/hostname": {},
 				},
 			},
 		},
@@ -70,8 +85,8 @@ func Test_deviceMap1(t *testing.T) {
 			}},
 			want: map[string]map[string]struct{}{
 				"/dev/vda1": {
-					"/data": struct {}{},
-					"/datax": struct {}{},
+					"/data":  struct{}{},
+					"/datax": struct{}{},
 				},
 			},
 		},
@@ -93,7 +108,7 @@ func Test_deviceMap1(t *testing.T) {
 			}},
 			want: map[string]map[string]struct{}{
 				"/dev/vda1": {
-					"/rootfs": struct {}{},
+					"/rootfs": struct{}{},
 				},
 			},
 		},

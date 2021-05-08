@@ -1,10 +1,9 @@
 package system
 
 import (
-	"encoding/json"
-	"fmt"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 
 	"github.com/influxdata/telegraf/internal"
@@ -139,39 +138,50 @@ func (s *SystemPS) DiskUsage(
 
 // one device mapped with multi mountPoint (different prefix)
 func deviceMap(parts []disk.PartitionStat) map[string]map[string]struct{} {
-	d, _ := json.Marshal(parts)
-	fmt.Println("==== parts: ", string(d))
-	device := make(map[string]map[string]struct{})
+	tmp := make(map[string][]string)
 	for i := range parts {
 		p := parts[i]
-
-		var ps map[string]struct{}
-		if _ps, ok := device[p.Device]; ok {
-			ps = _ps
-		} else {
-			ps = make(map[string]struct{}, 2)
-			ps[p.Mountpoint] = struct{}{}
-			device[p.Device] = ps
+		ps, ok := tmp[p.Device]
+		if !ok {
+			tmp[p.Device] = []string{p.Mountpoint}
 			continue
 		}
+		tmp[p.Device] = append(ps, p.Mountpoint)
+	}
 
-		for path := range ps {
-			// mount point sub of path
-			target, err := filepath.Rel(path, p.Mountpoint)
-			if err == nil && !strings.HasPrefix(target, ".") {
+	device := make(map[string]map[string]struct{})
+	for name, v := range tmp {
+		sort.Strings(v)
+		data := make(map[string]struct{})
+		root := ""
+		for i, j := range v {
+			if i == 0 {
+				root = j
+				data[j] = struct{}{}
+			}
+
+			if subPath(root, j) {
 				continue
 			}
-
-			// path sub of mount point
-			target, err = filepath.Rel(p.Mountpoint, path)
-			if err == nil && !strings.HasPrefix(target, ".") {
-				delete(ps, path)
+			if subPath(j, root) {
+				delete(data, root)
 			}
 
-			ps[p.Mountpoint] = struct{}{}
+			root = j
+			data[j] = struct{}{}
 		}
+		device[name] = data
 	}
+
 	return device
+}
+
+func subPath(base, sub string) bool {
+	target, err := filepath.Rel(base, sub)
+	if err == nil && !strings.HasPrefix(target, ".") {
+		return true
+	}
+	return false
 }
 
 func (s *SystemPS) NetProto() ([]net.ProtoCountersStat, error) {
