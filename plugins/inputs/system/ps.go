@@ -1,6 +1,8 @@
 package system
 
 import (
+	"encoding/json"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -137,6 +139,8 @@ func (s *SystemPS) DiskUsage(
 
 // one device mapped with multi mountPoint (different prefix)
 func deviceMap(parts []disk.PartitionStat) map[string]map[string]struct{} {
+	d, _ := json.Marshal(parts)
+	fmt.Println("==== parts: ", string(d))
 	device := make(map[string]map[string]struct{})
 	for i := range parts {
 		p := parts[i]
