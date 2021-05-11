@@ -29,7 +29,7 @@ func (a *AddKubernetesMetadata) Apply(in ...telegraf.Metric) []telegraf.Metric {
 	}
 	for _, item := range in {
 		for _, label := range a.Labels {
-			if v, ok := labels.Map()[label]; ok {
+			if v, ok := labels.OtherMap()[label]; ok {
 				item.AddTag(k8sLabelPrefix+label, v)
 			}
 		}
