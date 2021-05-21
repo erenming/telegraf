@@ -87,16 +87,17 @@ func (c *collector) gatterNodeLabels() (err error) {
 	}
 	var line string
 	labels := make(map[string]string)
+	otherLabels := make(map[string]string)
 	if c.IsK8s() {
-		line, labels, err = c.getK8sNodeLabels(c.nodeName)
+		line, labels, otherLabels, err = c.getK8sNodeLabels(c.nodeName)
 		if err != nil {
-			//log.Printf("fail to get k8s node %s labels %s", c.nodeName, err)
+			// log.Printf("fail to get k8s node %s labels %s", c.nodeName, err)
 			return err
 		}
 	} else {
 		line, err = util.ReadLabelsFile(c.LabelsPath)
 		if err != nil {
-			//log.Printf("fail to read labels file: %s", err)
+			// log.Printf("fail to read labels file: %s", err)
 			return err
 		}
 		if len(line) > len("MESOS_ATTRIBUTES=dice_tags:") {
@@ -111,6 +112,7 @@ func (c *collector) gatterNodeLabels() (err error) {
 	}
 	c.lablesLine = line
 	c.lablesMap = labels
+	c.otherLabelsMap = otherLabels
 	for k := range labels {
 		if strings.HasPrefix(k, "org-") {
 			c.orgName = k[len("org-"):]
@@ -186,19 +188,22 @@ func GetInfo() Info {
 type Labels interface {
 	Line() string
 	Map() map[string]string
+	OtherMap() map[string]string
 	OrgName() string
 	List() []string
 }
 
 type labels struct {
-	lablesLine string
-	lablesMap  map[string]string
-	orgName    string
+	lablesLine     string
+	lablesMap      map[string]string
+	otherLabelsMap map[string]string
+	orgName        string
 }
 
-func (l *labels) Line() string           { return l.lablesLine }
-func (l *labels) Map() map[string]string { return l.lablesMap }
-func (l *labels) OrgName() string        { return l.orgName }
+func (l *labels) Line() string                { return l.lablesLine }
+func (l *labels) Map() map[string]string      { return l.lablesMap }
+func (l *labels) OtherMap() map[string]string { return l.otherLabelsMap }
+func (l *labels) OrgName() string             { return l.orgName }
 func (l *labels) List() []string {
 	var list []string
 	for k := range l.lablesMap {

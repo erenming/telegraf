@@ -44,19 +44,21 @@ func getAllocatable(node v1.Node) map[string]float64 {
 	return res
 }
 
-func (c *collector) getK8sNodeLabels(name string) (string, map[string]string, error) {
+func (c *collector) getK8sNodeLabels(name string) (string, map[string]string, map[string]string, error) {
 	client, timeout := kubernetes.GetClient()
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 	node, err := client.CoreV1().Nodes().Get(ctx, name, metav1.GetOptions{})
 	if err != nil {
 		log.Printf("E! fail to get node labels from %s error: %v", name, err)
-		return "", nil, err
+		return "", nil, nil, err
 	}
 	log.Printf("I! input [node] get node %s labels ok", name)
 	sb := strings.Builder{}
 	sb.WriteString("K8S_ATTRIBUTES=dice_tags:")
 	labelsMap := make(map[string]string)
+	// labels without dice/ prefix
+	otherlabelsMap := make(map[string]string)
 	if node.ObjectMeta.Labels != nil {
 		// MESOS_ATTRIBUTES=dice_tags:any,org-terminus,workspace-dev,workspace-test,workspace-staging,workspace-prod
 		// node.Metadata.Labels = map[string]string{
@@ -73,16 +75,17 @@ func (c *collector) getK8sNodeLabels(name string) (string, map[string]string, er
 				sb.WriteString(key[len("dice/"):])
 				sb.WriteString(",")
 				labelsMap[key[len("dice/"):]] = v
+				find = true
 			} else {
-				labelsMap[key] = v
+				otherlabelsMap[key] = v
 			}
 		}
 		if find {
 			labels := sb.String()
-			return labels[0 : len(labels)-1], labelsMap, nil
+			return labels[0 : len(labels)-1], labelsMap, otherlabelsMap, nil
 		}
 	}
-	return sb.String(), labelsMap, nil
+	return sb.String(), labelsMap, otherlabelsMap, nil
 }
 
 func convertQuantityFloat(s string, m float64) float64 {

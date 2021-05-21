@@ -243,7 +243,7 @@ func (h Health) getComponentMap() (map[string]*component, error) {
 			if len(firstC.Ports) == 0 {
 				continue
 			}
-			c.serviceURL = strings.Join([]string{p.Status.HostIP, strconv.Itoa(int(firstC.Ports[0].ContainerPort))}, ":")
+			c.serviceURL = strings.Join([]string{p.Status.PodIP, strconv.Itoa(int(firstC.Ports[0].ContainerPort))}, ":")
 		}
 		c.serviceURL = normalizeURL(c.serviceURL)
 		res[comName] = c
