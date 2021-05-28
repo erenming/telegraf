@@ -8,7 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/influxdata/telegraf/plugins/inputs/global/kubelet"
+	"github.com/influxdata/telegraf/plugins/inputs/global/kubernetes"
+	apiv1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
 )
 
@@ -20,22 +21,26 @@ const (
 	labelKubernetesContainerName = "io.kubernetes.container.name"
 )
 
-func (s *Summary) getPodContainer(containerID string, id kubelet.PodID) (pc *kubelet.PodContainer, ok bool) {
+func (s *Summary) getPodContainer(containerID string, id kubernetes.PodId) (pc apiv1.Container, ok bool) {
 	if !strings.HasPrefix(containerID, "docker://") {
 		containerID = "docker://" + containerID
 	}
 
-	pod, ok := s.pods[id]
+	pmap, ok := kubernetes.GetPodMap();
 	if !ok {
-		return nil, false
+		return apiv1.Container{}, false
+	}
+	pod, ok := pmap.Load(id)
+	if !ok {
+		return apiv1.Container{}, false
 	}
 
-	return s.getContainerSpecById(containerID, pod)
+	return s.getContainerSpecById(containerID, pod.(*apiv1.Pod))
 }
 
-func (s *Summary) getContainerSpecById(containerID string, pod *kubelet.PodInfo) (pc *kubelet.PodContainer, ok bool) {
+func (s *Summary) getContainerSpecById(containerID string, pod *apiv1.Pod) (pc apiv1.Container, ok bool) {
 	if len(pod.Spec.Containers) != len(pod.Status.ContainerStatuses) {
-		return nil, false
+		return apiv1.Container{}, false
 	}
 
 	index := -1
@@ -50,12 +55,14 @@ func (s *Summary) getContainerSpecById(containerID string, pod *kubelet.PodInfo)
 	if index != -1 {
 		return pod.Spec.Containers[index], true
 	}
-	return nil, false
+	return apiv1.Container{}, false
 }
 
-func csIsRunning(cs *kubelet.ContainerStatus) bool {
-	_, ok := cs.State["running"]
-	return ok
+func csIsRunning(cs apiv1.ContainerStatus) bool {
+	if cs.State.Running != nil {
+		return true
+	}
+	return false
 }
 
 func convertQuantityFloat(s string, m float64) float64 {

@@ -10,12 +10,13 @@ import (
 
 	"github.com/docker/docker/api/types"
 	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/inputs/global/kubelet"
+	"github.com/influxdata/telegraf/plugins/inputs/global/kubernetes"
+	apiv1 "k8s.io/api/core/v1"
 )
 
 type gatherContext struct {
 	id           string
-	podContainer *kubelet.PodContainer
+	podContainer apiv1.Container
 	envs         map[string]string
 	info         *types.ContainerJSON
 	stats        *types.StatsJSON
@@ -105,10 +106,7 @@ func (s *Summary) newGatherContext(
 	if info != nil {
 		podName, _ := info.Config.Labels[labelKubernetesPodName]
 		podNamespace, _ := info.Config.Labels[labelKubernetesPodNamespace]
-		if pc, ok := s.getPodContainer(id, kubelet.PodID{
-			Name:      podName,
-			Namespace: podNamespace,
-		}); ok {
+		if pc, ok := s.getPodContainer(id, kubernetes.GetPodID(podName, podNamespace)); ok {
 			gtx.podContainer = pc
 		}
 		podUid, _ := info.Config.Labels[labelKubernetesPodUID]
@@ -134,8 +132,8 @@ func (s *Summary) gatherContainerProcessStats(tags map[string]string, fields map
 }
 
 func getContainerMemLimit(gtx *gatherContext) float64 {
-	if gtx.podContainer != nil {
-		return convertQuantityFloat(gtx.podContainer.Resources.Limits.Memory, 1)
+	if gtx.podContainer.Name != "" {
+		return convertQuantityFloat(gtx.podContainer.Resources.Limits.Memory().String(), 1)
 	}
 
 	limit, err := strconv.ParseFloat(gtx.envs["DICE_MEM_LIMIT"], 64)
@@ -146,8 +144,8 @@ func getContainerMemLimit(gtx *gatherContext) float64 {
 }
 
 func getContainerMemAllocation(gtx *gatherContext) float64 {
-	if gtx.podContainer != nil {
-		return convertQuantityFloat(gtx.podContainer.Resources.Requests.Memory, 1)
+	if gtx.podContainer.Name != "" {
+		return convertQuantityFloat(gtx.podContainer.Resources.Requests.Memory().String(), 1)
 	}
 
 	request, err := strconv.ParseFloat(gtx.envs["DICE_MEM_REQUEST"], 64)
@@ -182,8 +180,8 @@ func (s *Summary) gatherContainerMem(gtx *gatherContext) {
 }
 
 func getContainerCPULimit(gtx *gatherContext) float64 {
-	if gtx.podContainer != nil {
-		return convertQuantityFloat(gtx.podContainer.Resources.Limits.CPU, 1)
+	if gtx.podContainer.Name != "" {
+		return convertQuantityFloat(gtx.podContainer.Resources.Limits.Cpu().String(), 1)
 	}
 
 	if str, ok := gtx.envs["DICE_CPU_LIMIT"]; ok {
@@ -206,8 +204,8 @@ func getContainerCPULimit(gtx *gatherContext) float64 {
 }
 
 func getContainerCPUAllocation(gtx *gatherContext) float64 {
-	if gtx.podContainer != nil {
-		return convertQuantityFloat(gtx.podContainer.Resources.Requests.CPU, 1)
+	if gtx.podContainer.Name != "" {
+		return convertQuantityFloat(gtx.podContainer.Resources.Requests.Cpu().String(), 1)
 	}
 
 	if str, ok := gtx.envs["DICE_CPU_REQUEST"]; ok {
