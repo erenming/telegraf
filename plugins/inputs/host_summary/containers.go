@@ -122,10 +122,10 @@ func (c *ContainersCollector) getPodsResource(tags map[string]string, fields map
 			c := pod.Spec.Containers[i]
 			req := c.Resources.Requests
 			lim := c.Resources.Limits
-			memReq += convertQuantity(req.Memory().String(), 1)
-			memLimit += convertQuantity(lim.Memory().String(), 1)
-			cpuReq += convertQuantity(req.Cpu().String(), 1000)
-			cpuLimit += convertQuantity(lim.Cpu().String(), 1000)
+			memReq += req.Memory().Value()
+			memLimit += lim.Memory().Value()
+			cpuReq += req.Cpu().MilliValue()
+			cpuLimit += lim.Cpu().MilliValue()
 		}
 		return true
 	})

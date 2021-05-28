@@ -133,7 +133,7 @@ func (s *Summary) gatherContainerProcessStats(tags map[string]string, fields map
 
 func getContainerMemLimit(gtx *gatherContext) float64 {
 	if gtx.podContainer.Name != "" {
-		return convertQuantityFloat(gtx.podContainer.Resources.Limits.Memory().String(), 1)
+		return float64(gtx.podContainer.Resources.Limits.Memory().Value())
 	}
 
 	limit, err := strconv.ParseFloat(gtx.envs["DICE_MEM_LIMIT"], 64)
@@ -145,7 +145,7 @@ func getContainerMemLimit(gtx *gatherContext) float64 {
 
 func getContainerMemAllocation(gtx *gatherContext) float64 {
 	if gtx.podContainer.Name != "" {
-		return convertQuantityFloat(gtx.podContainer.Resources.Requests.Memory().String(), 1)
+		return float64(gtx.podContainer.Resources.Requests.Memory().Value())
 	}
 
 	request, err := strconv.ParseFloat(gtx.envs["DICE_MEM_REQUEST"], 64)
@@ -181,7 +181,7 @@ func (s *Summary) gatherContainerMem(gtx *gatherContext) {
 
 func getContainerCPULimit(gtx *gatherContext) float64 {
 	if gtx.podContainer.Name != "" {
-		return convertQuantityFloat(gtx.podContainer.Resources.Limits.Cpu().String(), 1)
+		return gtx.podContainer.Resources.Limits.Cpu().AsApproximateFloat64()
 	}
 
 	if str, ok := gtx.envs["DICE_CPU_LIMIT"]; ok {
@@ -205,7 +205,7 @@ func getContainerCPULimit(gtx *gatherContext) float64 {
 
 func getContainerCPUAllocation(gtx *gatherContext) float64 {
 	if gtx.podContainer.Name != "" {
-		return convertQuantityFloat(gtx.podContainer.Resources.Requests.Cpu().String(), 1)
+		return gtx.podContainer.Resources.Requests.Cpu().AsApproximateFloat64()
 	}
 
 	if str, ok := gtx.envs["DICE_CPU_REQUEST"]; ok {

@@ -10,7 +10,6 @@ import (
 
 	"github.com/influxdata/telegraf/plugins/inputs/global/kubernetes"
 	apiv1 "k8s.io/api/core/v1"
-	"k8s.io/apimachinery/pkg/api/resource"
 )
 
 const (
@@ -26,7 +25,7 @@ func (s *Summary) getPodContainer(containerID string, id kubernetes.PodId) (pc a
 		containerID = "docker://" + containerID
 	}
 
-	pmap, ok := kubernetes.GetPodMap();
+	pmap, ok := kubernetes.GetPodMap()
 	if !ok {
 		return apiv1.Container{}, false
 	}
@@ -63,21 +62,6 @@ func csIsRunning(cs apiv1.ContainerStatus) bool {
 		return true
 	}
 	return false
-}
-
-func convertQuantityFloat(s string, m float64) float64 {
-	q, err := resource.ParseQuantity(s)
-	if err != nil {
-		return 0
-	}
-	f, err := strconv.ParseFloat(fmt.Sprint(q.AsDec()), 64)
-	if err != nil {
-		return 0
-	}
-	if m < 1 {
-		m = 1
-	}
-	return f * m
 }
 
 type kmemStats struct {

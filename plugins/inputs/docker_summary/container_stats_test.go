@@ -1,15 +1,14 @@
 package dockersummary
 
 import (
-	"encoding/json"
-	"io/ioutil"
 	"testing"
 	"time"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
-	"github.com/influxdata/telegraf/plugins/inputs/global/kubelet"
 	"github.com/stretchr/testify/assert"
+	apiv1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/api/resource"
 )
 
 func TestGatherContainerCPUWithKubernetes(t *testing.T) {
@@ -26,7 +25,7 @@ func TestGatherContainerCPUWithKubernetes(t *testing.T) {
 
 func TestGatherContainerCPU(t *testing.T) {
 	gtx := mockGatherContext()
-	gtx.podContainer = nil
+	gtx.podContainer = apiv1.Container{}
 	s := mockSummary()
 
 	s.gatherContainerCPU(gtx)
@@ -53,7 +52,7 @@ func TestGatherContainerMemWithKubernetes(t *testing.T) {
 
 func TestGatherContainerMem(t *testing.T) {
 	gtx := mockGatherContext()
-	gtx.podContainer = nil
+	gtx.podContainer = apiv1.Container{}
 	s := mockSummary()
 
 	s.gatherContainerMem(gtx)
@@ -74,7 +73,7 @@ func Test_getContainerMemLimit(t *testing.T) {
 	assert.Equal(t, float64(512*1024*1024), limit)
 
 	// env
-	gtx.podContainer = nil
+	gtx.podContainer = apiv1.Container{}
 	limit = getContainerMemLimit(gtx)
 	assert.Equal(t, float64(512*1024*1024), limit)
 
@@ -92,7 +91,7 @@ func Test_getContainerMemAllocation(t *testing.T) {
 	assert.Equal(t, float64(10*1024*1024), alloc)
 
 	// env
-	gtx.podContainer = nil
+	gtx.podContainer = apiv1.Container{}
 	alloc = getContainerMemAllocation(gtx)
 	assert.Equal(t, float64(32*1024*1024), alloc)
 
@@ -120,7 +119,7 @@ func Test_getContainerCPULimit(t *testing.T) {
 	assert.Equal(t, 0.5, limit)
 
 	// env
-	gtx.podContainer = nil
+	gtx.podContainer = apiv1.Container{}
 	limit = getContainerCPULimit(gtx)
 	assert.Equal(t, 0.5, limit)
 
@@ -151,7 +150,7 @@ func Test_getContainerCPUAllocation(t *testing.T) {
 	assert.Equal(t, 0.01, alloc)
 
 	// env
-	gtx.podContainer = nil
+	gtx.podContainer = apiv1.Container{}
 	alloc = getContainerCPUAllocation(gtx)
 	assert.Equal(t, 0.083333, alloc)
 
@@ -308,17 +307,20 @@ func mockEnvs() map[string]string {
 	}
 }
 
-func mockPodContainer() *kubelet.PodContainer {
-	d, err := ioutil.ReadFile("testdata/pod_info.json")
-	if err != nil {
-		panic(err)
+func mockPodContainer() apiv1.Container {
+	return apiv1.Container{
+		Name: "test-container",
+		Resources: apiv1.ResourceRequirements{
+			Limits: apiv1.ResourceList{
+				apiv1.ResourceCPU:    resource.MustParse("500m"),
+				apiv1.ResourceMemory: resource.MustParse("512Mi"),
+			},
+			Requests: apiv1.ResourceList{
+				apiv1.ResourceCPU:    resource.MustParse("10m"),
+				apiv1.ResourceMemory: resource.MustParse("10Mi"),
+			},
+		},
 	}
-	var podInfo *kubelet.PodInfo
-	err = json.Unmarshal(d, &podInfo)
-	if err != nil {
-		panic(err)
-	}
-	return podInfo.Spec.Containers[0]
 }
 
 func mockInfo() *types.ContainerJSON {
