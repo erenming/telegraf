@@ -103,18 +103,27 @@ type (
 type kubelet struct {
 	global.Base
 	GatherPods       bool `toml:"gather_pods"`
-	client           *http.Client
+	client           *httpClient
 	lastGetPods      time.Time
 	lastGetPodStatus time.Time
 	lock             sync.Mutex
 	pods             map[PodID]*PodInfo
 	podsStats        map[PodID]*PodStatus
+
+	KubeletPort int    `toml:"kubelet_port"`
+	K8sToken    string `toml:"k8s_token"`
+	K8sTlsCa    string `toml:"k8s_tls_ca"`
+	inited      bool
 }
 
 func (k *kubelet) Gather(acc telegraf.Accumulator) error {
 	info := node.GetInfo()
 	if !info.IsK8s() {
 		return nil
+	}
+	if !k.inited {
+		k.client = k.CreateClient()
+		k.inited = true
 	}
 	pods, err := k.GetPods()
 	if err != nil {
@@ -227,8 +236,8 @@ func getLabels(labels map[string]string, fields map[string]interface{}, tags map
 
 func (k *kubelet) getStatsSummary() (map[PodID]*PodStatus, error) {
 	info := node.GetInfo()
-	url := fmt.Sprintf("http://%s:10255/stats/summary", info.HostIP())
-	request, err := http.NewRequest("GET", url, nil)
+	url := fmt.Sprintf("https://%s:%d/stats/summary", info.HostIP(), k.KubeletPort)
+	request, err := k.client.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -259,8 +268,8 @@ func (k *kubelet) getStatsSummary() (map[PodID]*PodStatus, error) {
 
 func (k *kubelet) getPods() (map[PodID]*PodInfo, error) {
 	info := node.GetInfo()
-	url := fmt.Sprintf("http://%s:10255/pods", info.HostIP())
-	request, err := http.NewRequest("GET", url, nil)
+	url := fmt.Sprintf("https://%s:%d/pods", info.HostIP(), k.KubeletPort)
+	request, err := k.client.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -323,8 +332,17 @@ func (k *kubelet) GetStatsSummary() (map[PodID]*PodStatus, error) {
 	return podsStats, nil
 }
 
+const (
+	k8sCa        = "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+	k8sToken     = "/var/run/secrets/kubernetes.io/serviceaccount/token"
+	normalPort   = 10250
+	readOnlyPort = 10255
+)
+
 var instance = &kubelet{
-	client: &http.Client{Timeout: time.Second * 8},
+	K8sTlsCa:    k8sCa,
+	K8sToken:    k8sToken,
+	KubeletPort: normalPort,
 }
 
 func init() {
