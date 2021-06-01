@@ -89,14 +89,6 @@ func (s *Summary) getKubernetesInfo() error {
 	} else {
 		s.podNetStatus = summary
 	}
-
-	// info, ok := kubernetes.GetPodMap()
-	// if !ok {
-	// 	s.pods = nil
-	// 	return fmt.Errorf("fail to get kubernetes.GetPodMap")
-	// } else {
-	// 	s.pods = info
-	// }
 	return nil
 }
 
