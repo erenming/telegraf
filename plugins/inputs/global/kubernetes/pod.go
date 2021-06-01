@@ -60,3 +60,11 @@ func (pv *podViewer) consume(ctx context.Context, ch <-chan *tk8s.Item) {
 func GetPodID(name, namespace string) PodId {
 	return PodId(namespace + "/" + name)
 }
+
+func GetPodMap() (sync.Map, bool) {
+	obj, ok := instance.viewers[resourcePod]
+	if !ok {
+		return sync.Map{}, false
+	}
+	return obj.GetData(), true
+}

@@ -105,7 +105,7 @@ func (c *ContainersCollector) getPodsResource(tags map[string]string, fields map
 	}
 	var (
 		memReq, memLimit int64
-		cpuReq, cpuLimit int64
+		cpuReq, cpuLimit float64
 	)
 
 	pods.Range(func(key, value interface{}) bool {
@@ -124,15 +124,15 @@ func (c *ContainersCollector) getPodsResource(tags map[string]string, fields map
 			lim := c.Resources.Limits
 			memReq += req.Memory().Value()
 			memLimit += lim.Memory().Value()
-			cpuReq += req.Cpu().MilliValue()
-			cpuLimit += lim.Cpu().MilliValue()
+			cpuReq += req.Cpu().AsApproximateFloat64()
+			cpuLimit += lim.Cpu().AsApproximateFloat64()
 		}
 		return true
 	})
 
-	fields["cpu_limit_total"] = float64(cpuLimit) / 1000
-	fields["cpu_request_total"] = float64(cpuReq) / 1000
-	fields["cpu_origin_total"] = float64(cpuReq) / 1000
+	fields["cpu_limit_total"] = cpuLimit
+	fields["cpu_request_total"] = cpuReq
+	fields["cpu_origin_total"] = cpuReq
 	fields["mem_limit_total"] = memLimit
 	fields["mem_request_total"] = memReq
 	fields["mem_origin_total"] = memReq

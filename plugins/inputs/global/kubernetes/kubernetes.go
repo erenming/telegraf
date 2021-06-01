@@ -3,7 +3,6 @@ package kubernetes
 import (
 	"context"
 	"log"
-	"sync"
 	"time"
 
 	"github.com/influxdata/telegraf"
@@ -88,12 +87,4 @@ func init() {
 // GetClient .
 func GetClient() (*k8s.Clientset, time.Duration) {
 	return instance.client, time.Duration(instance.K8sConfig.Timeout)
-}
-
-func GetPodMap() (sync.Map, bool) {
-	obj, ok := instance.viewers[resourcePod]
-	if !ok {
-		return sync.Map{}, false
-	}
-	return obj.GetData(), true
 }

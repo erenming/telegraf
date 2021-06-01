@@ -21,8 +21,11 @@ func TestViewing(t *testing.T) {
 	go func() {
 		for {
 			time.Sleep(time.Second * 3)
-			pv.pods.Range(func(key, value interface{}) bool {
+
+			data := pv.GetData()
+			data.Range(func(key, value interface{}) bool {
 				t.Logf("key: %s", key)
+				return true
 			})
 		}
 	}()
