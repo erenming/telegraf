@@ -26,7 +26,7 @@ type Summary struct {
 
 	k8s          bool
 	podNetStatus map[kubelet.PodID]*kubelet.PodStatus
-	pods         map[kubelet.PodID]*kubelet.PodInfo
+	// pods         map[kubernetes.PodId]*apiv1.Pod
 }
 
 // Description .
@@ -77,7 +77,6 @@ func (s *Summary) Gather(acc telegraf.Accumulator) (err error) {
 
 	if s.k8s {
 		s.podNetStatus = nil
-		s.pods = nil
 	}
 	return nil
 }
@@ -89,14 +88,6 @@ func (s *Summary) getKubernetesInfo() error {
 		return fmt.Errorf("fail to kubelet.GetStatsSummery: %s", err)
 	} else {
 		s.podNetStatus = summary
-	}
-
-	info, err := kubelet.GetPods()
-	if err != nil {
-		s.pods = nil
-		return fmt.Errorf("fail to kubelet.GetPods: %s", err)
-	} else {
-		s.pods = info
 	}
 	return nil
 }

@@ -11,8 +11,9 @@ import (
 	"github.com/docker/docker/api/types/filters"
 	"github.com/influxdata/telegraf"
 	"github.com/influxdata/telegraf/plugins/inputs/global/docker"
-	"github.com/influxdata/telegraf/plugins/inputs/global/kubelet"
+	"github.com/influxdata/telegraf/plugins/inputs/global/kubernetes"
 	"github.com/influxdata/telegraf/plugins/inputs/global/node"
+	apiv1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
 )
 
@@ -94,34 +95,44 @@ func (c *ContainersCollector) getContainers(tags map[string]string, fields map[s
 	return nil
 }
 
+// refer https://github.com/kubernetes-client/python/issues/651
+// accumulate: /pods?fieldSelector=spec.nodeName=node-xxx,status.phase!=Failed,status.phase!=Succeeded
 func (c *ContainersCollector) getPodsResource(tags map[string]string, fields map[string]interface{}, acc telegraf.Accumulator) error {
-	pods, err := kubelet.GetPods()
-	if err != nil {
-		log.Printf("fail to get pods : %s", err)
-		return err
+	pods, ok := kubernetes.GetPodMap()
+	if !ok {
+		log.Printf("fail to get pods")
+		return nil
 	}
 	var (
 		memReq, memLimit int64
-		cpuReq, cpuLimit int64
+		cpuReq, cpuLimit float64
 	)
-	for _, pod := range pods {
-		if pod.Status.Phase != "Running" {
-			continue
+
+	pods.Range(func(key, value interface{}) bool {
+		pod, ok := value.(*apiv1.Pod)
+		if !ok {
+			return true
+		}
+
+		if pod.Status.Phase == apiv1.PodFailed || pod.Status.Phase == apiv1.PodSucceeded {
+			return true
 		}
 
 		for i := 0; i < len(pod.Spec.Containers); i++ {
 			c := pod.Spec.Containers[i]
 			req := c.Resources.Requests
 			lim := c.Resources.Limits
-			memReq += convertQuantity(req.Memory, 1)
-			memLimit += convertQuantity(lim.Memory, 1)
-			cpuReq += convertQuantity(req.CPU, 1000)
-			cpuLimit += convertQuantity(lim.CPU, 1000)
+			memReq += req.Memory().Value()
+			memLimit += lim.Memory().Value()
+			cpuReq += req.Cpu().AsApproximateFloat64()
+			cpuLimit += lim.Cpu().AsApproximateFloat64()
 		}
-	}
-	fields["cpu_limit_total"] = float64(cpuLimit) / 1000
-	fields["cpu_request_total"] = float64(cpuReq) / 1000
-	fields["cpu_origin_total"] = float64(cpuReq) / 1000
+		return true
+	})
+
+	fields["cpu_limit_total"] = cpuLimit
+	fields["cpu_request_total"] = cpuReq
+	fields["cpu_origin_total"] = cpuReq
 	fields["mem_limit_total"] = memLimit
 	fields["mem_request_total"] = memReq
 	fields["mem_origin_total"] = memReq
