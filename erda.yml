@@ -1,0 +1,153 @@
+version: "2"
+meta:
+    ERDA_COMPONENT: ""
+values:
+    production:
+        replicas: 1
+        request_cpu: 0.1
+        request_mem: 128
+envs: {}
+services:
+    telegraf:
+        image: telegraf
+        ports:
+            - port: 8090
+              protocol: TCP
+              l4_protocol: TCP
+              expose: false
+              default: false
+        envs:
+            CLUSTER_PATH: /rootfs/etc/cluster-node
+            COLLECTOR_AUTH_PASSWORD: yyy
+            COLLECTOR_AUTH_USERNAME: xxx
+            HOST_ETC: /rootfs/etc
+            HOST_MOUNT_PREFIX: /rootfs
+            HOST_PROC: /rootfs/proc
+            HOST_SYS: /rootfs/sys
+            HPROF_OUTPUT_PATH: /rootfs/tmp
+            INPUT_DOCKER_TAG_KEYS: '[''DICE_*'', ''N?_DICE_*'', ''EDAS_*'', ''ADDON_ID'', ''N?_ADDON_ID'', ''TERMINUS_KEY'', ''TERMINUS_DEFINE_TAG'', ''MESOS_TASK_ID'', ''POD_IP'', ''io.kubernetes.pod.name'', ''io.kubernetes.pod.namespace'', ''io.kubernetes.pod.uid'']'
+            INPUT_METASERVER_FIELD_KEYS: '[''DICE_*'', ''N?_DICE_*'', ''EDAS_*'', ''TERMINUS_DEFINE_TAG'', ''POD_IP'', ''io.kubernetes.pod.name'', ''io.kubernetes.pod.namespace'']'
+            SADC_PATH: /usr/lib64/sa/sadc
+            SADF_PATH: /usr/bin/sadf
+            TELEGRAF_PPROF_PORT: "6962"
+        resources:
+            cpu: ${request_cpu:0.5}
+            mem: ${request_mem:512}
+            max_cpu: 0.5
+            max_mem: 512
+            network:
+                mode: host
+        binds:
+            - /:/rootfs:ro
+            - /tmp:/rootfs/tmp:rw
+            - /run/udev:/run/udev:ro
+        deployments:
+            workload: per_node
+            replicas: 1
+            labels:
+                GROUP: spot-v2
+                PRIVILEGED: "true"
+        health_check:
+            exec:
+                cmd: ps aux | grep telegraf || exit 1
+                duration: 120
+    telegraf-app:
+        image: telegraf-app
+        ports:
+            - port: 8091
+              protocol: TCP
+              l4_protocol: TCP
+              expose: false
+              default: false
+        envs:
+            CLUSTER_PATH: /rootfs/etc/cluster-node
+            COLLECTOR_AUTH_PASSWORD: yyy
+            COLLECTOR_AUTH_USERNAME: xxx
+            TELEGRAF_CONFIG: telegraf-app
+            TELEGRAF_PPROF_PORT: "6963"
+        resources:
+            cpu: ${request_cpu:0.5}
+            mem: ${request_mem:512}
+            max_cpu: 0.5
+            max_mem: 512
+            network:
+                mode: host
+        binds:
+            - /:/rootfs:ro
+        deployments:
+            workload: per_node
+            replicas: 1
+            labels:
+                GROUP: spot-v2
+                PRIVILEGED: "true"
+        health_check:
+            exec:
+                cmd: ps aux | grep telegraf || exit 1
+                duration: 120
+    telegraf-platform:
+        image: telegraf-platform
+        ports:
+            - port: 8092
+              protocol: TCP
+              l4_protocol: TCP
+              expose: false
+              default: false
+            - port: 8094
+              protocol: UDP
+              l4_protocol: UDP
+              expose: false
+              default: false
+            - port: 8095
+              protocol: TCP
+              l4_protocol: TCP
+              expose: false
+              default: false
+            - port: 6963
+              protocol: TCP
+              l4_protocol: TCP
+              expose: false
+              default: false
+            - port: 7180
+              protocol: TCP
+              l4_protocol: TCP
+              expose: false
+              default: false
+        envs:
+            CASSANDRA_EXPORTER_JMX_ADDR: addon-cassandra-exporter-jmx.default.svc.cluster.local
+            CASSANDRA_JOLOKIA_PORT: "8778"
+            CLUSTER_PATH: /rootfs/etc/cluster-node
+            COLLECTOR_AUTH_PASSWORD: yyy
+            COLLECTOR_AUTH_USERNAME: xxx
+            HOST_ETC: /rootfs/etc
+            HOST_MOUNT_PREFIX: /rootfs
+            HOST_PROC: /rootfs/proc
+            HOST_SYS: /rootfs/sys
+            HPROF_OUTPUT_PATH: /rootfs/tmp
+            KAFKA_JOLOKIA_PORT: "8778"
+            TELEGRAF_CONFIG: platform.alone
+            TELEGRAF_PPROF_PORT: "6964"
+            TERMINUS_LOG_COLLECT: "false"
+        resources:
+            cpu: ${request_cpu:1}
+            mem: ${request_mem:1536}
+            max_cpu: 1
+            max_mem: 1536
+        binds:
+            - /:/rootfs:ro
+            - /netdata/dice-ops/dice-config/certificates:/netdata/dice-ops/dice-config/certificates:ro
+        deployments:
+            replicas: 1
+            labels:
+                GROUP: spot-v2
+                PRIVILEGED: "true"
+        health_check:
+            exec:
+                cmd: ps aux | grep telegraf || exit 1
+                duration: 120
+
+addons:
+    infos:
+        plan: "custom:basic"
+        options:
+            version: "1.0.0"
+
