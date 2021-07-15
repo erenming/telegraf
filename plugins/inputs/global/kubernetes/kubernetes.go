@@ -2,6 +2,7 @@ package kubernetes
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"time"
 
@@ -23,7 +24,7 @@ type kubernetes struct {
 	global.Base
 	client *k8s.Clientset
 	// k8s apiserver config
-	K8sConfig      tk8s.Config      `toml:"k8s_config"`
+	K8sConfig tk8s.Config `toml:"k8s_config"`
 	// watch resource config
 	WatchResources []ResourceConfig `toml:"watch_resources"`
 	viewers        map[kind]Viewer
@@ -42,6 +43,9 @@ func (k *kubernetes) Start(acc telegraf.Accumulator) error {
 	client, err := tk8s.NewClient(k.K8sConfig)
 	if err != nil {
 		return err
+	}
+	if err := tk8s.HealthCheck(client, time.Duration(k.K8sConfig.Timeout)); err != nil {
+		return fmt.Errorf("try to connect k8s failed: %w", err)
 	}
 	k.client = client
 	log.Printf("create k8s client success!!!")
@@ -73,7 +77,7 @@ func (k *kubernetes) Stop() {
 
 var instance = &kubernetes{
 	K8sConfig: tk8s.Config{
-		Timeout: config.Duration(20 * time.Second),
+		Timeout: config.Duration(10 * time.Second),
 	},
 	viewers: map[kind]Viewer{},
 }
