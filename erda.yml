@@ -144,6 +144,67 @@ services:
             exec:
                 cmd: ps aux | grep telegraf || exit 1
                 duration: 120
+    telegraf-edge:
+        resources:
+            cpu: ${request_cpu:0.5}
+            mem: ${request_mem:512}
+            max_cpu: 0.5
+            max_mem: 512
+            network:
+                mode: host
+        deployments:
+            replicas: 0
+            labels:
+                GROUP: spot-v2
+                PRIVILEGED: true
+        health_check:
+            exec:
+                cmd: 'ps aux | grep telegraf || exit 1'
+                duration: 120
+        binds:
+            - /:/rootfs:ro
+            - /tmp:/rootfs/tmp:rw
+            - /run/udev:/run/udev:ro
+        envs:
+            HOST_ETC: /rootfs/etc
+            HOST_SYS: /rootfs/sys
+            HOST_PROC: /rootfs/proc
+            HPROF_OUTPUT_PATH: /rootfs/tmp
+            CLUSTER_PATH: /rootfs/etc/cluster-node
+            SADC_PATH: /usr/lib64/sa/sadc
+            HOST_MOUNT_PREFIX: /rootfs
+            SADF_PATH: /usr/bin/sadf
+            INPUT_METASERVER_FIELD_KEYS: '[''DICE_*'', ''N?_DICE_*'', ''EDAS_*'', ''TERMINUS_DEFINE_TAG'', ''POD_IP'', ''io.kubernetes.pod.name'', ''io.kubernetes.pod.namespace'']'
+            INPUT_DOCKER_TAG_KEYS: '[''DICE_*'', ''N?_DICE_*'', ''EDAS_*'', ''ADDON_ID'', ''N?_ADDON_ID'', ''TERMINUS_KEY'', ''TERMINUS_DEFINE_TAG'', ''MESOS_TASK_ID'', ''POD_IP'', ''io.kubernetes.pod.name'', ''io.kubernetes.pod.namespace'']'
+            TELEGRAF_PPROF_PORT: "6962"
+            COLLECTOR_AUTH_USERNAME: "collector"
+            COLLECTOR_AUTH_PASSWORD: "G$9767bP32drYFPWrK4XMLRMTatiM6cU"
+            TELEGRAF_CONFIG: "telegraf-edge"
+    telegraf-app-edge:
+        resources:
+            cpu: ${request_cpu:0.5}
+            mem: ${request_mem:512}
+            max_cpu: 0.5
+            max_mem: 512
+            network:
+                mode: host
+        deployments:
+            replicas: 0
+            labels:
+                GROUP: spot-v2
+                PRIVILEGED: true
+        health_check:
+            exec:
+                cmd: 'ps aux | grep telegraf || exit 1'
+                duration: 120
+        binds:
+            - /:/rootfs:ro
+        envs:
+            TELEGRAF_CONFIG: "telegraf-app-edge"
+            CLUSTER_PATH: /rootfs/etc/cluster-node
+            TELEGRAF_PPROF_PORT: "6963"
+            COLLECTOR_AUTH_USERNAME: "collector"
+            COLLECTOR_AUTH_PASSWORD: "G$9767bP32drYFPWrK4XMLRMTatiM6cU"
 
 addons:
     infos:
