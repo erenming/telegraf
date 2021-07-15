@@ -1,5 +1,6 @@
 #!/bin/bash -e
 
+# set CONFIG_DIR
 if [ $DICE_CLUSTER_TYPE == 'kubernetes' ]; then
     export CONFIG_DIR=k8s
 elif [ $DICE_CLUSTER_TYPE == "edas" ]; then
@@ -7,13 +8,15 @@ elif [ $DICE_CLUSTER_TYPE == "edas" ]; then
 else
     export CONFIG_DIR=$DICE_CLUSTER_TYPE
 fi
-
 if [ ! $CONFIG_DIR ]; then
     export CONFIG_DIR=dcos
 fi
 
-if [[ $DICE_CLUSTER_TYPE == 'kubernetes' ]]; then
+# set CLUSTER_TYPE
+if [ $DICE_CLUSTER_TYPE == 'kubernetes' ]; then
     export CLUSTER_TYPE="k8s"
+elif [ $DICE_CLUSTER_TYPE == 'edas' ]; then
+    export CLUSTER_TYPE='k8s'
 else
     export CLUSTER_TYPE=$DICE_CLUSTER_TYPE
 fi
@@ -21,6 +24,7 @@ if [ ! $CLUSTER_TYPE ]; then
     CLUSTER_TYPE=dcos
 fi
 
+# set IS_K8S
 if [[ $CLUSTER_TYPE == 'k8s' ]]; then
     export IS_K8S="true"
 else
