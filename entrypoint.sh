@@ -3,8 +3,8 @@
 # edas same as kubernetes
 if [[ $DICE_CLUSTER_TYPE == 'edas' ]]; then
     export DICE_CLUSTER_TYPE="kubernetes"
-    # 兼容: edas 启用metaserver插件
-    export XXX_ENABLE_PLUGIN_METASERVER="true"
+    # 兼容: 启用metaserver插件
+    export ENABLE_PLUGIN_METASERVER="true"
 fi
 
 # set CONFIG_DIR
@@ -15,6 +15,8 @@ else
 fi
 if [ ! $CONFIG_DIR ]; then
     export CONFIG_DIR=dcos
+    # 兼容: 启用metaserver插件
+    export ENABLE_PLUGIN_METASERVER="true"
 fi
 
 # set CLUSTER_TYPE

@@ -130,7 +130,7 @@ func (t *Metaserver) SampleConfig() string {
 }
 
 func needGather() bool {
-	return os.Getenv("XXX_ENABLE_PLUGIN_METASERVER") == "true"
+	return os.Getenv("ENABLE_PLUGIN_METASERVER") == "true"
 }
 
 // Gather metaserver gather func
