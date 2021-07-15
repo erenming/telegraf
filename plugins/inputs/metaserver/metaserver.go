@@ -129,8 +129,15 @@ func (t *Metaserver) SampleConfig() string {
 	`
 }
 
+func needGather() bool {
+	return os.Getenv("ENABLE_PLUGIN_METASERVER") == "true"
+}
+
 // Gather metaserver gather func
 func (t *Metaserver) Gather(acc telegraf.Accumulator) error {
+	if !needGather() {
+		return nil
+	}
 	var err error
 
 	log.Println("I! start to metaserver gather.")
@@ -474,10 +481,10 @@ func (t *Metaserver) getContainerFieldsAndTags(id string, status containerStatus
 		"cpu":          float64(inspect.HostConfig.CPUShares) / float64(1024),
 		"memory":       inspect.HostConfig.Memory,
 		// "disk":         inspect.HostConfig.DiskQuota,
-		"exit_code":    inspect.State.ExitCode,
-		"privileged":   inspect.HostConfig.Privileged,
-		"status":       inspect.State.Status, // String representation of the container state. Can be one of "created", "running", "paused", "restarting", "removing", "exited", or "dead"
-		"timestamp":    time.Now().UnixNano(),
+		"exit_code":  inspect.State.ExitCode,
+		"privileged": inspect.HostConfig.Privileged,
+		"status":     inspect.State.Status, // String representation of the container state. Can be one of "created", "running", "paused", "restarting", "removing", "exited", or "dead"
+		"timestamp":  time.Now().UnixNano(),
 	}
 
 	// 默认 status = running
