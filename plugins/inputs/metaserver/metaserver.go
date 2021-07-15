@@ -130,8 +130,7 @@ func (t *Metaserver) SampleConfig() string {
 }
 
 func needGather() bool {
-	ctype := os.Getenv("DICE_CLUSTER_TYPE")
-	return ctype != "kubernetes"
+	return os.Getenv("XXX_ENABLE_PLUGIN_METASERVER") == "true"
 }
 
 // Gather metaserver gather func

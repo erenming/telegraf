@@ -1,9 +1,14 @@
 #!/bin/bash -e
 
+# edas same as kubernetes
+if [[ $DICE_CLUSTER_TYPE == 'edas' ]]; then
+    export DICE_CLUSTER_TYPE="kubernetes"
+    # 兼容: edas 启用metaserver插件
+    export XXX_ENABLE_PLUGIN_METASERVER="true"
+fi
+
 # set CONFIG_DIR
 if [ $DICE_CLUSTER_TYPE == 'kubernetes' ]; then
-    export CONFIG_DIR=k8s
-elif [ $DICE_CLUSTER_TYPE == "edas" ]; then
     export CONFIG_DIR=k8s
 else
     export CONFIG_DIR=$DICE_CLUSTER_TYPE
@@ -15,8 +20,6 @@ fi
 # set CLUSTER_TYPE
 if [ $DICE_CLUSTER_TYPE == 'kubernetes' ]; then
     export CLUSTER_TYPE="k8s"
-elif [ $DICE_CLUSTER_TYPE == 'edas' ]; then
-    export CLUSTER_TYPE='k8s'
 else
     export CLUSTER_TYPE=$DICE_CLUSTER_TYPE
 fi
