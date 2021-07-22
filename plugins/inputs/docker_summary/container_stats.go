@@ -140,6 +140,9 @@ func getContainerMemLimit(gtx *gatherContext) float64 {
 	if err == nil {
 		return limit * 1024 * 1024
 	}
+	if gtx.info != nil && gtx.info.HostConfig != nil {
+		return float64(gtx.info.HostConfig.Memory)
+	}
 	return 0
 }
 
@@ -151,9 +154,6 @@ func getContainerMemAllocation(gtx *gatherContext) float64 {
 	request, err := strconv.ParseFloat(gtx.envs["DICE_MEM_REQUEST"], 64)
 	if err == nil {
 		return request * 1024 * 1024
-	}
-	if gtx.info != nil && gtx.info.HostConfig != nil {
-		return float64(gtx.info.HostConfig.Memory)
 	}
 	return 0
 }
