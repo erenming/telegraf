@@ -54,6 +54,7 @@ type (
 	}
 	// ContainerStatus .
 	ContainerStatus struct {
+		Name         string                     `json:"name"`
 		ContainerID  string                     `json:"containerID"`
 		State        map[string]*ContainerState `json:"state"`
 		RestartCount int                        `json:"restartCount"`
