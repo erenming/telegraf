@@ -77,8 +77,14 @@ func Test_getContainerMemLimit(t *testing.T) {
 	limit = getContainerMemLimit(gtx)
 	assert.Equal(t, float64(512*1024*1024), limit)
 
-	// none
+	// info
+	gtx.info.HostConfig.Memory = 24 * 1024 * 1024
 	delete(gtx.envs, "DICE_MEM_LIMIT")
+	limit = getContainerMemLimit(gtx)
+	assert.Equal(t, float64(24*1024*1024), limit)
+
+	// none
+	gtx.info.HostConfig = nil
 	limit = getContainerMemLimit(gtx)
 	assert.Equal(t, 0.0, limit)
 }
@@ -95,18 +101,8 @@ func Test_getContainerMemAllocation(t *testing.T) {
 	alloc = getContainerMemAllocation(gtx)
 	assert.Equal(t, float64(32*1024*1024), alloc)
 
-	// info
-	gtx.info.HostConfig.Memory = 24 * 1024 * 1024
-	delete(gtx.envs, "DICE_MEM_REQUEST")
-	alloc = getContainerMemAllocation(gtx)
-	assert.Equal(t, float64(24*1024*1024), alloc)
-
 	// none
-	gtx.info.HostConfig = nil
-	alloc = getContainerMemAllocation(gtx)
-	assert.Equal(t, 0.0, alloc)
-
-	gtx.info = nil
+	delete(gtx.envs, "DICE_MEM_REQUEST")
 	alloc = getContainerMemAllocation(gtx)
 	assert.Equal(t, 0.0, alloc)
 }

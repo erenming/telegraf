@@ -42,17 +42,19 @@ func (s *Summary) getContainerSpecById(containerID string, pod *apiv1.Pod) (pc a
 		return apiv1.Container{}, false
 	}
 
-	index := -1
+	cname := ""
 	for i := 0; i < len(pod.Status.ContainerStatuses); i++ {
 		pcs := pod.Status.ContainerStatuses[i]
 		if pcs.ContainerID == containerID && csIsRunning(pcs) {
-			index = i
+			cname = pcs.Name
 			break
 		}
 	}
 
-	if index != -1 {
-		return pod.Spec.Containers[index], true
+	for _, pc := range pod.Spec.Containers {
+		if pc.Name == cname {
+			return pc, true
+		}
 	}
 	return apiv1.Container{}, false
 }
