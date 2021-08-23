@@ -59,6 +59,11 @@ services:
               l4_protocol: TCP
               expose: false
               default: false
+            - port: 7082
+              protocol: UDP
+              l4_protocol: UDP
+              expose: false
+              default: false
         envs:
             CLUSTER_PATH: /rootfs/etc/cluster-node
             COLLECTOR_AUTH_PASSWORD: G$9767bP32drYFPWrK4XMLRMTatiM6cU
