@@ -2,8 +2,10 @@ package diskio
 
 import (
 	"fmt"
+	"log"
 	"regexp"
 	"strings"
+	"time"
 
 	"github.com/influxdata/telegraf"
 	"github.com/influxdata/telegraf/filter"
@@ -23,14 +25,20 @@ type DiskIO struct {
 	NameTemplates    []string
 	SkipSerialNumber bool
 
-	Log telegraf.Logger
-
 	infoCache    map[string]diskInfoCache
 	deviceFilter filter.Filter
 	initialized  bool
+
+	lastIOStat    map[string]IOCountersStat
+	lastTimestamp time.Time
 }
 
-func (d *DiskIO) Description() string {
+type IOCountersStat struct {
+	ReadBytes  uint64 `json:"readBytes"`
+	WriteBytes uint64 `json:"writeBytes"`
+}
+
+func (_ *DiskIO) Description() string {
 	return "Read metrics about disk IO by device"
 }
 
@@ -62,74 +70,64 @@ var diskIOsampleConfig = `
   # name_templates = ["$ID_FS_LABEL","$DM_VG_NAME/$DM_LV_NAME"]
 `
 
-func (d *DiskIO) SampleConfig() string {
+func (_ *DiskIO) SampleConfig() string {
 	return diskIOsampleConfig
 }
 
 // hasMeta reports whether s contains any special glob characters.
 func hasMeta(s string) bool {
-	return strings.ContainsAny(s, "*?[")
+	return strings.IndexAny(s, "*?[") >= 0
 }
 
-func (d *DiskIO) init() error {
-	for _, device := range d.Devices {
+func (s *DiskIO) init() error {
+	for _, device := range s.Devices {
 		if hasMeta(device) {
-			filter, err := filter.Compile(d.Devices)
+			filter, err := filter.Compile(s.Devices)
 			if err != nil {
-				return fmt.Errorf("error compiling device pattern: %s", err.Error())
+				return fmt.Errorf("error compiling device pattern: %v", err)
 			}
-			d.deviceFilter = filter
+			s.deviceFilter = filter
 		}
 	}
-	d.initialized = true
+	s.initialized = true
 	return nil
 }
 
-func (d *DiskIO) Gather(acc telegraf.Accumulator) error {
-	if !d.initialized {
-		err := d.init()
+func (s *DiskIO) Gather(acc telegraf.Accumulator) error {
+	if !s.initialized {
+		err := s.init()
 		if err != nil {
 			return err
 		}
 	}
 
 	devices := []string{}
-	if d.deviceFilter == nil {
-		devices = d.Devices
+	if s.deviceFilter == nil {
+		devices = s.Devices
 	}
 
-	diskio, err := d.ps.DiskIO(devices)
+	diskio, err := s.ps.DiskIO(devices)
 	if err != nil {
-		return fmt.Errorf("error getting disk io info: %s", err.Error())
+		return fmt.Errorf("error getting disk io info: %s", err)
 	}
-
+	now := time.Now()
+	var seconds float64 = 0
+	lastIOStat := make(map[string]IOCountersStat)
+	if s.lastIOStat != nil {
+		seconds = now.Sub(s.lastTimestamp).Seconds()
+	}
 	for _, io := range diskio {
-		match := false
-		if d.deviceFilter != nil && d.deviceFilter.Match(io.Name) {
-			match = true
+		if s.deviceFilter != nil && !s.deviceFilter.Match(io.Name) {
+			continue
 		}
 
 		tags := map[string]string{}
-		var devLinks []string
-		tags["name"], devLinks = d.diskName(io.Name)
-
-		if d.deviceFilter != nil && !match {
-			for _, devLink := range devLinks {
-				if d.deviceFilter.Match(devLink) {
-					match = true
-					break
-				}
-			}
-			if !match {
-				continue
-			}
-		}
-
-		for t, v := range d.diskTags(io.Name) {
+		name := s.diskName(io.Name)
+		tags["name"] = name
+		for t, v := range s.diskTags(io.Name) {
 			tags[t] = v
 		}
-
-		if !d.SkipSerialNumber {
+		if !s.SkipSerialNumber {
 			if len(io.SerialNumber) != 0 {
 				tags["serial"] = io.SerialNumber
 			} else {
@@ -147,32 +145,41 @@ func (d *DiskIO) Gather(acc telegraf.Accumulator) error {
 			"io_time":          io.IoTime,
 			"weighted_io_time": io.WeightedIO,
 			"iops_in_progress": io.IopsInProgress,
-			"merged_reads":     io.MergedReadCount,
-			"merged_writes":    io.MergedWriteCount,
 		}
+
+		lastIOStat[name] = IOCountersStat{
+			ReadBytes:  io.ReadBytes,
+			WriteBytes: io.WriteBytes,
+		}
+		if seconds > 0 {
+			if stat, ok := s.lastIOStat[name]; ok {
+				readRate := float64(io.ReadBytes-stat.ReadBytes) / seconds
+				fields["read_rate"] = readRate
+				writeRate := float64(io.WriteBytes-stat.WriteBytes) / seconds
+				fields["write_rate"] = writeRate
+			}
+		}
+
 		acc.AddCounter("diskio", fields, tags)
 	}
+	s.lastIOStat = lastIOStat
+	s.lastTimestamp = now
 
 	return nil
 }
 
-func (d *DiskIO) diskName(devName string) (string, []string) {
-	di, err := d.diskInfo(devName)
-	devLinks := strings.Split(di["DEVLINKS"], " ")
-	for i, devLink := range devLinks {
-		devLinks[i] = strings.TrimPrefix(devLink, "/dev/")
+func (s *DiskIO) diskName(devName string) string {
+	if len(s.NameTemplates) == 0 {
+		return devName
 	}
 
-	if len(d.NameTemplates) == 0 {
-		return devName, devLinks
-	}
-
+	di, err := s.diskInfo(devName)
 	if err != nil {
-		d.Log.Warnf("Error gathering disk info: %s", err)
-		return devName, devLinks
+		log.Printf("W! Error gathering disk info: %s", err)
+		return devName
 	}
 
-	for _, nt := range d.NameTemplates {
+	for _, nt := range s.NameTemplates {
 		miss := false
 		name := varRegex.ReplaceAllStringFunc(nt, func(sub string) string {
 			sub = sub[1:] // strip leading '$'
@@ -187,26 +194,26 @@ func (d *DiskIO) diskName(devName string) (string, []string) {
 		})
 
 		if !miss {
-			return name, devLinks
+			return name
 		}
 	}
 
-	return devName, devLinks
+	return devName
 }
 
-func (d *DiskIO) diskTags(devName string) map[string]string {
-	if len(d.DeviceTags) == 0 {
+func (s *DiskIO) diskTags(devName string) map[string]string {
+	if len(s.DeviceTags) == 0 {
 		return nil
 	}
 
-	di, err := d.diskInfo(devName)
+	di, err := s.diskInfo(devName)
 	if err != nil {
-		d.Log.Warnf("Error gathering disk info: %s", err)
+		log.Printf("W! Error gathering disk info: %s", err)
 		return nil
 	}
 
 	tags := map[string]string{}
-	for _, dt := range d.DeviceTags {
+	for _, dt := range s.DeviceTags {
 		if v, ok := di[dt]; ok {
 			tags[dt] = v
 		}

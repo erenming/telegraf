@@ -31,17 +31,15 @@ func TestDiskIO(t *testing.T) {
 			result: Result{
 				stats: map[string]disk.IOCountersStat{
 					"sda": {
-						ReadCount:        888,
-						WriteCount:       5341,
-						ReadBytes:        100000,
-						WriteBytes:       200000,
-						ReadTime:         7123,
-						WriteTime:        9087,
-						MergedReadCount:  11,
-						MergedWriteCount: 12,
-						Name:             "sda",
-						IoTime:           123552,
-						SerialNumber:     "ab-123-ad",
+						ReadCount:    888,
+						WriteCount:   5341,
+						ReadBytes:    100000,
+						WriteBytes:   200000,
+						ReadTime:     7123,
+						WriteTime:    9087,
+						Name:         "sda",
+						IoTime:       123552,
+						SerialNumber: "ab-123-ad",
 					},
 				},
 				err: nil,
@@ -63,8 +61,6 @@ func TestDiskIO(t *testing.T) {
 						"io_time":          uint64(123552),
 						"weighted_io_time": uint64(0),
 						"iops_in_progress": uint64(0),
-						"merged_reads":     uint64(11),
-						"merged_writes":    uint64(12),
 					},
 				},
 			},
@@ -107,7 +103,6 @@ func TestDiskIO(t *testing.T) {
 			var acc testutil.Accumulator
 
 			diskio := &DiskIO{
-				Log:     testutil.Logger{},
 				ps:      &mps,
 				Devices: tt.devices,
 			}
