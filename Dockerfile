@@ -1,4 +1,4 @@
-FROM golang:1.16.6 as build
+FROM registry.erda.cloud/retag/golang:1.16 as build
 
 RUN apt-get update && apt-get -y install libpcap-dev
 
