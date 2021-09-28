@@ -80,6 +80,10 @@ func (t *TagOverride) Apply(in ...telegraf.Metric) []telegraf.Metric {
 			t.modifyDockerContainerTags(metric)
 		}
 
+		if strings.HasPrefix(metric.Name(), "application_") || metric.Name() == "span" {
+			t.modifyApplicationMetricTags(metric)
+		}
+
 		var hostNum string
 		podName, hasPodName := metric.GetTag("io.kubernetes.pod.name")
 		if hasPodName {
@@ -138,8 +142,10 @@ func (t *TagOverride) Apply(in ...telegraf.Metric) []telegraf.Metric {
 				}
 			}
 		}
-		if applicationId != "" && runtimeName != "" && serviceName != "" {
-			metric.AddTag("service_id", strings.Join([]string{applicationId, runtimeName, serviceName}, "_"))
+		if !metric.HasTag("service_id") {
+			if applicationId != "" && runtimeName != "" && serviceName != "" {
+				metric.AddTag("service_id", strings.Join([]string{applicationId, runtimeName, serviceName}, "_"))
+			}
 		}
 		if instanceType != "" {
 			metric.AddTag("instance_type", instanceType)
@@ -170,6 +176,19 @@ func (t *TagOverride) Apply(in ...telegraf.Metric) []telegraf.Metric {
 		t.setOrgTags(metric, orgName)
 	}
 	return in
+}
+
+func (t TagOverride) modifyApplicationMetricTags(metric telegraf.Metric) {
+	tags := metric.Tags()
+	if _, ok := tags["peer_address"]; !ok {
+		if peerService, ok := tags["peer_service"]; ok {
+			metric.AddTag("peer_address", peerService)
+		} else if peerHostName, ok := tags["peer_hostname"]; ok {
+			metric.AddTag("peer_address", peerHostName)
+		} else if host, ok := tags["host"]; ok {
+			metric.AddTag("peer_address", host)
+		}
+	}
 }
 
 func (t *TagOverride) modifyDockerContainerTags(metric telegraf.Metric) {
