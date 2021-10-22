@@ -5,7 +5,6 @@ import (
 	"context"
 	"encoding/base64"
 	"fmt"
-
 	"io"
 	"io/ioutil"
 	"log"
@@ -13,15 +12,18 @@ import (
 	"strings"
 	"time"
 
+	"github.com/fsnotify/fsnotify"
 	"github.com/google/uuid"
+	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/clientcredentials"
+
 	"github.com/influxdata/telegraf"
 	"github.com/influxdata/telegraf/config"
 	"github.com/influxdata/telegraf/internal"
 	"github.com/influxdata/telegraf/plugins/common/tls"
+	"github.com/influxdata/telegraf/plugins/common/watcher"
 	"github.com/influxdata/telegraf/plugins/outputs"
 	"github.com/influxdata/telegraf/plugins/serializers"
-	"golang.org/x/oauth2"
-	"golang.org/x/oauth2/clientcredentials"
 )
 
 var sampleConfig = `
@@ -71,10 +73,8 @@ const (
 
 type HTTP struct {
 	URL                   string            `toml:"url"`
-	Timeout               config.Duration `toml:"timeout"`
+	Timeout               config.Duration   `toml:"timeout"`
 	Method                string            `toml:"method"`
-	Username              string            `toml:"username"`
-	Password              string            `toml:"password"`
 	Headers               map[string]string `toml:"headers"`
 	ClientID              string            `toml:"client_id"`
 	ClientSecret          string            `toml:"client_secret"`
@@ -84,10 +84,14 @@ type HTTP struct {
 	Excludes              []string          `toml:"excludes"`
 	ContentEncoding       string            `toml:"content_encoding"`
 	CustomContentEncoding string            `toml:"custom_content_encoding"`
+	ClusterKey            string            `toml:"cluster_key"`
+	AuthConfig            *authConfig       `toml:"auth"`
+
 	tls.ClientConfig
 
 	client     *http.Client
 	serializer serializers.Serializer
+	auth       *Authentication
 }
 
 func (h *HTTP) SetSerializer(serializer serializers.Serializer) {
@@ -142,6 +146,44 @@ func (h *HTTP) Connect() error {
 	}
 
 	h.client = client
+
+	h.auth = NewAuthentication(
+		WithAuthConfig(h.AuthConfig),
+		WithClusterKey(h.ClusterKey),
+	)
+
+	// Init credential and file_watcher
+	// If auth type is key and specified accessKey, doesn't start credential watcher.
+	// Credential information changes cannot be perception.
+	if h.AuthConfig.Type == authTypeKey {
+		if h.AuthConfig.Property[authCfgAccessKey] != "" {
+			setToken([]byte(h.AuthConfig.Property[authCfgAccessKey]))
+		} else {
+			// Init credential info
+			content, err := ioutil.ReadFile(watcher.ClusterCredentialFullPath)
+			if err != nil {
+				log.Printf("init read credential info error: %v", err)
+				return err
+			}
+
+			log.Printf("I! read init content: %v", string(content))
+			setToken(content)
+
+			// Start file watcher
+			if _, err = watcher.NewFileWatcher(func(e fsnotify.Event) {
+				res, err := ioutil.ReadFile(watcher.ClusterCredentialFullPath)
+				if err != nil {
+					log.Printf("E! read cluster credential error: %v", err)
+					return
+				}
+				log.Printf("I! get new credential content: %s", string(res))
+				setToken(res)
+			}); err != nil {
+				log.Printf("E! new credential file watcher error: %v", err)
+				return err
+			}
+		}
+	}
 
 	return nil
 }
@@ -223,9 +265,7 @@ func (h *HTTP) write(requestID string, reqBody io.Reader) error {
 		return err
 	}
 
-	if h.Username != "" || h.Password != "" {
-		req.SetBasicAuth(h.Username, h.Password)
-	}
+	h.auth.Secure(req)
 
 	req.Header.Set("terminus-request-id", requestID)
 	req.Header.Set("Content-Type", defaultContentType)
