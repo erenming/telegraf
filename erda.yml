@@ -6,7 +6,8 @@ values:
         replicas: 1
         request_cpu: 0.1
         request_mem: 128
-envs: {}
+envs:
+    UPGRADE_1_4_0: 0
 services:
     telegraf:
         image: telegraf
