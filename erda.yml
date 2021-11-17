@@ -60,6 +60,11 @@ services:
               l4_protocol: TCP
               expose: false
               default: false
+            - port: 7086
+              protocol: TCP
+              l4_protocol: TCP
+              expose: false
+              default: false
             - port: 7082
               protocol: UDP
               l4_protocol: UDP
