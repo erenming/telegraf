@@ -30,7 +30,6 @@ services:
             INPUT_METASERVER_FIELD_KEYS: '[''DICE_*'', ''N?_DICE_*'', ''EDAS_*'', ''TERMINUS_DEFINE_TAG'', ''POD_IP'', ''io.kubernetes.pod.name'', ''io.kubernetes.pod.namespace'']'
             SADC_PATH: /usr/lib64/sa/sadc
             SADF_PATH: /usr/bin/sadf
-            TELEGRAF_PPROF_PORT: "6962"
         resources:
             cpu: ${request_cpu:0.5}
             mem: ${request_mem:512}
@@ -75,7 +74,6 @@ services:
             COLLECTOR_AUTH_PASSWORD: G$9767bP32drYFPWrK4XMLRMTatiM6cU
             COLLECTOR_AUTH_USERNAME: collector
             TELEGRAF_CONFIG: telegraf-app
-            TELEGRAF_PPROF_PORT: "6963"
         resources:
             cpu: ${request_cpu:0.5}
             mem: ${request_mem:512}
@@ -136,7 +134,6 @@ services:
             HPROF_OUTPUT_PATH: /rootfs/tmp
             KAFKA_JOLOKIA_PORT: "8778"
             TELEGRAF_CONFIG: platform.alone
-            TELEGRAF_PPROF_PORT: "6964"
             TERMINUS_LOG_COLLECT: "false"
         resources:
             cpu: ${request_cpu:1}
@@ -213,7 +210,6 @@ services:
         envs:
             TELEGRAF_CONFIG: "telegraf-app-edge"
             CLUSTER_PATH: /rootfs/etc/cluster-node
-            TELEGRAF_PPROF_PORT: "6963"
             COLLECTOR_AUTH_USERNAME: "collector"
             COLLECTOR_AUTH_PASSWORD: "G$9767bP32drYFPWrK4XMLRMTatiM6cU"
 
