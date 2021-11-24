@@ -47,6 +47,7 @@ services:
                 duration: 120
     telegraf-app:
         image: telegraf-app
+        ports:
             - port: 7086
               protocol: TCP
               l4_protocol: TCP
@@ -83,6 +84,7 @@ services:
                 duration: 120
     telegraf-platform:
         image: telegraf-platform
+        ports:
             - port: 8094
               protocol: UDP
               l4_protocol: UDP
