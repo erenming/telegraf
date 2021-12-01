@@ -38,7 +38,11 @@ func (d *ApplicationSlow) Apply(in ...telegraf.Metric) []telegraf.Metric {
 		if !ok {
 			continue
 		}
-		elapsed := int64(value.(float64))
+
+		elapsed, ok := value.(int64)
+		if !ok {
+			elapsed = int64(value.(float64))
+		}
 
 		// tag中包含error，并且值为true，创建application_*_error的 metric，并且保留request_id
 		if errorVal, ok := metric.GetTag("error"); ok {
