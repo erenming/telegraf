@@ -181,6 +181,12 @@ func (t *TagOverride) Apply(in ...telegraf.Metric) []telegraf.Metric {
 func (t TagOverride) modifyApplicationMetricTags(metric telegraf.Metric) {
 	tags := metric.Tags()
 
+	if _, ok := tags["env_id"]; !ok {
+		if tk, ok := tags["terminus_key"]; ok {
+			metric.AddTag("env_id", tk)
+		}
+	}
+
 	if _, ok := tags["http_target"]; !ok {
 		if httpPath, ok := tags["http_path"]; ok {
 			metric.AddTag("http_target", httpPath)
