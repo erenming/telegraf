@@ -180,6 +180,40 @@ func (t *TagOverride) Apply(in ...telegraf.Metric) []telegraf.Metric {
 
 func (t TagOverride) modifyApplicationMetricTags(metric telegraf.Metric) {
 	tags := metric.Tags()
+
+	if _, ok := tags["env_id"]; !ok {
+		if tk, ok := tags["terminus_key"]; ok {
+			metric.AddTag("env_id", tk)
+		}
+	}
+
+	if _, ok := tags["http_target"]; !ok {
+		if httpPath, ok := tags["http_path"]; ok {
+			metric.AddTag("http_target", httpPath)
+		}
+	}
+	if _, ok := tags["rpc_service"]; !ok {
+		if dubboService, ok := tags["dubbo_service"]; ok {
+			metric.AddTag("rpc_service", dubboService)
+			if dubboMethod, ok := tags["dubbo_method"]; ok {
+				metric.AddTag("rpc_method", dubboMethod)
+				metric.AddTag("rpc_target", dubboService+"."+dubboMethod)
+			}
+			metric.AddTag("rpc_system", "dubbo")
+		}
+	}
+	if _, ok := tags["db_name"]; !ok {
+		if dbInstance := tags["db_instance"]; ok {
+			metric.AddTag("db_name", dbInstance)
+			metric.RemoveTag("db_instance")
+		}
+	}
+	if _, ok := tags["db_system"]; !ok {
+		if dbType := tags["db_type"]; ok {
+			metric.AddTag("db_type", dbType)
+		}
+	}
+
 	if _, ok := tags["peer_address"]; !ok {
 		if peerService, ok := tags["peer_service"]; ok {
 			metric.AddTag("peer_address", peerService)
@@ -187,6 +221,12 @@ func (t TagOverride) modifyApplicationMetricTags(metric telegraf.Metric) {
 			metric.AddTag("peer_address", peerHostName)
 		} else if host, ok := tags["host"]; ok {
 			metric.AddTag("peer_address", host)
+		}
+	}
+
+	if _, ok := tags["db_host"]; !ok {
+		if peerAddress, ok := tags["peer_address"]; ok {
+			metric.AddTag("db_host", peerAddress)
 		}
 	}
 }
