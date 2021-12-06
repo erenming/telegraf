@@ -1,6 +1,7 @@
 package dockersummary
 
 import (
+	"fmt"
 	"log"
 	"strings"
 
@@ -17,20 +18,17 @@ func (s *Summary) gatherContainer(id string, c *types.Container, acc telegraf.Ac
 	tags := make(map[string]string)
 	fields := make(map[string]interface{})
 
+	var cname string
 	if c != nil {
 		// Parse container name
-		var cname string
 		for _, name := range c.Names {
 			cname = strings.TrimPrefix(name, "/")
 		}
-		if cname == "" {
-			return nil
-		}
-		tags["container_name"] = cname
 	}
 	if info.Name != "" {
-		tags["container_name"] = strings.TrimPrefix(info.Name, "/")
+		cname = strings.TrimPrefix(info.Name, "/")
 	}
+	tags["container_name"] = cname
 
 	// the image name sometimes has a version part, or a private repo
 	//   ie, rabbitmq:3-management or docker.someco.net:4443/rabbitmq:3-management
@@ -74,7 +72,7 @@ func (s *Summary) gatherContainer(id string, c *types.Container, acc telegraf.Ac
 
 	tm, err := s.gatherContainerStats(id, tags, fields, envs, info, acc)
 	if err != nil {
-		log.Println(err)
+		return fmt.Errorf("gatherContainerStats err: %w", err)
 	}
 
 	acc.AddFields("docker_container_summary", fields, tags, tm)
