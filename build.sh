@@ -4,6 +4,11 @@ set -o errexit -o nounset -o pipefail
 
 v="$(./scripts/make-version.sh tag)"
 
+t=${IMAGE_TAG:-}
+if [[ -n "$t" ]]; then
+  v=$t
+fi
+
 echo "version=${v}"
 
 image="${DOCKER_REGISTRY}/erda-telegraf:${v}"
