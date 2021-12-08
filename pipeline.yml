@@ -1,0 +1,47 @@
+version: "1.1"
+
+on:
+  push:
+    branches:
+      - release/*
+    tags:
+      - v*
+
+stages:
+  - stage:
+      - git-checkout:
+          alias: telegraf
+          params:
+            depth: 1
+  - stage:
+      - extract-repo-version:
+          params:
+            git_dir: ${{ dirs.telegraf }}
+  - stage:
+      - custom-script:
+          alias: build-telegraf
+          commands:
+            - cd ${{ dirs.telegraf }}
+            - echo $(pwd)
+            - echo $(ls)
+            - export DOCKER_REGISTRY=${{ configs.docker_registry }}
+            - export DOCKER_REGISTRY_USERNAME=${{ configs.docker_registry_username }}
+            - export DOCKER_REGISTRY_PASSWORD=${{ configs.docker_registry_password }}
+            - export IMAGE_TAG=${{ outputs.extract-repo-version.image_tag }}
+            - ./build.sh
+          resources:
+            cpu: 2
+            mem: 2048
+  - stage:
+      - release:
+          alias: release-telegraf
+          params:
+            tag_version: ${{ outputs.extract-repo-version.version }}
+            check_diceyml: false
+            dice_yml: ${{ dirs.telegraf }}/erda.yml
+            image:
+              telegraf: ${{ outputs.build-telegraf.image }}
+              telegraf-app: ${{ outputs.build-telegraf.image }}
+              telegraf-app-edge: ${{ outputs.build-telegraf.image }}
+              telegraf-edge: ${{ outputs.build-telegraf.image }}
+              telegraf-platform: ${{ outputs.build-telegraf.image }}
