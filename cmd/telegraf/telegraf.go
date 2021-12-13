@@ -10,6 +10,7 @@ import (
 	_ "net/http/pprof" // Comment this line to disable pprof endpoint.
 	"os"
 	"os/signal"
+	"runtime"
 	"sort"
 	"strings"
 	"syscall"
@@ -290,7 +291,8 @@ func main() {
 			pprofHostPort = "http://" + pprofHostPort + "/debug/pprof"
 
 			log.Printf("I! Starting pprof HTTP server at: %s", pprofHostPort)
-
+			runtime.SetBlockProfileRate(1)
+			runtime.SetMutexProfileFraction(1)
 			if err := http.ListenAndServe(*pprofAddr, nil); err != nil {
 				log.Fatal("E! " + err.Error())
 			}
