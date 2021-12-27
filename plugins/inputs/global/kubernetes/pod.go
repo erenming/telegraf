@@ -10,20 +10,20 @@ import (
 
 type Viewer interface {
 	Viewing(ctx context.Context)
-	GetData() sync.Map
+	GetData() *sync.Map
 }
 
 type PodId string
 
 type podViewer struct {
 	watcher tk8s.Watcher
-	pods    sync.Map
+	pods    *sync.Map
 }
 
 func NewPodViewer(w tk8s.Watcher) Viewer {
 	return &podViewer{
 		watcher: w,
-		pods:    sync.Map{},
+		pods:   &sync.Map{},
 	}
 }
 
@@ -33,7 +33,7 @@ func (pv *podViewer) Viewing(ctx context.Context) {
 	pv.consume(ctx, ch)
 }
 
-func (pv *podViewer) GetData() sync.Map {
+func (pv *podViewer) GetData() *sync.Map {
 	return pv.pods
 }
 
@@ -61,10 +61,10 @@ func GetPodID(name, namespace string) PodId {
 	return PodId(namespace + "/" + name)
 }
 
-func GetPodMap() (sync.Map, bool) {
+func GetPodMap() (*sync.Map, bool) {
 	obj, ok := instance.viewers[resourcePod]
 	if !ok {
-		return sync.Map{}, false
+		return nil, false
 	}
 	return obj.GetData(), true
 }
