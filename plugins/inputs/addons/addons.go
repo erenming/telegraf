@@ -68,8 +68,7 @@ type Addons struct {
 	parser   parsers.Parser
 	parserFn parsers.ParserFunc
 
-	closeCh   chan struct{}
-	closeWait sync.WaitGroup
+	closeCh chan struct{}
 
 	// // 兼容老的k8s的addon没有SELF
 	// ClusterType     string           `toml:"cluster_type"`
@@ -146,9 +145,7 @@ func (a *Addons) Start(acc telegraf.Accumulator) error {
 	if err != nil {
 		return fmt.Errorf("fail to init: %s", err)
 	}
-	a.closeWait.Add(1)
 	go func() {
-		defer a.closeWait.Done()
 		now := time.Now()
 		err = a.loadAddons(acc)
 		if err != nil {
@@ -206,7 +203,6 @@ func (a *Addons) Stop() {
 	for id, info := range a.inputs {
 		a.deleteInput(id, info)
 	}
-	a.closeWait.Wait()
 }
 
 func (a *Addons) loadAddons(acc telegraf.Accumulator) error {
