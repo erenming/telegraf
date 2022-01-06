@@ -36,7 +36,6 @@ stages:
       - release:
           alias: release-telegraf
           params:
-            tag_version: ${{ outputs.extract-repo-version.version }}
             check_diceyml: false
             dice_yml: ${{ dirs.telegraf }}/erda.yml
             image:
