@@ -210,7 +210,7 @@ func (t TagOverride) modifyApplicationMetricTags(metric telegraf.Metric) {
 	}
 	if _, ok := tags["db_system"]; !ok {
 		if dbType := tags["db_type"]; ok {
-			metric.AddTag("db_type", dbType)
+			metric.AddTag("db_system", dbType)
 		}
 	}
 
