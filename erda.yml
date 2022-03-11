@@ -145,6 +145,7 @@ services:
             network:
                 mode: host
         deployments:
+            workload: per_node
             replicas: 0
             labels:
                 GROUP: spot-v2
@@ -180,6 +181,7 @@ services:
             network:
                 mode: host
         deployments:
+            workload: per_node
             replicas: 0
             labels:
                 GROUP: spot-v2
