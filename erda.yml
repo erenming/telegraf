@@ -146,7 +146,7 @@ services:
                 mode: host
         deployments:
             workload: per_node
-            replicas: 0
+            replicas: 1
             labels:
                 GROUP: spot-v2
                 PRIVILEGED: true
@@ -182,7 +182,7 @@ services:
                 mode: host
         deployments:
             workload: per_node
-            replicas: 0
+            replicas: 1
             labels:
                 GROUP: spot-v2
                 PRIVILEGED: true
