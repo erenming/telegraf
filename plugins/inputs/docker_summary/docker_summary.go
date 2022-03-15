@@ -16,6 +16,7 @@ import (
 
 // Summary .
 type Summary struct {
+	Enable          bool     `toml:"enable"`
 	EnvInclude      []string `toml:"env_include"`
 	LabelInclude    []string `toml:"label_include"`
 	HostMountPrefix string   `toml:"host_mount_prefix"`
@@ -36,11 +37,16 @@ func (*Summary) Description() string { return "" }
 func (*Summary) SampleConfig() string { return "" }
 
 // Gather .
+// 日志等级调整为警告，因为后续高版本kubernetes(v1.22+)可能不会依赖docker采集容器指标
 func (s *Summary) Gather(acc telegraf.Accumulator) (err error) {
+	if !s.Enable {
+		return nil
+	}
 	if !s.initialize {
 		err := s.init(acc)
 		if err != nil {
-			return err
+			log.Printf("W! [docker_summary] init err: %s", err)
+			return nil
 		}
 	}
 
@@ -51,13 +57,14 @@ func (s *Summary) Gather(acc telegraf.Accumulator) (err error) {
 		Filters: filterArgs,
 	})
 	if err != nil {
-		return err
+		log.Printf("W! [docker_summary] list containers err: %s", err)
+		return nil
 	}
 
 	if s.k8s {
 		err := s.getKubernetesInfo()
 		if err != nil {
-			log.Printf("fail to get kubernetes info: %s", err)
+			log.Printf("W! fail to get kubernetes info: %s", err)
 		}
 	}
 
@@ -69,7 +76,7 @@ func (s *Summary) Gather(acc telegraf.Accumulator) (err error) {
 			defer wg.Done()
 			err := s.gatherContainer(c.ID, &c, acc)
 			if err != nil {
-				log.Printf("E! Error gathering container %v stats: %s", c.Names, err.Error())
+				log.Printf("W! Error gathering container %v stats: %s", c.Names, err)
 			}
 		}(container)
 	}
