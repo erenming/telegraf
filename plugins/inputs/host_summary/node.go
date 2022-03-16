@@ -26,11 +26,10 @@ func (c *NodeCollector) Gather(tags map[string]string, fields map[string]interfa
 	}
 	labels, err := node.GetLabels()
 	if err == nil {
-		fields["labels"] = labels.List()
+		fields["labels"] = strings.Join(labels.List(), ",")
 	}
 	tags["os"] = platform + " " + version
 	tags["kernel_version"] = kernelVersion
-	tags["labels"] = strings.Join(labels.List(), ",")
 	return nil
 }
 

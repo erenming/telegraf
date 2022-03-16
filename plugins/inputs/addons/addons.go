@@ -22,9 +22,13 @@ import (
 	"github.com/influxdata/telegraf/filter"
 	"github.com/influxdata/telegraf/plugins/inputs"
 	gdocker "github.com/influxdata/telegraf/plugins/inputs/global/docker"
+	gk8s "github.com/influxdata/telegraf/plugins/inputs/global/kubernetes"
 	"github.com/influxdata/telegraf/plugins/parsers"
 	"github.com/influxdata/toml"
 	"github.com/influxdata/toml/ast"
+	apiv1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/watch"
 )
 
 var dockerEventFilterArgs = []filters.KeyValuePair{
@@ -58,6 +62,9 @@ type Addons struct {
 	Templates         map[string]Template `toml:"config_template"`
 	GatherTimeout     config.Duration     `toml:"gather_timeout"`
 	FullCheckInterval config.Duration     `toml:"full_check_interval"`
+	Namespace         string              `toml:"namespace"`
+	LabelSelector     string              `toml:"label_selector"`
+	FieldSelector     string              `toml:"field_selector"`
 
 	TagEnv       []string `toml:"tag_env"`
 	tagEnvFilter filter.Filter
@@ -69,15 +76,6 @@ type Addons struct {
 	parserFn parsers.ParserFunc
 
 	closeCh chan struct{}
-
-	// // 兼容老的k8s的addon没有SELF
-	// ClusterType     string           `toml:"cluster_type"`
-	// K8sURLs         []string         `toml:"k8s_urls"`
-	// K8sBearerToken  string           `toml:"k8s_bearer_token"`
-	// K8sClientConfig tls.ClientConfig `toml:"k8s_client_config"`
-	// K8sTimeout      time.Duration    `toml:"k8s_timeout"`
-	// k8sClients      []*k8s.Client
-	// k8sClientsIdx   int
 }
 
 type Template struct {
@@ -140,58 +138,124 @@ func (a *Addons) Gather(acc telegraf.Accumulator) error {
 	return errs.MaybeUnwrap()
 }
 
+func (a *Addons) watchK8sPod(acc telegraf.Accumulator) {
+	client, to := gk8s.GetClient()
+	for client == nil {
+		// 可能 gk8s 还没初始化好
+		time.Sleep(1 * time.Second)
+		client, to = gk8s.GetClient()
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), to)
+	defer cancel()
+	err := a.loadAddonsFromK8s(ctx, acc, client)
+	if err != nil {
+		log.Printf("E! loadAddonsFromK8s err: %s", err)
+		return
+	}
+	w, err := client.CoreV1().Pods("").Watch(ctx, metav1.ListOptions{
+		LabelSelector: a.LabelSelector,
+		FieldSelector: a.FieldSelector,
+	})
+	defer w.Stop()
+	if err != nil {
+		acc.AddError(err)
+		return
+	}
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		case <-a.closeCh:
+			return
+		case event := <-w.ResultChan():
+			pod, ok := event.Object.(*apiv1.Pod)
+			if !ok {
+				log.Printf("E! [addon] invalide event.Object type<%T>", event.Object)
+				continue
+			}
+			switch event.Type {
+			case watch.Added:
+				_, err = a.checkAndAddInputV2(pod, acc)
+				if err != nil {
+					log.Printf("E! [addon] checkAndAddInput(%s/%s) : %s", pod.Namespace, pod.Name, err)
+				}
+			case watch.Modified:
+				err := a.checkAndStopV2(pod)
+				if err != nil {
+					log.Printf("E! [addon] checkAndStop(%s/%s) : %s", pod.Namespace, pod.Name, err)
+				}
+
+				_, err = a.checkAndAddInputV2(pod, acc)
+				if err != nil {
+					log.Printf("E! [addon] checkAndAddInput(%s/%s) : %s", pod.Namespace, pod.Name, err)
+				}
+			case watch.Deleted:
+				err := a.checkAndStopV2(pod)
+				if err != nil {
+					log.Printf("E! [addon] checkAndStop(%s/%s) : %s", pod.Namespace, pod.Name, err)
+				}
+			default:
+			}
+		}
+	}
+
+}
+
+func (a *Addons) watchDockerContainer(acc telegraf.Accumulator) {
+	now := time.Now()
+	err := a.loadAddonsFromDocker(acc)
+	if err != nil {
+		log.Printf("fail to load addons: %s", err)
+	}
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	options := types.EventsOptions{
+		Filters: filters.NewArgs(dockerEventFilterArgs...),
+		Since:   now.Format(time.RFC3339),
+	}
+	client, _ := gdocker.GetClient()
+	events, errs := client.Events(ctx, options)
+	timerCh := time.Tick(time.Duration(a.FullCheckInterval))
+	for {
+		select {
+		case evt, ok := <-events:
+			if !ok {
+				return
+			}
+			if _, ok := startInputEvents[evt.Action]; ok {
+				_, err := a.checkAndAddInput(evt.ID, acc)
+				if err != nil {
+					log.Printf("E! [addon] checkAndAddInput(%s) : %v", evt.ID, err)
+				}
+			} else if _, ok := stopInputEvents[evt.Action]; ok {
+				err := a.checkAndStop(evt.ID)
+				if err != nil {
+					log.Printf("E! [addon] checkAndStop(%s) : %v", evt.ID, err)
+				}
+			}
+		case <-timerCh:
+			err := a.loadAddonsFromDocker(acc)
+			if err != nil {
+				log.Printf("E! [addon] fail to check addons: %s", err)
+			}
+		case <-a.closeCh:
+			return
+		case err := <-errs:
+			if err == io.EOF {
+				return
+			}
+			log.Printf("E! [addon] error event: %v", err)
+		}
+	}
+}
+
 func (a *Addons) Start(acc telegraf.Accumulator) error {
 	err := a.init()
 	if err != nil {
 		return fmt.Errorf("fail to init: %s", err)
 	}
-	go func() {
-		now := time.Now()
-		err = a.loadAddons(acc)
-		if err != nil {
-			log.Printf("fail to load addons: %s", err)
-		}
-		ctx, cancel := context.WithCancel(context.Background())
-		defer cancel()
-		options := types.EventsOptions{
-			Filters: filters.NewArgs(dockerEventFilterArgs...),
-			Since:   now.Format(time.RFC3339),
-		}
-		client, _ := gdocker.GetClient()
-		events, errs := client.Events(ctx, options)
-		timerCh := time.Tick(time.Duration(a.FullCheckInterval))
-		for {
-			select {
-			case evt, ok := <-events:
-				if !ok {
-					return
-				}
-				if _, ok := startInputEvents[evt.Action]; ok {
-					_, err := a.checkAndAddInput(evt.ID, acc)
-					if err != nil {
-						log.Printf("E! [addon] checkAndAddInput(%s) : %v", evt.ID, err)
-					}
-				} else if _, ok := stopInputEvents[evt.Action]; ok {
-					err := a.checkAndStop(evt.ID)
-					if err != nil {
-						log.Printf("E! [addon] checkAndStop(%s) : %v", evt.ID, err)
-					}
-				}
-			case <-timerCh:
-				err = a.loadAddons(acc)
-				if err != nil {
-					log.Printf("E! [addon] fail to check addons: %s", err)
-				}
-			case <-a.closeCh:
-				return
-			case err := <-errs:
-				if err == io.EOF {
-					return
-				}
-				log.Printf("E! [addon] error event: %v", err)
-			}
-		}
-	}()
+	go a.watchK8sPod(acc)
 	return nil
 }
 
@@ -205,7 +269,7 @@ func (a *Addons) Stop() {
 	}
 }
 
-func (a *Addons) loadAddons(acc telegraf.Accumulator) error {
+func (a *Addons) loadAddonsFromDocker(acc telegraf.Accumulator) error {
 	client, timeout := gdocker.GetClient()
 	for client == nil {
 		// 可能 gdocker 还没初始化好

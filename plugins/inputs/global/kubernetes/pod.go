@@ -2,10 +2,11 @@ package kubernetes
 
 import (
 	"context"
+	"log"
 	"sync"
 
-	tk8s "github.com/influxdata/telegraf/plugins/common/kubernetes"
 	apiv1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/watch"
 )
 
 type Viewer interface {
@@ -16,45 +17,44 @@ type Viewer interface {
 type PodId string
 
 type podViewer struct {
-	watcher tk8s.Watcher
+	watcher watch.Interface
 	pods    *sync.Map
 }
 
-func NewPodViewer(w tk8s.Watcher) Viewer {
+func NewPodViewer(w watch.Interface) Viewer {
 	return &podViewer{
 		watcher: w,
-		pods:   &sync.Map{},
+		pods:    &sync.Map{},
 	}
 }
 
 func (pv *podViewer) Viewing(ctx context.Context) {
-	ch := make(chan *tk8s.Item)
-	go pv.watcher.Watch(ctx, ch)
-	pv.consume(ctx, ch)
+	for {
+		select {
+		case <-ctx.Done():
+			pv.watcher.Stop()
+			return
+		case event := <-pv.watcher.ResultChan():
+			pod, ok := event.Object.(*apiv1.Pod)
+			if !ok {
+				log.Printf("E! invalid event.Object type<%T>", event.Object)
+				continue
+			}
+			id := GetPodID(pod.Name, pod.Namespace)
+			switch event.Type {
+			// id := GetPodID(pod.Name, pod.Namespace)
+			case watch.Added, watch.Modified:
+				pv.pods.Store(id, pod)
+			case watch.Deleted:
+				pv.pods.Delete(id)
+			default:
+			}
+		}
+	}
 }
 
 func (pv *podViewer) GetData() *sync.Map {
 	return pv.pods
-}
-
-func (pv *podViewer) consume(ctx context.Context, ch <-chan *tk8s.Item) {
-	for {
-		select {
-		case <-ctx.Done():
-			return
-		case item := <-ch:
-			pod, ok := item.Obj.(*apiv1.Pod)
-			if !ok {
-				continue
-			}
-			id := GetPodID(pod.Name, pod.Namespace)
-			if item.State == tk8s.DeleteEvent {
-				pv.pods.Delete(id)
-			} else {
-				pv.pods.Store(id, pod)
-			}
-		}
-	}
 }
 
 func GetPodID(name, namespace string) PodId {

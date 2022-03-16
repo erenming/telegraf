@@ -11,6 +11,7 @@ import (
 	tk8s "github.com/influxdata/telegraf/plugins/common/kubernetes"
 	"github.com/influxdata/telegraf/plugins/inputs"
 	"github.com/influxdata/telegraf/plugins/inputs/global"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	k8s "k8s.io/client-go/kubernetes"
 )
 
@@ -56,11 +57,14 @@ func (k *kubernetes) Start(acc telegraf.Accumulator) error {
 	for _, rc := range k.WatchResources {
 		switch rc.Kind {
 		case resourcePod:
-			pv := NewPodViewer(tk8s.NewWPodWatcher(ctx, client, tk8s.Selector{
-				Namespace:     rc.Namespace,
+			w, err := client.CoreV1().Pods(rc.Namespace).Watch(ctx, metav1.ListOptions{
 				LabelSelector: rc.LabelSelector,
 				FieldSelector: rc.FieldSelector,
-			}))
+			})
+			if err != nil {
+				return fmt.Errorf("watch failed: %w", err)
+			}
+			pv := NewPodViewer(w)
 			go pv.Viewing(ctx)
 			k.viewers[resourcePod] = pv
 		case resourceService:

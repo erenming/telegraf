@@ -3,6 +3,7 @@ package kubernetes
 import (
 	"context"
 	"errors"
+	"fmt"
 	"log"
 	"os"
 	"time"
@@ -11,11 +12,19 @@ import (
 	"github.com/influxdata/telegraf/plugins/common/tls"
 	k8s "k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
+	"k8s.io/client-go/tools/clientcmd"
 )
+
+type Selector struct {
+	Namespace     string `toml:"namespace"`
+	LabelSelector string `toml:"label_selector"`
+	FieldSelector string `toml:"field_selector"`
+}
 
 type Config struct {
 	Mode        string           `toml:"mode"`
 	URL         string           `toml:"url"`
+	KubeConfig  string           `toml:"kube_config"`
 	Timeout     config.Duration  `toml:"timeout"`
 	BearerToken string           `toml:"bearer_token"`
 	TlsConfig   tls.ClientConfig `toml:"tls_config"`
@@ -29,6 +38,18 @@ func NewClient(cfg Config) (*k8s.Clientset, error) {
 	case "static":
 		log.Printf("I! with static config mode")
 		return clientStaticModel(cfg)
+	case "kube_config":
+		// use the current context in kubeconfig
+		cfg, err := clientcmd.BuildConfigFromFlags(cfg.URL, cfg.KubeConfig)
+		if err != nil {
+			return nil, fmt.Errorf("fail to build kube config: %s", err)
+		}
+		// create the clientset
+		clientset, err := k8s.NewForConfig(cfg)
+		if err != nil {
+			return nil, fmt.Errorf("create k8s client err: %w", err)
+		}
+		return clientset, nil
 	default:
 		return nil, errors.New("Invalid mode " + cfg.Mode)
 	}
