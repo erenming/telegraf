@@ -175,11 +175,15 @@ func (a *Addons) handleEnvMap(pod *apiv1.Pod, envs map[string]string) map[string
 	}
 
 	prefix := "N" + podName[idx+1:] + "_"
+	newenvs := make(map[string]string, len(envs))
 	for k, v := range envs {
 		if strings.HasPrefix(k, prefix) {
-			envs[k[len(prefix):]] = v
+			newenvs[k[len(prefix):]] = v
+		} else {
+			newenvs[k] = v
 		}
 	}
+	envs = newenvs
 	id, ok := envs["ADDON_ID"]
 	if !ok {
 		return envs

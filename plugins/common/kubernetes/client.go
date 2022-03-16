@@ -15,6 +15,12 @@ import (
 	"k8s.io/client-go/tools/clientcmd"
 )
 
+type Selector struct {
+	Namespace     string `toml:"namespace"`
+	LabelSelector string `toml:"label_selector"`
+	FieldSelector string `toml:"field_selector"`
+}
+
 type Config struct {
 	Mode        string           `toml:"mode"`
 	URL         string           `toml:"url"`
