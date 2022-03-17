@@ -37,7 +37,6 @@ func (pv *podViewer) Viewing(ctx context.Context) {
 		case event := <-pv.watcher.ResultChan():
 			pod, ok := event.Object.(*apiv1.Pod)
 			if !ok {
-				log.Printf("E! invalid event.Object type<%T>", event.Object)
 				continue
 			}
 			id := GetPodID(pod.Name, pod.Namespace)
