@@ -50,7 +50,6 @@ func (c *collector) getK8sNodeLabels(name string) (string, map[string]string, ma
 	defer cancel()
 	node, err := client.CoreV1().Nodes().Get(ctx, name, metav1.GetOptions{})
 	if err != nil {
-		log.Printf("E! fail to get node labels from %s error: %v", name, err)
 		return "", nil, nil, err
 	}
 	log.Printf("I! input [node] get node %s labels ok", name)
