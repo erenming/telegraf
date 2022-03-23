@@ -2,7 +2,6 @@ package kubernetes
 
 import (
 	"context"
-	"log"
 	"sync"
 
 	apiv1 "k8s.io/api/core/v1"
@@ -32,21 +31,18 @@ func (pv *podViewer) Viewing(ctx context.Context) {
 	for {
 		select {
 		case <-ctx.Done():
-			pv.watcher.Stop()
 			return
-		case event := <-pv.watcher.ResultChan():
-			pod, ok := event.Object.(*apiv1.Pod)
+		case event, ok := <-pv.watcher.ResultChan():
 			if !ok {
-				log.Printf("E! invalid event.Object type<%T>", event.Object)
-				continue
+				return
 			}
-			id := GetPodID(pod.Name, pod.Namespace)
 			switch event.Type {
-			// id := GetPodID(pod.Name, pod.Namespace)
 			case watch.Added, watch.Modified:
-				pv.pods.Store(id, pod)
+				pod := event.Object.(*apiv1.Pod)
+				pv.pods.Store(GetPodID(pod.Name, pod.Namespace), pod)
 			case watch.Deleted:
-				pv.pods.Delete(id)
+				pod := event.Object.(*apiv1.Pod)
+				pv.pods.Delete(GetPodID(pod.Name, pod.Namespace))
 			default:
 			}
 		}
