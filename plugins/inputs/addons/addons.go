@@ -168,10 +168,12 @@ func (a *Addons) watchK8sPod(acc telegraf.Accumulator) {
 			return
 		case <-a.closeCh:
 			return
-		case event := <-w.ResultChan():
+		case event, ok := <-w.ResultChan():
+			if !ok {
+				return
+			}
 			pod, ok := event.Object.(*apiv1.Pod)
 			if !ok {
-				log.Printf("E! [addon] invalide event.Object type<%T>", event.Object)
 				continue
 			}
 			switch event.Type {
