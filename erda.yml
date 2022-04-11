@@ -24,6 +24,7 @@ services:
             INPUT_METASERVER_FIELD_KEYS: '[''DICE_*'', ''N?_DICE_*'', ''EDAS_*'', ''TERMINUS_DEFINE_TAG'', ''POD_IP'', ''io.kubernetes.pod.name'', ''io.kubernetes.pod.namespace'']'
             SADC_PATH: /usr/lib64/sa/sadc
             SADF_PATH: /usr/bin/sadf
+            DOCKER_SUMMARY_ENABLE: false
         resources:
             cpu: ${request_cpu:0.5}
             mem: ${request_mem:512}
